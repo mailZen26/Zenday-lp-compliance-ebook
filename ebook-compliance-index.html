@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Update 2024–2026 | zenday Zahnarztpraxen</title>
+    <style>
+        :root {
+            --primary: #0a9396;
+            --primary-dark: #086b6b;
+            --primary-light: #2dd4bf;
+            --accent: #ff6b35;
+            --success: #06d6a0;
+            --warning: #f59e0b;
+            --error: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+        }
+        
+        .ebook-container {
+            max-width: 210mm;
+            height: 297mm;
+            margin: 20px auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            page-break-after: always;
+        }
+        
+        .page {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+            position: relative;
+        }
+        
+        .header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 13px;
+            color: var(--gray-700);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .logo {
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 20px 0 15px 0;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+        
+        .compliance-card {
+            background: var(--gray-50);
+            border-left: 4px solid var(--primary);
+            border-radius: 6px;
+            padding: 14px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .compliance-card .label {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        
+        .compliance-card .content {
+            color: var(--gray-700);
+        }
+        
+        .deadline {
+            background: var(--warning);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 6px;
+        }
+        
+        .checklist {
+            margin: 12px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 8px 0;
+            font-size: 12px;
+            color: var(--gray-700);
+        }
+        
+        .checklist-item .check {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--primary);
+            border-radius: 3px;
+            margin-right: 8px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .action-box {
+            background: #fef3c7;
+            border-left: 4px solid var(--accent);
+            padding: 12px;
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .action-box .label {
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .footer {
+            font-size: 10px;
+            color: var(--gray-700);
+            border-top: 1px solid var(--gray-200);
+            padding-top: 12px;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toc {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        
+        .toc-item {
+            padding: 6px 0;
+            color: var(--gray-700);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .toc-item .number {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .toc-item .page-num {
+            color: var(--gray-500);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+        
+        .badge.urgent {
+            background: var(--error);
+            color: white;
+        }
+        
+        .badge.new {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .text-small {
+            font-size: 11px;
+            color: var(--gray-700);
+        }
+        
+        .priority-marker {
+            width: 3px;
+            height: 20px;
+            background: var(--accent);
+            margin-right: 8px;
+        }
+        
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 15px 0 10px 0;
+        }
+        
+        h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 10px 0 6px 0;
+        }
+        
+        p {
+            margin: 8px 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        
+        .table-wrapper {
+            font-size: 11px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 6px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 10px;
+        }
+        
+        td {
+            padding: 6px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        tr:nth-child(even) {
+            background: var(--gray-50);
+        }
+        
+        @media print {
+            .ebook-container {
+                margin: 0;
+                box-shadow: none;
+                width: 210mm;
+                height: 297mm;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SEITE 1: TITELSEITE & TOC -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <h1 style="font-size: 36px; margin-bottom: 8px;">Compliance Update</h1>
+        <p style="font-size: 18px; color: var(--primary); font-weight: 600;">Gesetzesänderungen 2024–2026</p>
+        
+        <div style="flex-grow: 1;"></div>
+        
+        <p style="font-size: 13px; color: var(--gray-700); line-height: 1.8; margin-bottom: 20px;">
+            Diese 8-seitige Orientierungshilfe konsolidiert alle Gesetzesänderungen der letzten 2 Jahre,<br>
+            die Zahnarztpraxen in ihren Compliance-Dokumenten berücksichtigen müssen.
+        </p>
+        
+        <h2 style="margin-bottom: 10px;">Inhalt</h2>
+        <div class="toc">
+            <div class="toc-item"><span class="number">1.</span> <span>Notfallmanagement & Erste Hilfe</span></div>
+            <div class="toc-item"><span class="number">2.</span> <span>Infektionsschutz & Biostoffe</span></div>
+            <div class="toc-item"><span class="number">3.</span> <span>Medizinprodukte (MPBetreibV)</span></div>
+            <div class="toc-item"><span class="number">4.</span> <span>Röntgen & Strahlenschutz</span></div>
+            <div class="toc-item"><span class="number">5.</span> <span>Geräte & Arbeitsschutz</span></div>
+            <div class="toc-item"><span class="number">6.</span> <span>Gefahrstoffe & Hygiene</span></div>
+            <div class="toc-item"><span class="number">7.</span> <span>Dokumentation & Berufsrecht</span></div>
+            <div class="toc-item"><span class="number">8.</span> <span>Checkliste & Actionplan</span></div>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Stand:</strong> September 2026</span>
+            <span style="text-align: right;"><strong>Seite 1 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 2: NOTFALLMANAGEMENT & ERSTE HILFE -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 1</div>
+            <h1>Notfallmanagement & Erste Hilfe</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Was hat sich geändert?</div>
+            <div class="content">
+                Die DIN 13156 (Erste-Hilfe-Material) wurde aktualisiert. DGUV Vorschrift 1 § 26 fordert neue Anforderungen an Ausbildung und Auffrischung von Ersthelfer:innen (alle 2 Jahre statt bisher variabel). <span class="badge new">NEU</span>
+                <div class="deadline">Stichtag: 1. März 2025</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Was müssen Sie überprüfen?</h3>
+        <div class="checklist">
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Notfallkoffer & Notfallmedikamente:</strong> Nach DIN 13156 aktualisiert?</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Ersthelfer-Ausbildung:</strong> Alle Praxismitarbeiter:innen haben Ausbildung (max. 2 Jahre alt)?</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Ersthelferzahl:</strong> Mindestens 10% der Belegschaft (5 Minuten Erreichbarkeit)?</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Notfallplan:</strong> Dokumentiert und alle bekannt? (Müssen mind. 1x/Jahr trainiert werden)</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Adrenalin-Autoinjektoren:</strong> Verfallsdatum regelmäßig prüfen</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Defibrillator (AED):</strong> Wartung/Prüfung gemäß Herstellervorgaben dokumentiert?</span>
+            </div>
+            <div class="checklist-item">
+                <div class="check"></div>
+                <span><strong>Unterweisungen:</strong> Alle Notfall-Szenarien (Angina, Asthma, Hypoglykämie, Allergien) jährlich geübt?</span>
+            </div>
+        </div>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ Datum der letzten Ersthelfer-Schulung überprüfen → ggf. Auffrischung buchen<br>
+            ✓ Notfallkoffer mit DIN 13156 abgleichen<br>
+            ✓ Notfallplan erstellen/aktualisieren + Testat Notfalldrill dokumentieren</p>
+        </div>
+        
+        <div style="background: var(--primary); color: white; padding: 10px; border-radius: 4px; margin-top: 12px; font-size: 11px;">
+            <strong>Relevante zenday-Dokumente:</strong> QM-PRX-NOT-001 bis -009 (Notfallmanagement Serie)
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge urgent">HOCH</span></span>
+            <span style="text-align: right;"><strong>Seite 2 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 3: INFEKTIONSSCHUTZ & BIOSTOFFE -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 2</div>
+            <h1>Infektionsschutz & Biostoffe</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Was hat sich geändert?</div>
+            <div class="content">
+                <span class="badge new">NEU</span> <strong>BGR 250 → TRBA 250 Neufassung November 2025:</strong> Obsolete G-Sätze (G 42, G 24, G 37) abgelöst durch ArbMedVV-Struktur. Risikogruppen-Kategorisierung angepasst. Nadelstichverletzungs-Prävention verschärft.
+                <div class="deadline">Stichtag: 1. Januar 2026</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Infektionsschutz</h3>
+        <div class="checklist">
+            <div class="checklist-item"><div class="check"></div> Alle Betriebsanweisungen (BA 1–5) nach TRBA 250 Nov. 2025 aktualisiert?</div>
+            <div class="checklist-item"><div class="check"></div> Blutungserst-Hilfe-Block korrekt (anregen ✓, antivirales Mittel ✓, D-Arzt-Kriterium)?</div>
+            <div class="checklist-item"><div class="check"></div> Postexpositionsprophylaxe (PEP) für HBV/HCV/HIV dokumentiert + Zeitfenster bekannt?</div>
+            <div class="checklist-item"><div class="check"></div> Masernschutz-Nachweispflicht (§ 20 Abs. 8 IfSG seit 2020): Alle MitarbeiterInnen dokumentiert?</div>
+            <div class="checklist-item"><div class="check"></div> Nadelstich-/Schnittverletzungs-Meldung: Verfahren etabliert + zuletzt dokumentiert <strong>wann?</strong></div>
+        </div>
+        
+        <p style="font-size: 11px; background: var(--gray-100); padding: 10px; border-radius: 4px; margin: 10px 0;">
+            <strong>Wichtig:</strong> Vorsorgekartei-Aufbewahrung: 50 Jahre für Tätigkeiten mit biologischen Arbeitsstoffen (§ 3 Abs. 4 ArbMedVV).
+        </p>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ TRBA 250 (Nov. 2025) herunterladen + lokale BA's durchgleichen<br>
+            ✓ G-Sätze durch ArbMedVV-Struktur ersetzen<br>
+            ✓ Masernschutz-Dokumentation aktualisieren<br>
+            ✓ PEP-Verfahren + Ärzte-Nummern greifbar machen</p>
+        </div>
+        
+        <div style="background: var(--primary); color: white; padding: 10px; border-radius: 4px; margin-top: 12px; font-size: 11px;">
+            <strong>zenday-Dokumente:</strong> QM-PRX-BIO-001 bis -008 (Biostoffe Serie)
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge urgent">HOCH</span></span>
+            <span style="text-align: right;"><strong>Seite 3 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 4: MEDIZINPRODUKTE (MPBetreibV) -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 3</div>
+            <h1>Medizinprodukte – MPBetreibV Neufassung 2025</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Kritische Änderung</div>
+            <div class="content">
+                <span class="badge urgent">KRITISCH</span> <strong>MPBetreibV vollständig neu gefasst: 20.02.2025</strong><br>
+                Alte Paragraphennummern gelten NICHT mehr. Neue Struktur: Medizinproduktebuch (§ 13), IT-Sicherheit (§ 17 ab 01.08.2025), Meldepflichtige Vorkommnisse (§ 14).
+                <div class="deadline">Stichtag: 1. August 2025 (IT-Sicherheit-Audit)</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Medizinprodukte-Dokumentation</h3>
+        <div class="checklist">
+            <div class="checklist-item"><div class="check"></div> Medizinproduktebuch (Anlage 1) vollständig + aktuell?</div>
+            <div class="checklist-item"><div class="check"></div> Alle Geräte mit Seriennummer, Herkunft, Wartungsplänen dokumentiert?</div>
+            <div class="checklist-item"><div class="check"></div> Wartungs- & Inspektionsprotokolle der letzten 3 Jahre vorhanden?</div>
+            <div class="checklist-item"><div class="check"></div> Meldepflicht-Verfahren: Wer meldet Vorkommnisse ans BfArM (§ 14)?</div>
+            <div class="checklist-item"><div class="check"></div> IT-Sicherheit: Medizinprodukte mit Vernetzung = externe Prüfung erforderlich ab 01.08.2025</div>
+            <div class="checklist-item"><div class="check"></div> Benutzerhandbücher (mind. German) greifbar?</div>
+        </div>
+        
+        <div style="background: #fef3c7; border-left: 4px solid var(--accent); padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 11px;">
+            <strong>Häufiger Fehler:</strong> MPBetreibV-Wartung ersetzt <strong>nicht</strong> die BetrSichV-Prüfpflicht (z.B. Autoklaven). Beide Regelwerke gelten parallel!
+        </div>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ Medizinproduktebuch: Alle Röntgengeräte, Sterilisatoren, Laser, DVT anmelden<br>
+            ✓ Wartungskonzept überprüfen: Alle Wartungsintervalle dokumentiert?<br>
+            ✓ IT-Sicherheit: Vernetzte Geräte identifizieren + externe Prüfung planen (bis 31.07.2025)</p>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge urgent">KRITISCH</span></span>
+            <span style="text-align: right;"><strong>Seite 4 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 5: RÖNTGEN & STRAHLENSCHUTZ -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 4</div>
+            <h1>Röntgen & Strahlenschutz (StrlSchV)</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Aktuelle Regelung</div>
+            <div class="content">
+                <strong>Röntgenpass ist NICHT mehr erforderlich seit 01.01.2019.</strong> <br>
+                Konstanzprüfungen müssen aber weiterhin jährlich dokumentiert werden. Qualitätssicherung nach StrlSchV § 16 bleibt Pflicht.
+                <div class="deadline">Laufende Verpflichtung</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Röntgen-Dokumentation</h3>
+        <div class="checklist">
+            <div class="checklist-item"><div class="check"></div> Strahlenschutzbeauftragte (SSB) benannt + Fortbildung aktuell (mind. 1x/3 Jahre)?</div>
+            <div class="checklist-item"><div class="check"></div> Anzeige an Gewerbeaufsicht/Regierungspräsidium vorhanden?</div>
+            <div class="checklist-item"><div class="check"></div> Konstanzprüfungen jährlich + dokumentiert (alle Röntgengeräte)?</div>
+            <div class="checklist-item"><div class="check"></div> Abweichungsberichte bei Konstanzprüfung-Fehlschlag dokumentiert?</div>
+            <div class="checklist-item"><div class="check"></div> Qualitätssicherungs-Bericht jährlich erstellt + archiviert?</div>
+            <div class="checklist-item"><div class="check"></div> Personen-Dosimeter: Abgabe, Auswertung, Archivierung mindestens 30 Jahre?</div>
+            <div class="checklist-item"><div class="check"></div> Raumbegehung/Kontaminations-Überwachung (nur für hochaktive Bereiche)?</div>
+        </div>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ Letzte Konstanzprüfung: Datum prüfen → ggf. Fachperson engagieren<br>
+            ✓ SSB-Fortbildung: Letzter Termin? Nächste Schulung buchen<br>
+            ✓ Personen-Dosimeter: Aktuelle Träger anmelden?</p>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge">MITTEL</span></span>
+            <span style="text-align: right;"><strong>Seite 5 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 6: GERÄTE & ARBEITSSCHUTZ -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 5–6</div>
+            <h1>Geräte, Arbeitsschutz & Gefahrstoffe</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Umfassende Änderungen</div>
+            <div class="content">
+                <span class="badge new">NEU</span> <strong>CLP-Novelle 2024/2865 (ab 05.05.2025):</strong> 8 neue EUH-Sätze + neue Hazard-Klassen (endokrine Disruptoren, PMT/vPvM). <br>
+                <strong>BattG → BattDG (Oktober 2025):</strong> Batterien-Entsorgung neu reguliert.<br>
+                <span class="badge new">NEU</span> <strong>DGUV Vorschrift 79 vollständig aufgehoben:</strong> Flüssiggasbehälter → DGUV Regel 110-010 (ab 2025)
+                <div class="deadline">Stichtag: 5. Mai 2025 (CLP); Oktober 2025 (Batterien)</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Gefahrstoffe & Betriebsmittel</h3>
+        <div class="checklist">
+            <div class="checklist-item"><div class="check"></div> Betriebsanweisungen (BA): Alle H/P/EUH-Sätze nach neuer CLP-Fassung?</div>
+            <div class="checklist-item"><div class="check"></div> Sicherheitsdatenblätter (SDB) aller Desinfektions-/Reinigungsmittel vorhanden + aktuell?</div>
+            <div class="checklist-item"><div class="check"></div> Gefährdungsbeurteilung: Gefahrstoffe nach § 6 ArbSchG + § 14 GefStoffV dokumentiert?</div>
+            <div class="checklist-item"><div class="check"></div> Betriebssicherheit (BetrSichV): Alle elektrischen Geräte prüfbar (1x/Jahr Zahnbehandlung = jährlich)?</div>
+            <div class="checklist-item"><div class="check"></div> Leitern & Tritte: Aktuelle Inspektions-Nachweis vorhanden?</div>
+            <div class="checklist-item"><div class="check"></div> Batterien-Entsorgung: Neues System ab Oktober 2025 kommuniziert?</div>
+            <div class="checklist-item"><div class="check"></div> Flüssiggasbehälter: DGUV Regel 110-010 (nicht mehr DGUV Vorschrift 79)?</div>
+        </div>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ Alle Betriebsanweisungen durchsehen → CLP 2024/2865 einarbeiten<br>
+            ✓ Sicherheitsdatenblätter: Lieferanten kontaktieren wegen Update auf neue EUH-Sätze<br>
+            ✓ Elektrische Geräte: Inspektionsprotokolle der letzten 12 Monate zusammenstellen</p>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge">MITTEL–HOCH</span></span>
+            <span style="text-align: right;"><strong>Seite 6 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 7: DOKUMENTATION & BERUFSRECHT -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Bereich 7</div>
+            <h1>Dokumentation & Berufsrecht</h1>
+        </div>
+        
+        <div class="compliance-card">
+            <div class="label">Rechtliche Änderung</div>
+            <div class="content">
+                <strong>§ 630f Abs. 2 BGB: Terminologieänderung ab 06.02.2026</strong><br>
+                "Patientenakte" → "Behandlungsakte". Aufbewahrung weiterhin 10 Jahre nach Behandlungsende (bei Minderjährigen bis 10 Jahre nach Volljährigkeit).
+                <div class="deadline">Stichtag: 6. Februar 2026</div>
+            </div>
+        </div>
+        
+        <h3>Checkliste: Behandlungsakte & QM-Dokumentation</h3>
+        <div class="checklist">
+            <div class="checklist-item"><div class="check"></div> Alle Patientendokumente als "Behandlungsakte" bezeichnet (nicht mehr "Patientenakte")?</div>
+            <div class="checklist-item"><div class="check"></div> Aufbewahrung: Digitale Archive + Papier-Ablage korrekt organisiert (10 Jahre)?</div>
+            <div class="checklist-item"><div class="check"></div> Datenschutz: DSGVO-Konformität überprüft (z.B. Zugriffskontrolle, Verschlüsselung)?</div>
+            <div class="checklist-item"><div class="check"></div> Berufsordnung (Landesärztekammer): Aktuelle Fassung implementiert?</div>
+            <div class="checklist-item"><div class="check"></div> Mutterschutzgesetz (MuSchG): Schwangerschafts-Mitteilungspflicht bekannt (ab Juni 2025)?</div>
+            <div class="checklist-item"><div class="check"></div> Fortbildungspflicht: Kontinuierliche Fortbildung (z.B. 5 CME/Jahr) dokumentiert?</div>
+        </div>
+        
+        <p style="font-size: 11px; background: #e0f7f4; padding: 10px; border-radius: 4px; margin: 10px 0;">
+            <strong>MuSchG-Änderung (Juni 2025):</strong> Schwangere Zahnärztinnen/ZFA: Mitteilungspflicht weiterhin bei Zahnarzt/Praxis. Besondere Schutzmaßnahmen gelten! (Keine Röntgen ohne Bleiabschirmung, keine Bio-Stoffe ohne Schutz, etc.)
+        </p>
+        
+        <div class="action-box">
+            <div class="label">Sofort-Maßnahmen</div>
+            <p style="margin: 0;">✓ Alle Dokumentations-Formulare: "Patientenakte" → "Behandlungsakte" ändern<br>
+            ✓ Berufsordnung (aktuelle LZK-Fassung) durchlesen + Team instruieren<br>
+            ✓ MuSchG: Schwangerschafts-Schutzmaßnahmen-Merkblatt aushängen</p>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Priorität:</strong> <span class="badge">MITTEL</span></span>
+            <span style="text-align: right;"><strong>Seite 7 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- SEITE 8: CHECKLISTE & ACTIONPLAN -->
+<div class="ebook-container">
+    <div class="page">
+        <div class="logo">zenday</div>
+        <div class="header">
+            <div class="subtitle">Übersicht & Praxisplan</div>
+            <h1>Compliance-Aktionsplan Ihre Praxis</h1>
+        </div>
+        
+        <h3 style="margin-top: 0;">Priorisierter Zeitplan</h3>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fristlage</th>
+                        <th>Maßnahme</th>
+                        <th>Bereich</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong style="color: var(--error);">SOFORT</strong></td>
+                        <td>Ersthelfer-Schulung buchen (max. 2 Jahre alt)</td>
+                        <td>Notfall</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: var(--error);">SOFORT</strong></td>
+                        <td>IT-Sicherheit-Audit: Vernetzte Medizinprodukte identifizieren</td>
+                        <td>MPBetreibV</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bis 01.01.2026</strong></td>
+                        <td>TRBA 250 (Nov. 2025): Alle BA's aktualisieren</td>
+                        <td>Infektionsschutz</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bis 05.05.2025</strong></td>
+                        <td>CLP 2024/2865: EUH-Sätze in Betriebsanweisungen</td>
+                        <td>Gefahrstoffe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bis 31.07.2025</strong></td>
+                        <td>IT-Sicherheit-Prüfung durchführen (vernetzt. MP)</td>
+                        <td>MPBetreibV</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bis 06.02.2026</strong></td>
+                        <td>"Patientenakte" → "Behandlungsakte" umbenennen</td>
+                        <td>Dokumentation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <h3>4-Schritt-Aktionsplan für Ihre Praxis</h3>
+        <div style="font-size: 12px; line-height: 1.6;">
+            <p><strong>Schritt 1 (Woche 1):</strong> Compliance-Verantwortliche(n) benennen. Diese Person koordiniert alle Umsetzungen.</p>
+            <p><strong>Schritt 2 (Woche 2–3):</strong> Alle zenday-Fachdokumente der 6 Bereiche durchgehen. Fehlende Dokumente ergänzen.</p>
+            <p><strong>Schritt 3 (Woche 4–8):</strong> Nach Priorität: IT-Sicherheit, Erste Hilfe, TRBA 250, CLP-Updates einarbeiten.</p>
+            <p><strong>Schritt 4 (laufend):</strong> Monatliche Check-ins mit Team → Unterweisungen aktualisieren, Fortbildungen buchen.</p>
+        </div>
+        
+        <div style="background: var(--primary); color: white; padding: 12px; border-radius: 4px; margin-top: 12px; text-align: center;">
+            <p style="margin: 0 0 8px 0; font-size: 12px;">Alles überprüft? Zeit für die Umsetzung!</p>
+            <a href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" style="display: inline-block; background: var(--accent); color: white; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: 12px; cursor: pointer;">
+                📅 Demo buchen (30 Min)
+            </a>
+        </div>
+        
+        <div class="footer">
+            <span><strong>Version:</strong> 1.0 (Sept. 2026)</span>
+            <span style="text-align: right;"><strong>Seite 8 von 8</strong></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

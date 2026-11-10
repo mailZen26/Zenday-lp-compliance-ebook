@@ -38,16 +38,36 @@
     /* Kachel: gleicher Aufbau für E-Book, Kurs, Mini-App */
     .ll-kachel { display: flex; flex-direction: column; height: 100%; padding: 0; overflow: hidden; }
     .ll-kachel > * + * { margin-top: 0; }
+    /* Bildfeld 4:3. Das Cover ist absolut positioniert und bekommt eine feste Höhe,
+       damit es in allen Browsern (auch Safari/iPad) im Feld bleibt. */
     .ll-kachel__bild {
+      position: relative;
       aspect-ratio: 4 / 3;
+      max-width: 100%;
+      overflow: hidden;
       background: var(--zd-verlauf-zart);
-      display: grid; place-items: center;
-      padding: var(--zd-s-5);
       border-bottom: 1px solid var(--zd-linie);
+      display: grid; place-items: center;
     }
-    .ll-kachel__bild img { max-height: 100%; width: auto; border-radius: var(--zd-radius-s); box-shadow: var(--zd-schatten); }
-    .ll-kachel__bild--quer { padding: 0; }
-    .ll-kachel__bild--quer img { width: 100%; height: 100%; object-fit: contain; border-radius: 0; box-shadow: none; }
+    .ll-kachel__bild img {
+      position: absolute;
+      top: var(--zd-s-5); left: 50%;
+      height: calc(100% - 2 * var(--zd-s-5));
+      width: auto; max-width: none;
+      transform: translateX(-50%);
+      border-radius: var(--zd-radius-s);
+      box-shadow: var(--zd-schatten);
+    }
+    .ll-kachel__bild--quer img {
+      top: 0; left: 0; transform: none;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: left center;
+      border-radius: 0; box-shadow: none;
+    }
+    /* Ältere Safari-Versionen ohne aspect-ratio */
+    @supports not (aspect-ratio: 1) {
+      .ll-kachel__bild { height: 0; padding-bottom: 75%; }
+    }
     .ll-kachel__text { display: flex; flex-direction: column; gap: var(--zd-s-3); padding: var(--zd-s-5); flex: 1; }
     .ll-kachel__text h3 { font-size: var(--zd-fs-h4); }
     .ll-kachel__text p { font-size: var(--zd-fs-s); }

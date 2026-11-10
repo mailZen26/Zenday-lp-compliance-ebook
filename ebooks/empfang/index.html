@@ -190,10 +190,10 @@
           <label class="check"><input type="checkbox" name="consent" value="ja"> Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</label>
 
           <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="ebook" value="checkliste-empfang">
+          <input type="hidden" name="ebook" value="empfang">
           <input type="hidden" name="persona" value="A-Inhaber-Teilzeit">
           <input type="hidden" name="quelle" value="landingpage-optin">
-          <input type="hidden" name="anzeige" value="checkliste-empfang">
+          <input type="hidden" name="anzeige" value="empfang">
           <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
 
           <button class="btn" type="submit">Checklisten kostenlos erhalten</button>
@@ -312,8 +312,9 @@
 <div class="sticky" id="sticky"><a class="btn" href="#formular">Checklisten kostenlos erhalten</a></div>
 
 <script>
-// Zapier Catch Hook URL eintragen
-const FORM_ENDPOINT = 'FORM_ENDPOINT';
+// Zapier-Workflow „zenday-landingpage-leads“ → Google Sheet „FB Leads“
+const FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
+const DANKE_URL = '/ebooks/empfang/danke.html';
 const form = document.getElementById('lead-form');
 const params = new URLSearchParams(location.search);
 ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
@@ -328,16 +329,15 @@ form.addEventListener('submit', async (ev) => {
   if (!form.reportValidity()) return;
   btn.disabled = true;
   const data = Object.fromEntries(new FormData(form));
-  if (data.website) { location.href = '/ebooks/empfang/danke/'; return; } // Honeypot
+  if (data.website) { location.href = DANKE_URL; return; } // Honeypot
   data.consent = form.querySelector('[name=consent]').checked ? 'ja' : 'nein';
   data.zeitstempel = new Date().toISOString();
   try {
-    if (!/^https:\/\//.test(FORM_ENDPOINT)) throw new Error('endpoint');
-    // form-urlencoded = einfacher Request ohne CORS-Preflight; Zapier liest die Felder direkt
-    const r = await fetch(FORM_ENDPOINT, { method: 'POST', body: new URLSearchParams(data) });
-    if (!r.ok) throw new Error('status ' + r.status);
+    // no-cors: Zapier erhält die Daten, der Browser blockiert keine Antwort.
+    // Ein Fehler wird nur bei echtem Netzwerkproblem (offline) ausgelöst.
+    await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, body: new URLSearchParams(data) });
     try { if (window.fbq) fbq('track', 'Lead'); } catch (e) {}
-    location.href = '/ebooks/empfang/danke/';
+    location.href = DANKE_URL;
   } catch (e) {
     err.hidden = false;
     btn.disabled = false;

@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="24 Checklisten, damit Ihr Empfang ohne Rückfragen läuft">
 <meta property="og:description" content="Alle Abläufe am Empfang zum Abhaken – inklusive ePA, EBZ und 4-Wochen-Einarbeitungsplan. Kostenlos als PDF.">
-<meta property="og:image" content="https://www.zen-day.ai/ebooks/empfang/cover.jpg">
+<meta property="og:image" content="https://www.zen-day.ai/ebooks/empfang/assets/cover.jpg">
 <meta property="og:url" content="https://www.zen-day.ai/ebooks/empfang/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,7 +109,7 @@
   .cta-band{text-align:center;padding:8px 0 0}
 
   .sender{display:flex;gap:18px;align-items:center}
-  .avatar{flex:none;width:76px;height:76px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;color:var(--ink);font-size:22px;border:3px solid #fff;box-shadow:0 6px 16px -8px rgba(43,47,56,.4)}
+  .avatar{flex:none;width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--grad);display:grid;place-items:center;font-weight:700;color:var(--ink);font-size:22px;border:3px solid #fff;box-shadow:0 6px 16px -8px rgba(43,47,56,.4)}
   .sender p{margin:0}
   .sender .name{font-weight:700;color:var(--ink)}
   .sender .role{font-size:15px;color:var(--ink-60);margin-bottom:6px}
@@ -159,7 +159,7 @@
         <h1>24 Checklisten, damit Ihr Empfang ohne Rückfragen läuft</h1>
         <p class="sub">Vom Praxisstart bis zum Tagesabschluss: alle Abläufe am Empfang zum Abhaken – inklusive <strong>ePA, EBZ und 4-Wochen-Einarbeitungsplan</strong>. 2026 überarbeitet, kostenlos als PDF.</p>
         <div class="cover-wrap">
-          <img class="cover" src="/ebooks/empfang/cover.jpg" width="1200" height="675" alt="Titelseite des E-Books „Empfang in der Zahnarztpraxis – Checklisten für ideale Tagesabläufe“">
+          <img class="cover" src="/ebooks/empfang/assets/cover.jpg" width="1200" height="675" alt="Titelseite des E-Books „Empfang in der Zahnarztpraxis – Checklisten für ideale Tagesabläufe“">
           <span class="badge"><i></i>PDF · 24 Checklisten</span>
         </div>
       </div>
@@ -255,8 +255,8 @@
         <div class="benefit"><span class="num">6</span><div><h3>Steuern &amp; einarbeiten</h3><p>5 Kennzahlen für den Empfang und ein 4-Wochen-Plan für neue Kolleginnen.</p></div></div>
       </div>
       <div class="previews">
-        <figure><img src="/ebooks/empfang/preview-praxisstart.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Jeden Morgen: Praxisstart“"><figcaption>Beispielseite: Praxisstart</figcaption></figure>
-        <figure><img src="/ebooks/empfang/preview-neupatienten.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Neupatienten“"><figcaption>Beispielseite: Neupatienten</figcaption></figure>
+        <figure><img src="/ebooks/empfang/assets/preview-praxisstart.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Jeden Morgen: Praxisstart“"><figcaption>Beispielseite: Praxisstart</figcaption></figure>
+        <figure><img src="/ebooks/empfang/assets/preview-neupatienten.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Neupatienten“"><figcaption>Beispielseite: Neupatienten</figcaption></figure>
       </div>
     </div>
   </section>
@@ -278,8 +278,7 @@
   <section style="padding-top:0">
     <div class="wrap narrow">
       <div class="card sender">
-        <!-- TODO: Foto von Tilmann Förster einsetzen (/ebooks/empfang/tilmann.jpg) -->
-        <div class="avatar" aria-hidden="true">TF</div>
+        <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" class="avatar" width="76" height="76" loading="lazy">
         <div>
           <p class="name">Tilmann Förster</p>
           <p class="role">Gründer von zenday</p>
@@ -314,7 +313,7 @@
 <script>
 // Zapier-Workflow „zenday-landingpage-leads“ → Google Sheet „FB Leads“
 const FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
-const DANKE_URL = '/ebooks/empfang/danke.html';
+const DANKE_URL = '/ebooks/empfang/danke/';
 const form = document.getElementById('lead-form');
 const params = new URLSearchParams(location.search);
 ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {

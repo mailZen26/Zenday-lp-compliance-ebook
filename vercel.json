@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/ebook-compliance", "destination": "/ebooks/compliance/", "permanent": true },
+    { "source": "/ebook-compliance/", "destination": "/ebooks/compliance/", "permanent": true },
+    { "source": "/ebooks/empfang/danke.html", "destination": "/ebooks/empfang/danke/", "permanent": true }
+  ]
+}

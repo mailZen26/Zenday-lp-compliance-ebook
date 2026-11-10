@@ -65,7 +65,7 @@
 
           <div class="zd-formular-box" id="formular">
             <div class="lp-formkopf">
-              <img src="assets/cover.jpg" alt="Titelseite des Leitfadens „Die sechs Pflichtunterweisungen in der Zahnarztpraxis“" width="760" height="1074">
+              <img src="/ebooks/pflichtunterweisungen/assets/cover.jpg" alt="Titelseite des Leitfadens „Die sechs Pflichtunterweisungen in der Zahnarztpraxis“" width="760" height="1074">
               <div>
                 <h2>Leitfaden kostenlos erhalten</h2>
                 <p>PDF, 13 Seiten. Download direkt nach dem Absenden.</p>
@@ -180,7 +180,7 @@
               <li><strong>Unterschriftenliste zum Ausdrucken:</strong> eine Vorlage für jede Unterweisung.</li>
             </ul>
           </div>
-          <img class="lp-cover" src="assets/cover.jpg" alt="Titelseite des zenday-Praxisleitfadens zu den sechs Pflichtunterweisungen" width="760" height="1074" loading="lazy">
+          <img class="lp-cover" src="/ebooks/pflichtunterweisungen/assets/cover.jpg" alt="Titelseite des zenday-Praxisleitfadens zu den sechs Pflichtunterweisungen" width="760" height="1074" loading="lazy">
         </div>
 
         <div class="zd-sektion-kopf zd-mt-8">
@@ -197,15 +197,15 @@
 
         <div class="zd-grid zd-grid--3 lp-vorschauen zd-mt-8">
           <figure class="lp-vorschau">
-            <img src="assets/vorschau-brandschutz.jpg" alt="Leseprobe: Seite Brandschutz mit fünf Unterweisungsinhalten" width="640" height="904" loading="lazy">
+            <img src="/ebooks/pflichtunterweisungen/assets/vorschau-brandschutz.jpg" alt="Leseprobe: Seite Brandschutz mit fünf Unterweisungsinhalten" width="640" height="904" loading="lazy">
             <figcaption>Eine Seite pro Unterweisung</figcaption>
           </figure>
           <figure class="lp-vorschau">
-            <img src="assets/vorschau-check.jpg" alt="Leseprobe: Unterweisungs-Check mit sechs Fragen und Auswertung" width="640" height="904" loading="lazy">
+            <img src="/ebooks/pflichtunterweisungen/assets/vorschau-check.jpg" alt="Leseprobe: Unterweisungs-Check mit sechs Fragen und Auswertung" width="640" height="904" loading="lazy">
             <figcaption>Check mit Auswertung</figcaption>
           </figure>
           <figure class="lp-vorschau">
-            <img src="assets/vorschau-jahresuebersicht.jpg" alt="Leseprobe: Jahresübersicht der Pflichtunterweisungen als Tabelle" width="640" height="904" loading="lazy">
+            <img src="/ebooks/pflichtunterweisungen/assets/vorschau-jahresuebersicht.jpg" alt="Leseprobe: Jahresübersicht der Pflichtunterweisungen als Tabelle" width="640" height="904" loading="lazy">
             <figcaption>Jahresübersicht für den Kalender</figcaption>
           </figure>
         </div>
@@ -363,7 +363,7 @@
 
       var btn = form.querySelector('button[type=submit]');
       var data = new URLSearchParams(new FormData(form));
-      if (data.get('website')) { location.href = 'danke/'; return; } // Honeypot
+      if (data.get('website')) { location.href = '/ebooks/pflichtunterweisungen/danke/'; return; } // Honeypot
       data.delete('website');
       data.set('consent', form.querySelector('[name=consent]').checked ? 'ja' : 'nein');
 
@@ -374,7 +374,7 @@
         .then(function (r) {
           if (!r.ok) throw new Error('Status ' + r.status);
           if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'pflichtunterweisungen' });
-          location.href = 'danke/';
+          location.href = '/ebooks/pflichtunterweisungen/danke/';
         })
         .catch(function () {
           err.hidden = false;

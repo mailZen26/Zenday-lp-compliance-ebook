@@ -152,7 +152,7 @@ input:focus,select:focus{border-color:var(--blue)}
 
 /* Founder */
 .founder{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;background:var(--card);border-radius:28px;padding:32px;border:1px solid var(--line)}
-.avatar{width:120px;height:120px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:2rem;color:var(--ink)}
+.avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:2rem;color:var(--ink)}
 .founder blockquote{font-size:1.1rem;color:var(--ink-85)}
 .founder cite{display:block;margin-top:12px;font-style:normal;font-weight:700;color:var(--ink)}
 .founder cite span{font-weight:400;color:var(--ink-60)}
@@ -199,7 +199,7 @@ footer a{color:var(--ink-60)}
 <body>
 
 <header>
-  <div class="wrap"><a class="brand" href="https://zen-day.de" aria-label="zenday"><b>zen</b><span>day</span></a></div>
+  <div class="wrap"><a class="brand" href="https://www.zen-day.ai/" aria-label="zenday"><b>zen</b><span>day</span></a></div>
 </header>
 
 <main>
@@ -462,8 +462,7 @@ footer a{color:var(--ink-60)}
 <section style="padding-top:0">
   <div class="wrap">
     <div class="founder">
-      <!-- TODO: Foto Tilmann Förster einsetzen: <img src="assets/tilmann.jpg" alt="Tilmann Förster" class="avatar"> -->
-      <div class="avatar" aria-hidden="true">TF</div>
+      <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" class="avatar" width="120" height="120" loading="lazy">
       <div>
         <blockquote>„Wir haben zenday gemeinsam mit Zahnarztpraxen entwickelt. In über 50 Interviews hörten wir immer wieder dasselbe: Das Wissen ist da, aber im entscheidenden Moment findet es niemand. Mit der KI Teamassistenz wollen wir genau diese Lücke schließen.“</blockquote>
         <cite>Tilmann Förster <span>· Gründer von zenday</span></cite>

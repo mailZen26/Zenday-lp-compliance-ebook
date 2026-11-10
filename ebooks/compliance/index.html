@@ -1,490 +1,405 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kostenlos: Compliance Update 2024-2026 für Zahnarztpraxen. Mit aktuellen Gesetzesänderungen, Checklisten und Aktionsplänen.">
-    <title>Compliance Update 2024-2026 | E-Book für Zahnarztpraxen</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #0a9396;
-            --primary-dark: #086b6b;
-            --primary-light: #2dd4bf;
-            --accent: #ff6b35;
-            --success: #06d6a0;
-            --warning: #f59e0b;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-700: #374151;
-            --gray-900: #111827;
-        }
-
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
-            color: var(--gray-900);
-            background: var(--gray-50);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: white;
-            border-bottom: 1px solid var(--gray-100);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, #ffffff 0%, #f0fffe 100%);
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(28px, 5vw, 48px);
-            color: var(--primary-dark);
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero .subtitle {
-            font-size: clamp(16px, 2vw, 20px);
-            color: var(--gray-700);
-            margin-bottom: 30px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 50px;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 6px;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(10, 147, 150, 0.3);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--gray-50);
-        }
-
-        .hero-image {
-            max-width: 100%;
-            height: auto;
-            margin-top: 40px;
-            border-radius: 12px;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 80px 20px;
-            background: white;
-        }
-
-        .features h2 {
-            font-size: 36px;
-            color: var(--primary-dark);
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .feature-card {
-            background: var(--gray-50);
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            color: var(--primary);
-            margin-bottom: 12px;
-        }
-
-        .feature-card p {
-            color: var(--gray-700);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Content Section */
-        .content {
-            padding: 80px 20px;
-            background: var(--gray-50);
-        }
-
-        .content h2 {
-            font-size: 36px;
-            color: var(--primary-dark);
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .content-box {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .content-box h3 {
-            font-size: 20px;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .content-box p {
-            color: var(--gray-700);
-            margin-bottom: 12px;
-            line-height: 1.8;
-        }
-
-        .checklist {
-            list-style: none;
-            margin-top: 15px;
-        }
-
-        .checklist li {
-            padding: 10px 0;
-            padding-left: 30px;
-            position: relative;
-            color: var(--gray-700);
-        }
-
-        .checklist li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--success);
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            padding: 80px 20px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .cta-section p {
-            font-size: 18px;
-            margin-bottom: 40px;
-            opacity: 0.95;
-        }
-
-        .cta-section .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
-
-        .cta-section .btn-primary:hover {
-            background: #e55a24;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 60px 20px;
-            background: white;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            text-align: center;
-        }
-
-        .stat {
-            padding: 20px;
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: var(--gray-700);
-            font-size: 14px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--gray-900);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: var(--primary-light);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 50px 20px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .features,
-            .content {
-                padding: 50px 20px;
-            }
-
-            .content-box {
-                padding: 25px;
-            }
-        }
-
-        .badge {
-            display: inline-block;
-            background: var(--accent);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Compliance Update 2024–2026 für Zahnarztpraxen · Kostenloses E-Book | zenday</title>
+  <meta name="description" content="Kostenloses E-Book für Zahnarztpraxen: die Gesetzesänderungen 2024–2026 in 6 QM-Bereichen – mit Checklisten, Sofort-Maßnahmen und priorisiertem Aktionsplan.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Compliance Update 2024–2026 für Zahnarztpraxen">
+  <meta property="og:description" content="Alle Gesetzesänderungen der letzten 2 Jahre in einem E-Book – mit Checklisten und Aktionsplan.">
+  <meta property="og:image" content="https://www.zen-day.ai/ebooks/compliance/assets/og.jpg">
+  <meta property="og:url" content="https://www.zen-day.ai/ebooks/compliance/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+  <style>
+    /* Seitenspezifisch: nur var(--zd-…) */
+    .lp-formkopf { display: flex; gap: var(--zd-s-4); align-items: center; margin-bottom: var(--zd-s-5); }
+    .lp-formkopf img { width: 64px; flex: none; border-radius: 6px; box-shadow: var(--zd-schatten); }
+    .lp-formkopf h2 { font-size: var(--zd-fs-h4); }
+    .lp-formkopf p { font-size: var(--zd-fs-s); color: var(--zd-text-leise); margin-top: var(--zd-s-1); }
+    .lp-cover { max-width: 300px; margin-inline: auto; border-radius: var(--zd-radius-s); box-shadow: var(--zd-schatten-l); transform: rotate(-2deg); }
+    .lp-grundlage { margin-top: var(--zd-s-3); }
+    .lp-hinweis-klein { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+    .lp-plan { --zd-schritte-spalten: 4; }
+    .lp-absender { display: flex; gap: var(--zd-s-5); align-items: center; }
+    .lp-absender img { width: 96px; height: 96px; flex: none; border-radius: 50%; object-fit: cover; box-shadow: var(--zd-schatten); }
+    @media (max-width: 1023px) and (min-width: 720px) { .lp-plan { --zd-schritte-spalten: 2; } }
+    @media (max-width: 639px) {
+      .lp-cover { max-width: 220px; }
+      .lp-absender { flex-direction: column; align-items: flex-start; }
+      .lp-absender img { width: 72px; height: 72px; }
+    }
+    /* Lange Wörter in Spans/Bildunterschriften (in zenday.css 0.3 nicht abgedeckt) */
+    .zd-kennzahl__label, figcaption { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
+  </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="logo">zenday</div>
-        </div>
-    </header>
+<body class="zd-mit-cta-leiste">
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="badge">Kostenlos herunterladen</div>
-            <h1>Compliance Update 2024–2026</h1>
-            <p class="subtitle">Alle Gesetzesänderungen für Zahnarztpraxen in einem E-Book. Mit Checklisten, Fristen und Aktionsplänen.</p>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="/" aria-label="zenday Startseite"><b>zen</b><span>day</span></a>
+    </div>
+  </header>
 
-            <div class="cta-buttons">
-                <a href="https://drive.google.com/file/d/1qXfihzC_OcTHBLTajdUjDeAQJSJRx2BB/view?usp=drivesdk" class="btn btn-primary" target="_blank">
-                    📥 E-Book jetzt herunterladen
-                </a>
-                <a href="https://calendly.com/digitalesqm/demo-praesentation" class="btn btn-secondary" target="_blank">Demo ansehen</a>
+  <main id="inhalt">
+
+    <!-- 1 · Hero mit Formular -->
+    <section class="zd-hero zd-hero--ellipse">
+      <div class="zd-container">
+        <div class="zd-split zd-split--text-breit">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Für Praxisinhaber/innen, Praxismanager/innen und QM-Beauftragte</span>
+            <h1>Gesetzes&shy;änderungen 2024–2026. Ist Ihr QM <span class="zd-text-verlauf">noch aktuell?</span></h1>
+            <p class="zd-lead">Das kostenlose zenday-E-Book bündelt die Änderungen der letzten 2 Jahre, die Zahnarztpraxen in ihren QM-Dokumenten berücksichtigen müssen. Mit <strong>Checkliste je Bereich</strong>, Sofort-Maßnahmen und priorisiertem Aktionsplan.</p>
+            <ul class="zd-checkliste">
+              <li>Notfall, Infektionsschutz, Medizinprodukte, Röntgen, Gefahrstoffe, Dokumentation</li>
+              <li>Was hat sich geändert – und was müssen Sie prüfen?</li>
+              <li>8 Seiten, PDF, sofort verfügbar</li>
+            </ul>
+          </div>
+
+          <div class="zd-formular-box" id="formular">
+            <div class="lp-formkopf">
+              <img src="/ebooks/compliance/assets/cover.jpg" alt="Titelseite des E-Books „Compliance Update – Gesetzesänderungen 2024–2026“" width="760" height="1074">
+              <div>
+                <h2>E-Book kostenlos erhalten</h2>
+                <p>PDF, 8 Seiten. Download direkt nach dem Absenden.</p>
+              </div>
             </div>
 
-            <p style="color: var(--gray-700); font-size: 14px; margin-top: 20px;">8 Seiten | PDF | Sofort verfügbar</p>
+            <form class="zd-formular" id="lead-form" novalidate>
+              <div class="zd-feld">
+                <label for="f-vorname">Vorname<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="f-vorname" name="vorname" type="text" autocomplete="given-name" required>
+              </div>
+              <div class="zd-feld">
+                <label for="f-email">E-Mail<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              </div>
+              <div class="zd-feld">
+                <label for="f-telefon">Telefon<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="f-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
+                <span class="zd-feld__hilfe">Für kurze Rückfragen zum E-Book oder zu zenday.</span>
+              </div>
+              <div class="zd-feld">
+                <label for="f-rolle">Ihre Rolle in der Praxis<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <select class="zd-select" id="f-rolle" name="rolle" required>
+                  <option value="" selected disabled>Bitte wählen</option>
+                  <option>Praxisinhaber/in</option>
+                  <option>Praxismanager/in</option>
+                  <option>QM-Beauftragte/r</option>
+                  <option>Empfang/Assistenz</option>
+                  <option>Andere</option>
+                </select>
+              </div>
+
+              <!-- Honeypot gegen Spam -->
+              <div aria-hidden="true">
+                <label class="zd-sr-only" for="f-website">Website</label>
+                <input class="zd-sr-only" id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="ebook" value="compliance">
+              <input type="hidden" name="persona" value="praxisleitung-qm">
+              <input type="hidden" name="quelle" value="instagram-organisch">
+              <input type="hidden" name="utm_source">
+              <input type="hidden" name="utm_medium">
+              <input type="hidden" name="utm_campaign">
+              <input type="hidden" name="utm_content">
+
+              <label class="zd-check">
+                <input type="checkbox" name="consent" value="ja">
+                <span>Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</span>
+              </label>
+
+              <button class="zd-btn zd-btn--primaer zd-btn--voll" type="submit">E-Book kostenlos erhalten</button>
+              <p class="zd-feld__fehler" id="form-error" role="alert" hidden>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an support@zen-day.de.</p>
+              <p class="lp-hinweis-klein">Ihre Angaben verwenden wir, um Ihnen das E-Book bereitzustellen und uns bei Bedarf bei Ihnen zu melden. Mehr in der <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a>.</p>
+            </form>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Stats -->
-    <section class="stats">
-        <div class="stat">
-            <div class="stat-number">8</div>
-            <div class="stat-label">Seiten</div>
+    <!-- 2 · Vertrauensleiste -->
+    <section class="zd-sektion zd-sektion--weiss" aria-label="zenday in Zahlen">
+      <div class="zd-container">
+        <div class="zd-grid zd-grid--4 zd-grid--kompakt">
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte arbeiten mit zenday</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">2.000+</span><span class="zd-kennzahl__label">User in Praxisteams</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">25+</span><span class="zd-kennzahl__label">Begehungen mit Praxen begleitet</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">38</span><span class="zd-kennzahl__label">Prüffragen in 6 Checklisten</span></div>
         </div>
-        <div class="stat">
-            <div class="stat-number">26</div>
-            <div class="stat-label">Prüfpunkte</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number">6</div>
-            <div class="stat-label">QM-Bereiche</div>
-        </div>
-        <div class="stat">
-            <div class="stat-number">200+</div>
-            <div class="stat-label">Praxen nutzen zenday</div>
-        </div>
+      </div>
     </section>
 
-    <!-- Features -->
-    <section class="features">
-        <div class="container">
-            <h2>Warum dieses E-Book?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>📋 Vollständig</h3>
-                    <p>Alle Gesetzesänderungen der letzten 2 Jahre an einem Ort. Von Notfallmanagement bis Dokumentation.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>✅ Praktisch</h3>
-                    <p>Mit konkreten Checklisten und Aktionsplänen, die du sofort in deiner Praxis umsetzen kannst.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⏰ Zeitsparen</h3>
-                    <p>Keine Zeit für Gesetzestexte? Wir haben das Wichtigste für dich zusammengefasst.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🎯 Priorisiert</h3>
-                    <p>Wir zeigen dir, was jetzt kritisch ist und was bis wann erledigt sein muss.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💡 Von Experten</h3>
-                    <p>Erstellt von zenday, dem QM-System für Zahnarztpraxen. Über 200 Praxen vertrauen uns.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🆓 Kostenlos</h3>
-                    <p>Keine versteckten Kosten. Kein Abo. Einfach herunterladen und los geht's.</p>
-                </div>
-            </div>
+    <!-- 3 · Ist das für Sie? -->
+    <section class="zd-sektion">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Ist das für Sie?</span>
+          <h2>Kennen Sie eine dieser Situationen?</h2>
         </div>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v4M12 18.5v.01"/></svg></span>
+            <h3 class="zd-h4">Das QM steht – aber auf welchem Stand?</h3>
+            <p>Ihre Dokumente wurden vor Jahren erstellt. Ob Betriebsanweisungen, Paragraphen und Fristen noch zur aktuellen Fassung passen, hat seitdem niemand systematisch geprüft.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--koralle"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3M8.5 11l1.8 1.8L14 9.2"/></svg></span>
+            <h3 class="zd-h4">Die Begehung steht an</h3>
+            <p>Sie möchten vorher wissen, welche Änderung in Ihrer Praxis noch fehlt, statt es im Termin zu erfahren.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--tuerkis"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></span>
+            <h3 class="zd-h4">Keine Zeit für Gesetzestexte</h3>
+            <p>Das QM läuft neben Patienten, Team und Abrechnung. Für TRBA, CLP-Verordnung und MPBetreibV im Original bleibt kein Abend übrig.</p>
+          </div>
+        </div>
+        <p class="zd-mt-6"><strong>Wenn Sie sich wiedererkennen:</strong> Das E-Book zeigt Ihnen in wenigen Minuten, was sich geändert hat, und gibt Ihnen je Bereich eine Liste, mit der Sie die Lücken schließen.</p>
+      </div>
     </section>
 
-    <!-- Content -->
-    <section class="content" id="inhalt">
-        <div class="container">
-            <h2>Das erwartet dich</h2>
-
-            <div class="content-box">
-                <h3>📚 8 Seiten | 6 QM-Bereiche</h3>
-                <p>Das E-Book deckt alle wichtigen Compliance-Bereiche ab:</p>
-                <ul class="checklist">
-                    <li>Notfallmanagement & Erste Hilfe</li>
-                    <li>Infektionsschutz & Biostoffe</li>
-                    <li>Medizinprodukte (MPBetreibV)</li>
-                    <li>Röntgen & Strahlenschutz</li>
-                    <li>Geräte & Arbeitsschutz</li>
-                    <li>Dokumentation & Berufsrecht</li>
-                </ul>
-            </div>
-
-            <div class="content-box">
-                <h3>✅ Konkrete Checklisten</h3>
-                <p>Für jeden Bereich gibt es eine Checkliste, damit du überprüfen kannst, ob deine Praxis aktuell ist:</p>
-                <ul class="checklist">
-                    <li>Was hat sich geändert?</li>
-                    <li>Welche Fristen gelten?</li>
-                    <li>Was musst du überprüfen?</li>
-                    <li>Sofort-Maßnahmen</li>
-                </ul>
-            </div>
-
-            <div class="content-box">
-                <h3>🎯 Aktionsplan</h3>
-                <p>Das E-Book endet mit einem priorisierten Aktionsplan für deine Praxis:</p>
-                <ul class="checklist">
-                    <li>Welche Aufgaben sind kritisch (SOFORT)?</li>
-                    <li>Welche Fristen gelten?</li>
-                    <li>4-Schritt-Plan zur Umsetzung</li>
-                    <li>Tipps zur Automation mit zenday</li>
-                </ul>
-            </div>
-
-            <div class="content-box">
-                <h3>💬 Das sagen unsere Nutzer</h3>
-                <p style="font-style: italic; color: var(--gray-700); margin-bottom: 20px;">
-                    "Das E-Book hat mir einen klaren Überblick gegeben, welche Änderungen für unsere Praxis relevant sind. Mit der Checkliste haben wir alles in 2 Wochen umgesetzt."
-                </p>
-                <p style="font-size: 14px; color: var(--gray-700);">— Zahnarztpraxis aus Berlin</p>
-            </div>
+    <!-- 4 · Was Sie erhalten -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-split">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Was Sie erhalten</span>
+            <h2>Alle Änderungen. Eine Seite pro Bereich.</h2>
+            <ul class="zd-checkliste">
+              <li><strong>Was hat sich geändert:</strong> je Bereich kompakt zusammengefasst, mit Stichtag und Rechtsgrundlage.</li>
+              <li><strong>Checkliste zum Abhaken:</strong> konkrete Prüffragen, mit denen Sie sehen, ob Ihre Praxis aktuell ist.</li>
+              <li><strong>Sofort-Maßnahmen:</strong> die wichtigsten To-dos je Bereich, damit Sie wissen, wo Sie anfangen.</li>
+              <li><strong>Häufige Fehler:</strong> etwa warum die MPBetreibV-Wartung die BetrSichV-Prüfung nicht ersetzt.</li>
+              <li><strong>Priorisierter Aktionsplan:</strong> was sofort kommt, was bis wann – plus 4-Schritt-Plan für die Umsetzung.</li>
+            </ul>
+          </div>
+          <img class="lp-cover" src="/ebooks/compliance/assets/cover.jpg" alt="Titelseite des zenday-E-Books „Compliance Update – Gesetzesänderungen 2024–2026“" width="760" height="1074" loading="lazy">
         </div>
+
+        <div class="zd-sektion-kopf zd-mt-8">
+          <h3>Die 6 Bereiche im E-Book</h3>
+        </div>
+        <ol class="zd-schritte" role="list">
+          <li class="zd-schritt"><div><h4>Notfallmanagement &amp; Erste Hilfe</h4><p class="zd-klein">Notfallkoffer, Ersthelfer-Auffrischung, Notfallplan und Übungen.</p><span class="zd-badge zd-badge--blau lp-grundlage">DIN 13156, DGUV Vorschrift 1</span></div></li>
+          <li class="zd-schritt"><div><h4>Infektionsschutz &amp; Biostoffe</h4><p class="zd-klein">Betriebsanweisungen, PEP-Verfahren, Masernschutz-Nachweis.</p><span class="zd-badge zd-badge--blau lp-grundlage">TRBA 250, ArbMedVV, IfSG</span></div></li>
+          <li class="zd-schritt"><div><h4>Medizinprodukte</h4><p class="zd-klein">Medizinproduktebuch, Wartung, Meldepflicht, vernetzte Geräte.</p><span class="zd-badge zd-badge--blau lp-grundlage">MPBetreibV</span></div></li>
+          <li class="zd-schritt"><div><h4>Röntgen &amp; Strahlenschutz</h4><p class="zd-klein">Konstanzprüfung, Fortbildung der Strahlenschutzbeauftragten, Dosimetrie.</p><span class="zd-badge zd-badge--blau lp-grundlage">StrlSchV</span></div></li>
+          <li class="zd-schritt"><div><h4>Geräte, Arbeitsschutz &amp; Gefahrstoffe</h4><p class="zd-klein">Neue EUH-Sätze, Sicherheitsdatenblätter, Prüfung elektrischer Geräte.</p><span class="zd-badge zd-badge--blau lp-grundlage">CLP-Verordnung, GefStoffV, BetrSichV</span></div></li>
+          <li class="zd-schritt"><div><h4>Dokumentation &amp; Berufsrecht</h4><p class="zd-klein">Behandlungsakte, Aufbewahrung, Datenschutz, Mutterschutz.</p><span class="zd-badge zd-badge--blau lp-grundlage">BGB § 630f, DSGVO, MuSchG</span></div></li>
+        </ol>
+
+        <div class="zd-mitte zd-mt-8">
+          <a class="zd-btn zd-btn--primaer zd-btn--gross" href="#formular">E-Book kostenlos erhalten</a>
+        </div>
+      </div>
     </section>
 
-    <!-- Final CTA -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Kostenloses E-Book jetzt herunterladen</h2>
-            <p>Alle Compliance-Updates 2024–2026 für deine Zahnarztpraxis</p>
-            <div class="cta-buttons" style="justify-content: center;">
-                <a href="https://drive.google.com/file/d/1qXfihzC_OcTHBLTajdUjDeAQJSJRx2BB/view?usp=drivesdk" class="btn btn-primary" target="_blank" style="background: var(--accent);">
-                    📥 E-Book kostenlos laden
-                </a>
-                <a href="https://calendly.com/digitalesqm/demo-praesentation" class="btn btn-secondary" target="_blank" style="background: white; color: var(--primary); border: 2px solid white;">
-                    📅 Demo-Termin buchen
-                </a>
-            </div>
-            <p style="font-size: 14px; margin-top: 20px; opacity: 0.9;">8 Seiten | PDF | Sofort verfügbar</p>
+    <!-- 5 · Warum jetzt -->
+    <section class="zd-sektion zd-sektion--zart">
+      <div class="zd-container zd-container--schmal zd-stack">
+        <span class="zd-eyebrow">Warum jetzt</span>
+        <h2>Bei der Begehung zählt die aktuelle Fassung</h2>
+        <p class="zd-lead">Seit 2024 wurden mehrere Regelwerke angepasst, die direkt in Ihre Betriebsanweisungen, Gefährdungsbeurteilungen und Nachweise einfließen. Geprüft wird gegen den heutigen Stand – nicht gegen den, der beim Erstellen Ihres QM galt.</p>
+        <div class="zd-hinweis zd-hinweis--info">
+          <span>Mit dem Aktionsplan aus dem E-Book sehen Sie auf einen Blick, welche Maßnahme sofort ansteht und welche Sie einplanen können.</span>
         </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 zenday. Intelligentes QM für Zahnarztpraxen.</p>
-            <p style="margin-top: 15px; font-size: 12px;">
-                <a href="/datenschutz">Datenschutz</a>
-                <a href="/impressum">Impressum</a>
-            </p>
+    <!-- 6 · Leseprobe: 4-Schritt-Plan -->
+    <section class="zd-sektion">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Leseprobe</span>
+          <h2>Der 4-Schritt-Plan aus dem E-Book</h2>
+          <p>So setzen Sie die Änderungen in Ihrer Praxis um, ohne den Alltag zu blockieren.</p>
         </div>
-    </footer>
+        <ol class="zd-schritte lp-plan" role="list">
+          <li class="zd-schritt"><div><h4>Woche 1</h4><p class="zd-klein">Eine verantwortliche Person benennen, die alle Umsetzungen koordiniert.</p></div></li>
+          <li class="zd-schritt"><div><h4>Woche 2–3</h4><p class="zd-klein">Die Fachdokumente der 6 Bereiche durchgehen, fehlende ergänzen.</p></div></li>
+          <li class="zd-schritt"><div><h4>Woche 4–8</h4><p class="zd-klein">Nach Priorität einarbeiten: IT-Sicherheit, Erste Hilfe, TRBA 250, CLP.</p></div></li>
+          <li class="zd-schritt"><div><h4>Laufend</h4><p class="zd-klein">Monatlicher Check-in im Team: Unterweisungen aktualisieren, Fortbildungen buchen.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 7 · Brücke zu zenday -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf zd-sektion-kopf--mitte">
+          <span class="zd-eyebrow">Und danach?</span>
+          <h2>Compliance, die im Alltag aktuell bleibt</h2>
+          <p>Das E-Book zeigt, was sich geändert hat. zenday sorgt dafür, dass Ihre Dokumente und Aufgaben dauerhaft Schritt halten.</p>
+        </div>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-karte">
+            <span class="zd-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/><path d="M17 15l2 2 3-4"/></svg></span>
+            <h3 class="zd-h4">Smart Fields statt Neudokumentation</h3>
+            <p>Sie tragen Ihre Praxisdaten einmal ein, zenday füllt sie in die passenden QM-Dokumente ein.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v4h-4"/></svg></span>
+            <h3 class="zd-h4">Aktualisierung bei Gesetzesänderungen</h3>
+            <p>Ändern sich Vorgaben, informiert zenday Sie und stellt aktualisierte Fachdokumente bereit.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--tuerkis"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span>
+            <h3 class="zd-h4">Fristen verteilt und erinnert</h3>
+            <p>Konstanzprüfung, Ersthelfer-Kurs, Betriebsanweisungen: Aufgaben haben Verantwortliche, werden erinnert und bei Bedarf eskaliert.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · Absender -->
+    <section class="zd-sektion">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-karte zd-karte--gross lp-absender">
+          <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster, Gründer von zenday" width="192" height="192" loading="lazy">
+          <div class="zd-stack zd-stack--eng">
+            <span class="zd-eyebrow zd-mt-0">Von wem das E-Book kommt</span>
+            <p>Erstellt vom zenday-Team rund um <strong>Tilmann Förster, Gründer von zenday</strong>. zenday ist speziell für Zahnarztpraxen entwickelt und hat über 25 Begehungen mit Praxen begleitet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · FAQ -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Häufige Fragen</span>
+          <h2>Gut zu wissen</h2>
+        </div>
+        <div class="zd-faq">
+          <details>
+            <summary>Kostet das E-Book etwas?</summary>
+            <p>Nein. Das E-Book ist kostenlos. Nach dem Absenden des Formulars öffnet sich direkt die Download-Seite.</p>
+          </details>
+          <details>
+            <summary>Passt das E-Book zu unserer Praxis?</summary>
+            <p>Es ist für Zahnarztpraxen in Deutschland geschrieben, unabhängig von Größe und Anzahl der Standorte. Welche Punkte Sie betreffen, hängt von Ihrer Ausstattung ab, etwa vernetzten Geräten oder Röntgen.</p>
+          </details>
+          <details>
+            <summary>Wie viel Zeit kostet das?</summary>
+            <p>Das E-Book hat 8 Seiten. Die Checklisten gehen Sie am besten gemeinsam mit den Verantwortlichen für die einzelnen Bereiche durch.</p>
+          </details>
+          <details>
+            <summary>Ersetzt das E-Book eine Rechtsberatung?</summary>
+            <p>Nein. Es ist eine Orientierungshilfe. Maßgeblich sind die jeweils aktuellen Gesetze und Regelwerke, Ihre Gefährdungsbeurteilungen und die Vorgaben Ihrer Praxis.</p>
+          </details>
+          <details>
+            <summary>Was passiert mit meinen Daten?</summary>
+            <p>Wir nutzen Ihre Angaben, um Ihnen das E-Book bereitzustellen und uns bei Bedarf bei Ihnen zu melden. Weitere Praxis-Tipps per E-Mail erhalten Sie nur, wenn Sie das ausdrücklich ankreuzen. Details finden Sie in der <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Abschluss-CTA -->
+    <section class="zd-sektion zd-sektion--dunkel">
+      <div class="zd-container zd-container--schmal zd-mitte zd-stack">
+        <h2>Wissen, welche Änderung in Ihrer Praxis noch fehlt</h2>
+        <p class="zd-lead">Holen Sie sich das E-Book mit Checklisten, Sofort-Maßnahmen und Aktionsplan.</p>
+        <div class="zd-reihe zd-reihe--mitte zd-reihe--stapeln">
+          <a class="zd-btn zd-btn--primaer zd-btn--gross" href="#formular">E-Book kostenlos erhalten</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <div class="zd-grid zd-grid--3">
+        <div class="zd-stack zd-stack--eng">
+          <a class="zd-wortmarke" href="/"><b>zen</b><span>day</span></a>
+          <p>Qualitätsmanagement für Zahnarztpraxen.</p>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Kontakt</strong>
+          <a href="mailto:support@zen-day.de">support@zen-day.de</a>
+          <a href="https://calendly.com/digitalesqm/demo-praesentation">Demo-Termin buchen</a>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Ventria GmbH</strong>
+          <span>Malkastenstraße 8, 40211 Düsseldorf</span>
+        </div>
+      </div>
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH</span>
+        <ul class="zd-footer__links">
+          <li><a href="https://www.zen-day.ai/impressum">Impressum</a></li>
+          <li><a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="zd-cta-leiste">
+    <a class="zd-btn zd-btn--primaer" href="#formular">E-Book kostenlos erhalten</a>
+  </div>
+
+  <script src="/zenday.js?v=0.3" defer></script>
+  <script>
+  (function () {
+    // Zapier-Workflow „zenday-landingpage-leads“ (Catch Hook → Sheet „FB Leads“ → Slack #leads)
+    var FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
+    var DANKE = '/ebooks/compliance/danke/';
+    var form = document.getElementById('lead-form');
+    var err = document.getElementById('form-error');
+    var params = new URLSearchParams(location.search);
+
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) {
+      var el = form.querySelector('[name="' + k + '"]');
+      if (el) el.value = params.get(k) || '';
+    });
+    if (params.get('utm_medium') === 'paid') form.querySelector('[name="quelle"]').value = 'meta-paid';
+
+    var markieren = function () {
+      form.querySelectorAll('[required]').forEach(function (f) {
+        f.setAttribute('aria-invalid', f.checkValidity() ? 'false' : 'true');
+      });
+    };
+    form.addEventListener('input', function (e) {
+      if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) e.target.setAttribute('aria-invalid', 'false');
+    });
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      err.hidden = true;
+      markieren();
+      if (!form.reportValidity()) return;
+
+      var btn = form.querySelector('button[type=submit]');
+      var data = new URLSearchParams(new FormData(form));
+      if (data.get('website')) { location.href = DANKE; return; } // Honeypot
+      data.delete('website');
+      data.set('consent', form.querySelector('[name=consent]').checked ? 'ja' : 'nein');
+
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet …';
+      // urlencoded = einfache Anfrage ohne CORS-Preflight, Zapier liest die Felder einzeln
+      fetch(FORM_ENDPOINT, { method: 'POST', body: data })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Status ' + r.status);
+          if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'compliance' });
+          location.href = DANKE;
+        })
+        .catch(function () {
+          err.hidden = false;
+          btn.disabled = false;
+          btn.textContent = 'E-Book kostenlos erhalten';
+        });
+    });
+  })();
+  </script>
 </body>
 </html>

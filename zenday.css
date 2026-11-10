@@ -1,10 +1,16 @@
 /* ==========================================================================
    zenday.css — Basis-Stylesheet für zenday-Webseiten und Landingpages
-   Version: 0.2.1 (Prototyp) · Stand: 2026-11-06
+   Version: 0.3 (Prototyp) · Stand: 2026-11-10
    Breakpoints (mobile first):
      Handy   < 640 px   eine Spalte, Menü als Klappmenü
      Tablet  ≥ 640 px   zwei Spalten, Menü weiter als Klappmenü
      Desktop ≥ 1024 px  volle Navigation, mehrspaltige Layouts
+   Geräte: Die Seite passt sich allein an die Bildschirmgröße an (keine
+     Geräteerkennung). Getestet von 320 px (kleinste Handys) bis 2560 px,
+     hoch und quer, mit Touch und Maus.
+   Änderungen 0.3: Silbentrennung für lange deutsche Wörter, Rasterspalten
+     ohne Überlauf, Handy quer (kompakter Header, keine CTA-Leiste),
+     Hover-Effekte nur bei Maus, Notch-Ränder (safe-area)
    Änderungen 0.2: Handy-Menü, feste Raster-Breakpoints, Touch-Flächen
      ≥ 44 px, Sprungziele unter dem Sticky-Header, mobile CTA-Leiste
    Einbinden:
@@ -17,7 +23,8 @@
      2. Reset                7. Badges & Pills     12. Hinweise
      3. Basis-Typografie     8. Karten & Schritte  13. Header & Footer
      4. Layout               9. Hero              14. Utilities
-     5. Sektionen           10. Formulare         15. Barrierefreiheit
+     5. Sektionen           10. Formulare         15. Geräte-Anpassungen
+                                                  16. Barrierefreiheit
    Konvention: Alle Klassen beginnen mit "zd-", alle Variablen mit "--zd-".
    ========================================================================== */
 
@@ -112,7 +119,13 @@ body { min-height: 100vh; -webkit-font-smoothing: antialiased; }
 img, picture, svg, video { display: block; max-width: 100%; height: auto; }
 input, button, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
-p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+p, h1, h2, h3, h4, h5, h6, li, strong, label, summary { overflow-wrap: break-word; }
+/* Silbentrennung für lange deutsche Wörter nur auf Handy und Tablet.
+   Braucht <html lang="de">. */
+@media (max-width: 1023px) {
+  p, h1, h2, h3, h4, h5, h6, li, strong, label, summary { hyphens: auto; -webkit-hyphens: auto; }
+  h1, h2 { hyphenate-limit-chars: 10 4 4; }
+}
 ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
 
 
@@ -181,7 +194,8 @@ hr { border: 0; height: 1px; background: var(--zd-linie); margin: var(--zd-s-6) 
   width: 100%;
   max-width: calc(var(--zd-breite) + 2 * var(--zd-rand));
   margin-inline: auto;
-  padding-inline: var(--zd-rand);
+  padding-left: max(var(--zd-rand), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--zd-rand), env(safe-area-inset-right, 0px));
 }
 .zd-container--schmal { max-width: calc(var(--zd-breite-schmal) + 2 * var(--zd-rand)); }
 
@@ -212,6 +226,9 @@ hr { border: 0; height: 1px; background: var(--zd-linie); margin: var(--zd-s-6) 
   .zd-grid--3 { gap: var(--zd-s-5); }
   .zd-grid--4, .zd-grid--4.zd-grid--kompakt { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Kinder von Rastern und Reihen dürfen schmaler werden als ihr längstes Wort */
+:is(.zd-grid, .zd-split, .zd-schritte, .zd-stack) > * { min-width: 0; }
 
 /* Zweispalter: Text + Bild/Formular */
 .zd-split { display: grid; gap: var(--zd-s-7); align-items: center; }
@@ -708,7 +725,28 @@ hr { border: 0; height: 1px; background: var(--zd-linie); margin: var(--zd-s-6) 
 .zd-bild img { width: 100%; height: 100%; object-fit: cover; }
 
 
-/* 15. BARRIEREFREIHEIT ==================================================== */
+/* 15. GERÄTE-ANPASSUNGEN ================================================ */
+/* Touch-Geräte: keine "hängenden" Hover-Effekte nach dem Antippen */
+@media (hover: none) {
+  .zd-btn--primaer:hover, .zd-karte--link:hover { transform: none; }
+}
+/* Handy quer und andere niedrige Bildschirme: mehr Platz für Inhalt */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root { --zd-header-hoehe: 56px; --zd-sektion: 2.5rem; }
+  .zd-cta-leiste { display: none; }
+  .zd-mit-cta-leiste { padding-bottom: 0; }
+  .zd-hero { padding-block: 2.5rem; }
+  .zd-menue__panel a:not(.zd-btn) { min-height: 44px; }
+}
+/* Sehr kleine Handys (unter 360 px) */
+@media (max-width: 359px) {
+  :root { --zd-rand: 0.875rem; }
+  .zd-wortmarke { font-size: 1.3rem; }
+  .zd-formular-box, .zd-karte { padding: var(--zd-s-5) var(--zd-s-4); }
+}
+
+
+/* 16. BARRIEREFREIHEIT ==================================================== */
 :focus-visible { outline: 3px solid rgba(59, 130, 246, 0.55); outline-offset: 3px; border-radius: 4px; }
 .zd-btn:focus-visible { outline-offset: 3px; border-radius: var(--zd-radius-pill); }
 

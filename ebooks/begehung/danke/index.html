@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Leitfaden bereit | zenday</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Ihr Leitfaden zur Begehung der Zahnarztpraxis ist bereit.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+  <style>
+    /* Layout: Bestätigung mit Download oben, Fallstudien-Videos als Hauptteil, Demo-Brücke als Abschluss */
+    .lp-danke { display: grid; gap: var(--zd-s-6); align-items: center; }
+    @media (min-width: 960px) { .lp-danke { grid-template-columns: 1.3fr 1fr; } }
+    .lp-cover { max-width: 260px; margin-inline: auto; }
+    .lp-cover img { border-radius: var(--zd-radius-s); box-shadow: var(--zd-schatten-l); transform: rotate(-3deg); border: 1px solid var(--zd-linie); }
+    .lp-video {
+      position: relative; aspect-ratio: 16 / 9; max-width: 100%; width: 100%;
+      border: 0; padding: 0; border-radius: var(--zd-radius); overflow: hidden;
+      background: var(--zd-anthrazit); display: grid; place-items: center; cursor: pointer;
+    }
+    .lp-video::before {
+      content: ""; position: absolute; width: 120%; height: 70%; left: -10%; top: -20%;
+      background: var(--zd-verlauf); opacity: 0.35; border-radius: 50%; transform: rotate(-12deg);
+    }
+    .lp-video > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .lp-video:has(> img)::before { display: none; }
+    .lp-video:has(> img) .lp-video__play { background: var(--zd-anthrazit); position: absolute; right: var(--zd-s-4); bottom: var(--zd-s-4); width: 56px; height: 56px; }
+    .lp-video:has(> img) .lp-video__play svg { fill: var(--zd-weiss); }
+    .lp-video:has(> img) .lp-video__hinweis { color: var(--zd-text-leise); opacity: 1; top: var(--zd-s-3); bottom: auto; }
+    .lp-video { border: 1px solid var(--zd-linie); }
+    .lp-video__play { position: relative; width: 72px; height: 72px; border-radius: 50%; background: var(--zd-weiss); display: grid; place-items: center; box-shadow: var(--zd-schatten-l); transition: transform var(--zd-dauer) var(--zd-kurve); }
+    .lp-video:hover .lp-video__play { transform: scale(1.06); }
+    .lp-video__play svg { width: 28px; height: 28px; fill: var(--zd-anthrazit); margin-left: 4px; }
+    .lp-video__hinweis { position: absolute; left: var(--zd-s-4); right: var(--zd-s-4); bottom: var(--zd-s-3); font-size: var(--zd-fs-xs); color: var(--zd-weiss); opacity: 0.8; text-align: left; }
+    .lp-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .lp-garantie { border-left: 4px solid var(--zd-tuerkis); padding-left: var(--zd-s-4); }
+  </style>
+</head>
+<body class="zd-mit-cta-leiste">
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <!-- 1 BESTÄTIGUNG + DOWNLOAD -->
+    <section class="zd-hero zd-hero--ellipse">
+      <div class="zd-container lp-danke">
+        <div class="zd-stack">
+          <span class="zd-badge zd-badge--tuerkis zd-badge--punkt">Anmeldung erfolgreich</span>
+          <h1>Ihr Leitfaden ist bereit.</h1>
+          <p class="zd-lead">Öffnen Sie das PDF und speichern Sie es ab. Am besten gehen Sie es gemeinsam mit Ihrem Team durch.</p>
+          <div class="zd-reihe zd-reihe--stapeln">
+            <a class="zd-btn zd-btn--primaer zd-btn--gross" href="https://drive.google.com/file/d/1oURt8fhObe_SI6hY5kV3XbV_ymq2fXXA/view?usp=drivesdk" target="_blank" rel="noopener">Leitfaden jetzt öffnen</a>
+          </div>
+          <p class="zd-klein zd-leise">Falls Sie sich für weitere Praxis-Tipps angemeldet haben, erhalten Sie eine E-Mail mit einem Bestätigungslink.</p>
+        </div>
+        <div class="lp-cover"><img src="../assets/cover.webp" width="760" height="1075" alt="Cover des Leitfadens „Begehung der Zahnarztpraxis – Optimal vorbereitet“"></div>
+      </div>
+    </section>
+
+    <!-- 2 FALLSTUDIEN -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Aus der Praxis</span>
+          <h2>So lief die Begehung in 2 Praxen</h2>
+          <p>Zwei Praxen berichten, wie sie sich mit zenday auf ihre Begehung vorbereitet haben – und wie sie gelaufen ist.</p>
+        </div>
+        <div class="zd-grid zd-grid--2">
+          <div class="zd-stack zd-stack--eng">
+            <button class="lp-video" type="button" data-video="Z9gSCWozh_A" aria-label="Fallstudie Praxis Ostermann abspielen">
+              <img src="../assets/thumb-ostermann.webp" width="960" height="540" loading="lazy" alt="">
+              <span class="lp-video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span>
+              <span class="lp-video__hinweis">Beim Abspielen lädt YouTube das Video.</span>
+            </button>
+            <strong>Fallstudie: Praxis Ostermann</strong>
+            <a class="zd-klein" href="https://youtu.be/Z9gSCWozh_A" target="_blank" rel="noopener">Auf YouTube ansehen</a>
+          </div>
+          <div class="zd-stack zd-stack--eng">
+            <button class="lp-video" type="button" data-video="8_Rs7PlpEq4" aria-label="Fallstudie Praxis Profi Laxe abspielen">
+              <img src="../assets/thumb-profi-laxe.webp" width="960" height="540" loading="lazy" alt="">
+              <span class="lp-video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span>
+              <span class="lp-video__hinweis">Beim Abspielen lädt YouTube das Video.</span>
+            </button>
+            <strong>Fallstudie: Praxis Profi Laxe</strong>
+            <a class="zd-klein" href="https://youtu.be/8_Rs7PlpEq4" target="_blank" rel="noopener">Auf YouTube ansehen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 DEMO-BRÜCKE -->
+    <section class="zd-sektion">
+      <div class="zd-container zd-container--schmal zd-stack zd-stack--weit">
+        <div class="zd-sektion-kopf zd-mb-6">
+          <span class="zd-eyebrow">Ihr nächster Schritt</span>
+          <h2>Den Leitfaden im Alltag laufen lassen</h2>
+          <p>Eine Checkliste zeigt, wo Lücken sind. zenday sorgt dafür, dass sie geschlossen bleiben: Aufgaben, Prüfungen und Unterweisungen werden sichtbar, erinnert und nachgehalten.</p>
+        </div>
+        <ol class="zd-schritte" style="--zd-schritte-spalten: 3">
+          <li class="zd-schritt"><h3>Ihre Praxis</h3><p>Wir schauen gemeinsam, wie Sie QM heute organisieren.</p></li>
+          <li class="zd-schritt"><h3>Live in zenday</h3><p>Sie sehen, wie die Prüfpunkte als Aufgaben mit Fristen im Team laufen.</p></li>
+          <li class="zd-schritt"><h3>Ihr Fahrplan</h3><p>Sie wissen, wie lange der Aufbau in Ihrer Praxis dauert.</p></li>
+        </ol>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">3 Wochen</span><span class="zd-kennzahl__label">bis neue Praxen begehungsbereit sind, seit es die Smart Fields gibt</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte arbeiten mit zenday</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">25+</span><span class="zd-kennzahl__label">Begehungen gemeinsam mit Praxen begleitet</span></div>
+        </div>
+        <p class="lp-garantie"><strong>Unsere Garantie:</strong> Ihr QM ist in 6 Wochen aufgesetzt, wenn Sie Ihre Onboarding-Schritte erledigen. Klappt das nicht, begleiten wir Sie kostenlos weiter und schenken Ihnen die Chat-Funktion für ein Jahr.</p>
+        <div class="zd-reihe zd-reihe--stapeln">
+          <a class="zd-btn zd-btn--dunkel zd-btn--gross" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">15-Minuten-Demo buchen</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+      <p class="zd-mt-4">QM und Praxisorganisation für Zahnarztpraxen. Ventria GmbH, Düsseldorf.</p>
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH</span>
+        <ul class="zd-footer__links"><li><a href="https://www.zen-day.ai/impressum">Impressum</a></li><li><a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></li></ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="zd-cta-leiste"><a class="zd-btn zd-btn--primaer" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">15-Minuten-Demo buchen</a></div>
+
+  <script>
+  // Videos erst nach Klick laden (youtube-nocookie), damit beim Seitenaufruf keine Daten an YouTube gehen
+  document.querySelectorAll('.lp-video[data-video]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + btn.dataset.video + '?autoplay=1&rel=0';
+      f.title = btn.getAttribute('aria-label').replace(' abspielen', '');
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      const box = document.createElement('div');
+      box.className = 'lp-video';
+      box.appendChild(f);
+      btn.replaceWith(box);
+    }, { once: true });
+  });
+  </script>
+  <script src="/zenday.js?v=0.3" defer></script>
+</body>
+</html>

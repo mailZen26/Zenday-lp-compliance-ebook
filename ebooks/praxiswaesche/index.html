@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Umgang mit Praxiswäsche – Leitfaden 2026 | zenday</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <meta name="description" content="Kostenloser Leitfaden für Zahnarztpraxen: Praxiswäsche klar regeln – Wechselrhythmus, Waschverfahren, Heimwäsche und Nachweise. Stand November 2026.">
+  <meta property="og:title" content="Wer wäscht den Schutzkittel? Leitfaden Praxiswäsche 2026">
+  <meta property="og:description" content="Wechselrhythmus, Waschverfahren, Heimwäsche und Musterformulierung für Ihren Hygieneplan. Kostenlos als PDF.">
+  <meta property="og:image" content="https://www.zen-day.ai/ebooks/praxiswaesche/assets/og.jpg">
+  <meta property="og:url" content="https://www.zen-day.ai/ebooks/praxiswaesche/">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+  <style>
+    /* Layout: Hero mit Formular rechts, darunter ruhige Sektionen; Ellipse als einzige Verlaufsfläche */
+    .lp-cover { position: relative; max-width: 300px; }
+    .lp-cover img { border-radius: var(--zd-radius-s); box-shadow: var(--zd-schatten-l); transform: rotate(-3deg); border: 1px solid var(--zd-linie); }
+    .lp-hero-text { display: grid; gap: var(--zd-s-5); align-content: start; }
+    .lp-hero-media { display: grid; grid-template-columns: minmax(0, 150px) 1fr; gap: var(--zd-s-5); align-items: center; }
+    .lp-hero-media .lp-cover { max-width: 150px; }
+    @media (min-width: 640px) { .lp-hero-media { grid-template-columns: minmax(0, 200px) 1fr; } .lp-hero-media .lp-cover { max-width: 200px; } }
+    .lp-fakten { list-style: none; padding: 0; display: grid; gap: var(--zd-s-2); font-size: var(--zd-fs-s); }
+    .lp-fakten li { margin: 0; display: flex; gap: var(--zd-s-2); align-items: baseline; }
+    .lp-fakten b { font-size: var(--zd-fs-l); color: var(--zd-anthrazit); min-width: 2.2ch; }
+    .lp-vorschau { display: grid; gap: var(--zd-s-4); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lp-vorschau figure { margin: 0; }
+    .lp-vorschau img { border-radius: var(--zd-radius-s); border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten); background: var(--zd-weiss); }
+    .lp-vorschau figcaption { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); margin-top: var(--zd-s-2); }
+    @media (max-width: 639px) { .lp-vorschau { grid-template-columns: repeat(3, 70%); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: var(--zd-s-3); } .lp-vorschau figure { scroll-snap-align: start; } }
+    .lp-video {
+      position: relative; aspect-ratio: 16 / 9; max-width: 100%;
+      border-radius: var(--zd-radius); overflow: hidden; background: var(--zd-anthrazit);
+      display: grid; place-items: center;
+    }
+    .lp-video::before {
+      content: ""; position: absolute; width: 120%; height: 70%; left: -10%; top: -20%;
+      background: var(--zd-verlauf); opacity: 0.35; border-radius: 50%; transform: rotate(-12deg);
+    }
+    .lp-video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .lp-video:has(img)::before { display: none; }
+    .lp-video:has(img) .lp-video__play { background: var(--zd-anthrazit); position: absolute; right: var(--zd-s-4); bottom: var(--zd-s-4); width: 56px; height: 56px; }
+    .lp-video:has(img) .lp-video__play svg { fill: var(--zd-weiss); }
+    .lp-video { border: 1px solid var(--zd-linie); }
+    .lp-video__play { position: relative; width: 64px; height: 64px; border-radius: 50%; background: var(--zd-weiss); display: grid; place-items: center; box-shadow: var(--zd-schatten-l); }
+    .lp-video__play svg { width: 26px; height: 26px; fill: var(--zd-anthrazit); margin-left: 4px; }
+    .lp-video__schloss { position: absolute; left: var(--zd-s-4); top: var(--zd-s-4); }
+    .lp-reframe { font-size: var(--zd-fs-h3); line-height: 1.35; color: var(--zd-anthrazit); font-weight: 600; max-width: 32ch; text-wrap: balance; }
+    .lp-recht td:first-child { white-space: nowrap; font-weight: 600; color: var(--zd-anthrazit); }
+    .lp-tabelle { width: 100%; border-collapse: collapse; font-size: var(--zd-fs-s); }
+    .lp-tabelle th { text-align: left; font-size: var(--zd-fs-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--zd-text-leise); font-weight: 600; padding: 0 var(--zd-s-3) var(--zd-s-2) 0; }
+    .lp-tabelle td { padding: var(--zd-s-3) var(--zd-s-3) var(--zd-s-3) 0; border-top: 1px solid var(--zd-linie); vertical-align: top; }
+    .lp-scroll { overflow-x: auto; }
+    .lp-absender { display: grid; grid-template-columns: 64px 1fr; gap: var(--zd-s-4); align-items: center; }
+    .lp-absender__foto { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 1px solid var(--zd-linie); background: var(--zd-weiss); }
+    .lp-absender__initialen { width: 64px; height: 64px; border-radius: 50%; background: var(--zd-verlauf-button); display: grid; place-items: center; font-weight: 700; color: var(--zd-anthrazit); font-size: var(--zd-fs-l); }
+    #form-error { margin-top: var(--zd-s-2); }
+    #form-error[hidden] { display: none; }
+    /* Handy und Tablet: Formular direkt nach Headline und Einleitung, Cover und Fakten danach */
+    @media (max-width: 959px) {
+      .zd-hero .zd-split { gap: var(--zd-s-5); }
+      .lp-hero-text { display: contents; }
+      .lp-hero-text > * { order: 1; }
+      #formular { order: 2; }
+      .lp-hero-media, .zd-hero .zd-vertrauen { order: 3; }
+    }
+  </style>
+</head>
+<body class="zd-mit-cta-leiste">
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+      <span class="zd-badge zd-badge--violett">Leitfaden · Stand 11/2026</span>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <!-- 1 HERO -->
+    <section class="zd-hero zd-hero--ellipse">
+      <div class="zd-container zd-split zd-split--text-breit">
+        <div class="lp-hero-text">
+          <span class="zd-eyebrow">Für Hygiene- und QM-Beauftragte in Zahnarztpraxen</span>
+          <h1>Wer wäscht den Schutzkittel? Die Antwort, die Ihre Begehung erwartet.</h1>
+          <p class="zd-lead">Der aktualisierte Leitfaden regelt <strong>Wechselrhythmus, Waschverfahren, Heimwäsche und Nachweise</strong> – mit Musterformulierung für Ihren Hygieneplan. Stand November 2026, kostenlos als PDF.</p>
+          <div class="lp-hero-media">
+            <div class="lp-cover"><img src="assets/cover.webp" width="760" height="1076" alt="Cover des Leitfadens „Hygiene in der Zahnarztpraxis: Umgang mit Praxiswäsche“, aktualisierte Ausgabe November 2026"></div>
+            <ul class="lp-fakten">
+              <li><b>7</b><span>Textilarten mit Wechsel, Verfahren und „zu Hause: ja oder nein“</span></li>
+              <li><b>18</b><span>Prüfpunkte als Checkliste für die Begehung</span></li>
+              <li><b>16</b><span>Seiten, inklusive Baustein für Ihren Hygieneplan</span></li>
+            </ul>
+          </div>
+          <div class="zd-vertrauen"><span>über 200 Praxisstandorte</span><span>mehr als 2.000 Nutzer</span><span>über 25 begleitete Begehungen</span></div>
+        </div>
+
+        <div class="zd-formular-box" id="formular">
+          <h2>Leitfaden kostenlos erhalten</h2>
+          <p class="zd-leise zd-klein">PDF, 16 Seiten. Download direkt nach dem Absenden.</p>
+          <form class="zd-formular" id="lead-form" novalidate>
+            <div class="zd-feld">
+              <label for="vorname">Vorname<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="vorname" name="vorname" autocomplete="given-name" required>
+            </div>
+            <div class="zd-feld">
+              <label for="email">E-Mail-Adresse<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="zd-feld">
+              <label for="telefon">Telefon<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="telefon" name="telefon" type="tel" autocomplete="tel" required>
+            </div>
+            <div class="zd-feld">
+              <label for="rolle">Ihre Rolle in der Praxis<span class="zd-pflicht">*</span></label>
+              <select class="zd-select" id="rolle" name="rolle" required>
+                <option value="">Bitte wählen</option>
+                <option>Praxisinhaber/in</option>
+                <option>Praxismanager/in</option>
+                <option>QM-Beauftragte/r</option>
+                <option>Hygienebeauftragte/r</option>
+                <option>Empfang/Assistenz</option>
+                <option>Andere</option>
+              </select>
+            </div>
+            <label class="zd-check" for="consent"><input type="checkbox" id="consent" name="consent" value="ja"><span>Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</span></label>
+            <div class="zd-sr-only" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
+            <input type="hidden" name="ebook" value="praxiswaesche">
+            <input type="hidden" name="persona" value="qmb-hygienebeauftragte">
+            <input type="hidden" name="quelle" value="instagram-organisch">
+            <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
+            <button class="zd-btn zd-btn--primaer zd-btn--voll" type="submit">Leitfaden kostenlos erhalten</button>
+            <p class="zd-hinweis zd-hinweis--warnung" id="form-error" role="alert" hidden>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an support@zen-day.de.</p>
+            <p class="zd-feld__hilfe">Kostenlos. Ihre Daten verarbeiten wir nach unserer <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 FÜR WEN -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Ist das für Sie?</span>
+          <h2>Erkennen Sie Ihre Praxis wieder?</h2>
+        </div>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--koralle"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span>
+            <h3 class="zd-h4">Jede wäscht anders</h3>
+            <p>Manche nehmen den Kasack mit nach Hause, andere waschen in der Praxis. Eine gemeinsame Regel gibt es nicht.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span>
+            <h3 class="zd-h4">Ein Satz im Hygieneplan</h3>
+            <p>Zur Wäsche steht dort ein Satz – aber kein Verfahren, keine Zuständigkeit und kein Nachweis.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--tuerkis"><svg viewBox="0 0 24 24"><path d="M14 14V5a2 2 0 0 0-4 0v9a4 4 0 1 0 4 0z"/></svg></span>
+            <h3 class="zd-h4">Reichen 60 °C?</h3>
+            <p>Die Begehung steht an, und Sie sind unsicher, ob „60 °C mit Hygienespüler“ für Schutzkleidung genügt.</p>
+          </div>
+        </div>
+        <p class="zd-mt-6">Wenn Sie sich wiedererkennen, fehlt meist kein Wissen. Es fehlt <strong>eine klare Regel, die das ganze Team gleich umsetzt</strong>.</p>
+      </div>
+    </section>
+
+    <!-- 3 REFRAME + WAS SIE ERHALTEN -->
+    <section class="zd-sektion">
+      <div class="zd-container">
+        <div class="zd-split">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Was Sie erhalten</span>
+            <p class="lp-reframe">Geprüft wird selten Ihr Text. Geprüft wird, ob die Regel im Alltag gelebt wird.</p>
+            <p>Der Leitfaden übersetzt die Vorgaben in eine Übersicht, die Ihr Team sofort versteht – und in Nachweise, die Sie bei der Begehung vorlegen können.</p>
+          </div>
+          <ul class="zd-checkliste zd-stack">
+            <li><strong>Welche Wäsche wohin</strong> – 7 Textilarten mit Wechsel, Verfahren und der Antwort „zu Hause: ja oder nein“.</li>
+            <li><strong>Wechselrhythmus</strong> – täglich statt „2× pro Woche“, wie es in vielen alten Vorlagen noch steht.</li>
+            <li><strong>Waschverfahren verständlich</strong> – 90 °C mit 10 Minuten Haltezeit, chemothermisch nach VAH-Listung, Haushalts- oder gewerbliche Maschine.</li>
+            <li><strong>Heimwäsche</strong> – die klare Grenze nach TRBA 250 und unsere Empfehlung für eine eindeutige Regel.</li>
+            <li><strong>Der Wäschekreislauf in 6 Schritten</strong> – vom Sammeln bis zur Lagerung.</li>
+            <li><strong>Zum Übernehmen</strong> – Musterformulierung, Checkliste mit 18 Prüfpunkten und Fristen-Tabelle mit 10 Aufgaben.</li>
+          </ul>
+        </div>
+        <div class="lp-vorschau zd-mt-8">
+          <figure><img src="assets/vorschau-matrix.webp" width="640" height="905" loading="lazy" alt="Beispielseite: Übersicht „Welche Wäsche wohin?“ mit Wechsel, Aufbereitung und Heimwäsche je Textilart"><figcaption>Übersicht: Welche Wäsche wohin?</figcaption></figure>
+          <figure><img src="assets/vorschau-heimwaesche.webp" width="640" height="905" loading="lazy" alt="Beispielseite: Darf Praxiswäsche zu Hause gewaschen werden?"><figcaption>Heimwäsche: erlaubt und nicht erlaubt</figcaption></figure>
+          <figure><img src="assets/vorschau-muster.webp" width="640" height="905" loading="lazy" alt="Beispielseite: Musterformulierung für den Hygieneplan, Abschnitt Praxiswäsche"><figcaption>Baustein für Ihren Hygieneplan</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 WARUM JETZT -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Warum jetzt</span>
+          <h2>Die Regelwerke sind neu – viele Hygienepläne nicht</h2>
+          <p>Diese Änderungen sind im Leitfaden bereits eingearbeitet.</p>
+        </div>
+        <div class="lp-scroll">
+          <table class="lp-tabelle lp-recht">
+            <thead><tr><th>Seit</th><th>Was sich geändert hat</th></tr></thead>
+            <tbody>
+              <tr><td>11/2025</td><td>TRBA 250 neu gefasst: Arbeitskleidung mit Schutzfunktion stellt und reinigt die Praxis, Keimverschleppung nach Hause ist zu verhindern</td></tr>
+              <tr><td>2026</td><td>DAHZ-Hygieneleitfaden in 17. Ausgabe – Grundlage vieler Hygienepläne in Zahnarztpraxen</td></tr>
+              <tr><td>laufend</td><td>Bei Begehungen zählt der Nachweis: gelistetes Verfahren, Wäscherei-Zertifikat, Unterweisung</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 BRÜCKE ZU ZENDAY + PROOF -->
+    <section class="zd-sektion zd-sektion--zart">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Vom Leitfaden zur gelebten Regel</span>
+          <h2>Damit die Regel nicht im Ordner bleibt</h2>
+          <p>In zenday wird der Abschnitt Wäsche zur Arbeitsanweisung. Die Fristen werden Aufgaben mit Verantwortlichen und Erinnerung – Listung prüfen, Wirksamkeitstest, Unterweisung.</p>
+        </div>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">3 Wochen</span><span class="zd-kennzahl__label">bis neue Praxen begehungsbereit sind, seit es die Smart Fields gibt</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte arbeiten mit zenday</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert">25+</span><span class="zd-kennzahl__label">Begehungen gemeinsam mit Praxen begleitet</span></div>
+        </div>
+        <div class="zd-grid zd-grid--2 zd-mt-8">
+          <div class="zd-stack zd-stack--eng">
+            <div class="lp-video" aria-hidden="true"><img src="assets/thumb-ostermann.webp" width="960" height="540" loading="lazy" alt=""><span class="lp-video__play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span><span class="zd-badge lp-video__schloss">Nach der Anmeldung</span></div>
+            <strong>Fallstudie: Praxis Ostermann</strong>
+          </div>
+          <div class="zd-stack zd-stack--eng">
+            <div class="lp-video" aria-hidden="true"><img src="assets/thumb-profi-laxe.webp" width="960" height="540" loading="lazy" alt=""><span class="lp-video__play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span><span class="zd-badge lp-video__schloss">Nach der Anmeldung</span></div>
+            <strong>Fallstudie: Praxis Profi Laxe</strong>
+          </div>
+        </div>
+        <p class="zd-mt-6"><a class="zd-btn zd-btn--link" href="#formular">Leitfaden anfordern und Videos ansehen →</a></p>
+      </div>
+    </section>
+
+    <!-- 6 ABSENDER -->
+    <section class="zd-sektion">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-karte zd-karte--gross zd-stack">
+          <div class="lp-absender">
+            <img class="lp-absender__foto" src="assets/zenday-logo.webp" width="256" height="256" loading="lazy" alt="zenday Logo">
+            <div><strong>Tilmann Förster</strong><br><span class="zd-leise zd-klein">Gründer von zenday</span></div>
+          </div>
+          <p>Erstellt vom zenday-Team. Wir haben über 25 Begehungen gemeinsam mit Praxen begleitet. Der Leitfaden folgt TRBA 250, KRINKO-Empfehlung und DAHZ-Hygieneleitfaden und ist so geschrieben, dass Ihr Team ihn ohne Vorwissen umsetzen kann.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 FAQ + CTA -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Fragen und Antworten</span>
+          <h2>Gut zu wissen</h2>
+        </div>
+        <div class="zd-faq">
+          <details><summary>Was kostet der Leitfaden?</summary><p>Nichts. Sie laden das PDF direkt nach dem Absenden herunter und können es beliebig oft ausdrucken.</p></details>
+          <details><summary>Passt er zu unserer Praxis?</summary><p>Ja. Er ist für Zahnarztpraxen jeder Größe geschrieben – egal ob Sie selbst waschen, eine Wäscherei beauftragen oder Einwegkittel nutzen.</p></details>
+          <details><summary>Ersetzt der Leitfaden eine Rechtsberatung?</summary><p>Nein. Er gibt den fachlichen Stand wieder. Landesrecht und die Praxis Ihres Gesundheitsamts können strenger sein; Hinweise dazu stehen im Leitfaden.</p></details>
+          <details><summary>Was passiert mit meinen Daten?</summary><p>Wir nutzen Ihre Angaben, um Ihnen den Leitfaden bereitzustellen und Sie bei Fragen zu erreichen. Weitere E-Mails erhalten Sie nur mit Ihrer Einwilligung. Details in unserer <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p></details>
+        </div>
+        <p class="zd-mt-6 zd-mitte"><a class="zd-btn zd-btn--sekundaer zd-btn--gross" href="#formular">Leitfaden kostenlos erhalten</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+      <p class="zd-mt-4">QM und Praxisorganisation für Zahnarztpraxen. Ventria GmbH, Düsseldorf.</p>
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH</span>
+        <ul class="zd-footer__links"><li><a href="https://www.zen-day.ai/impressum">Impressum</a></li><li><a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></li></ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="zd-cta-leiste"><a class="zd-btn zd-btn--primaer" href="#formular">Leitfaden kostenlos erhalten</a></div>
+
+  <script>
+  (function () {
+    // Zapier-Workflow „zenday-landingpage-leads“ (Catch Hook → Sheet „FB Leads“ → Slack #leads)
+    var FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
+    var DANKE = '/ebooks/praxiswaesche/danke/';
+    var form = document.getElementById('lead-form');
+    var err = document.getElementById('form-error');
+    var params = new URLSearchParams(location.search);
+
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) {
+      var el = form.querySelector('[name="' + k + '"]');
+      if (el) el.value = params.get(k) || '';
+    });
+    if (params.get('utm_medium') === 'paid') form.querySelector('[name="quelle"]').value = 'meta-paid';
+
+    form.addEventListener('input', function (e) {
+      if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) e.target.setAttribute('aria-invalid', 'false');
+    });
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      err.hidden = true;
+      var erstes = null;
+      form.querySelectorAll('[required]').forEach(function (f) {
+        var ok = f.checkValidity();
+        f.setAttribute('aria-invalid', ok ? 'false' : 'true');
+        if (!ok && !erstes) erstes = f;
+      });
+      if (erstes) { erstes.focus(); return; }
+
+      var btn = form.querySelector('button[type=submit]');
+      var data = new URLSearchParams(new FormData(form));
+      if (data.get('website')) { location.href = DANKE; return; } // Honeypot
+      data.delete('website');
+      data.set('consent', form.querySelector('[name=consent]').checked ? 'ja' : 'nein');
+      
+      btn.disabled = true;
+      btn.textContent = 'Wird gesendet …';
+      // urlencoded = einfache Anfrage ohne CORS-Preflight, Zapier liest die Felder einzeln
+      fetch(FORM_ENDPOINT, { method: 'POST', body: data })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Status ' + r.status);
+          if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: 'praxiswaesche' });
+          location.href = DANKE;
+        })
+        .catch(function () {
+          err.hidden = false;
+          btn.disabled = false;
+          btn.textContent = 'Leitfaden kostenlos erhalten';
+        });
+    });
+  })();
+  </script>
+  <script src="/zenday.js?v=0.3" defer></script>
+</body>
+</html>

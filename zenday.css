@@ -1,0 +1,732 @@
+/* ==========================================================================
+   zenday.css — Basis-Stylesheet für zenday-Webseiten und Landingpages
+   Version: 0.2.1 (Prototyp) · Stand: 2026-11-06
+   Breakpoints (mobile first):
+     Handy   < 640 px   eine Spalte, Menü als Klappmenü
+     Tablet  ≥ 640 px   zwei Spalten, Menü weiter als Klappmenü
+     Desktop ≥ 1024 px  volle Navigation, mehrspaltige Layouts
+   Änderungen 0.2: Handy-Menü, feste Raster-Breakpoints, Touch-Flächen
+     ≥ 44 px, Sprungziele unter dem Sticky-Header, mobile CTA-Leiste
+   Einbinden:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="/zenday.css">
+   Aufbau:
+     1. Design-Tokens        6. Buttons            11. FAQ
+     2. Reset                7. Badges & Pills     12. Hinweise
+     3. Basis-Typografie     8. Karten & Schritte  13. Header & Footer
+     4. Layout               9. Hero              14. Utilities
+     5. Sektionen           10. Formulare         15. Barrierefreiheit
+   Konvention: Alle Klassen beginnen mit "zd-", alle Variablen mit "--zd-".
+   ========================================================================== */
+
+
+/* 1. DESIGN-TOKENS ======================================================== */
+:root {
+  /* Basisfarben */
+  --zd-anthrazit: #2B2F38;
+  --zd-grund: #F7F8FB;
+  --zd-weiss: #FFFFFF;
+
+  /* Akzente aus dem Logo-Verlauf */
+  --zd-gelb: #FFD23F;
+  --zd-koralle: #FF7A59;
+  --zd-magenta: #F0508C;
+  --zd-violett: #9B5CF6;
+  --zd-blau: #3B82F6;
+  --zd-tuerkis: #4FD8D0;
+
+  /* Abgeleitete Farben */
+  --zd-text: rgba(43, 47, 56, 0.85);        /* Fließtext: Anthrazit 85 % */
+  --zd-text-leise: rgba(43, 47, 56, 0.62);  /* Hilfstexte, Meta */
+  --zd-linie: rgba(43, 47, 56, 0.10);
+  --zd-linie-stark: rgba(43, 47, 56, 0.20);
+  --zd-blau-tief: #1D5FD1;                  /* Linkfarbe mit AA-Kontrast */
+  --zd-blau-hell: #EAF2FE;
+  --zd-violett-hell: #F3ECFE;
+  --zd-tuerkis-hell: #E5F9F7;
+  --zd-gelb-hell: #FFF7D9;
+  --zd-koralle-hell: #FFEEE9;
+
+  /* Signaturverlauf: Gelb → Magenta → Violett → Blau (nur als Akzent) */
+  --zd-verlauf: linear-gradient(100deg, var(--zd-gelb) 0%, var(--zd-magenta) 38%, var(--zd-violett) 70%, var(--zd-blau) 100%);
+  /* Button-Verlauf: dieselben Stopps, 30 % aufgehellt → Anthrazit-Text erreicht WCAG AA */
+  --zd-verlauf-button: linear-gradient(100deg, #FFE079 0%, #F585AF 38%, #B98DF9 70%, #76A8F8 100%);
+  --zd-verlauf-zart: linear-gradient(135deg, var(--zd-gelb-hell) 0%, #FDEAF2 40%, var(--zd-violett-hell) 70%, var(--zd-blau-hell) 100%);
+
+  /* Typografie */
+  --zd-font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --zd-fs-xs: 0.8125rem;   /* 13 px */
+  --zd-fs-s: 0.9375rem;    /* 15 px */
+  --zd-fs-m: 1.0625rem;    /* 17 px Fließtext */
+  --zd-fs-l: 1.25rem;      /* 20 px Lead */
+  --zd-fs-h4: 1.25rem;
+  --zd-fs-h3: clamp(1.375rem, 1.2rem + 0.6vw, 1.625rem);
+  --zd-fs-h2: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --zd-fs-h1: clamp(2.125rem, 1.6rem + 2.4vw, 3.5rem);
+  --zd-lh-text: 1.6;
+  --zd-lh-titel: 1.15;
+  --zd-zeile: 70ch;
+
+  /* Abstände (4er-Raster) */
+  --zd-s-1: 0.25rem;
+  --zd-s-2: 0.5rem;
+  --zd-s-3: 0.75rem;
+  --zd-s-4: 1rem;
+  --zd-s-5: 1.5rem;
+  --zd-s-6: 2rem;
+  --zd-s-7: 3rem;
+  --zd-s-8: 4rem;
+  --zd-s-9: 6rem;
+  --zd-sektion: clamp(3.5rem, 2rem + 6vw, 7rem);
+
+  /* Formen */
+  --zd-radius-s: 12px;
+  --zd-radius: 20px;
+  --zd-radius-l: 28px;
+  --zd-radius-pill: 999px;
+
+  /* Schatten: weich und flach */
+  --zd-schatten-s: 0 1px 2px rgba(43, 47, 56, 0.06), 0 2px 6px rgba(43, 47, 56, 0.04);
+  --zd-schatten: 0 2px 4px rgba(43, 47, 56, 0.04), 0 8px 24px rgba(43, 47, 56, 0.07);
+  --zd-schatten-l: 0 4px 8px rgba(43, 47, 56, 0.04), 0 18px 48px rgba(43, 47, 56, 0.10);
+
+  /* Layout */
+  --zd-breite: 1160px;
+  --zd-breite-schmal: 760px;
+  --zd-rand: clamp(1rem, 4vw, 2rem);
+  --zd-header-hoehe: 68px;
+
+  /* Bewegung */
+  --zd-dauer: 180ms;
+  --zd-kurve: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+
+/* 2. RESET ================================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--zd-header-hoehe) + 16px); }
+body { min-height: 100vh; -webkit-font-smoothing: antialiased; }
+img, picture, svg, video { display: block; max-width: 100%; height: auto; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+
+
+/* 3. BASIS-TYPOGRAFIE ===================================================== */
+body {
+  font-family: var(--zd-font);
+  font-size: var(--zd-fs-m);
+  line-height: var(--zd-lh-text);
+  color: var(--zd-text);
+  background: var(--zd-grund);
+}
+
+h1, h2, h3, h4, .zd-h1, .zd-h2, .zd-h3, .zd-h4 {
+  font-weight: 700;
+  line-height: var(--zd-lh-titel);
+  color: var(--zd-anthrazit);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+h1, .zd-h1 { font-size: var(--zd-fs-h1); letter-spacing: -0.025em; }
+h2, .zd-h2 { font-size: var(--zd-fs-h2); letter-spacing: -0.02em; }
+h3, .zd-h3 { font-size: var(--zd-fs-h3); }
+h4, .zd-h4 { font-size: var(--zd-fs-h4); }
+
+p { max-width: var(--zd-zeile); text-wrap: pretty; }
+strong, b { font-weight: 600; color: var(--zd-anthrazit); }
+
+a { color: var(--zd-blau-tief); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+
+ul, ol { padding-left: 1.25em; }
+li + li { margin-top: var(--zd-s-2); }
+
+hr { border: 0; height: 1px; background: var(--zd-linie); margin: var(--zd-s-6) 0; }
+
+.zd-lead { font-size: var(--zd-fs-l); line-height: 1.5; color: var(--zd-text); }
+.zd-klein { font-size: var(--zd-fs-s); }
+.zd-leise { color: var(--zd-text-leise); }
+
+/* Kleine Überzeile über Überschriften */
+.zd-eyebrow {
+  display: inline-block;
+  font-size: var(--zd-fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--zd-violett);
+  margin-bottom: var(--zd-s-3);
+}
+
+/* Text im Signaturverlauf: nur für einzelne Wörter in großen Überschriften */
+.zd-text-verlauf {
+  background: var(--zd-verlauf);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fließtext-Container mit automatischen Abständen */
+.zd-prosa > * + * { margin-top: var(--zd-s-4); }
+.zd-prosa > * + :is(h2, h3, h4) { margin-top: var(--zd-s-6); }
+
+
+/* 4. LAYOUT =============================================================== */
+.zd-container {
+  width: 100%;
+  max-width: calc(var(--zd-breite) + 2 * var(--zd-rand));
+  margin-inline: auto;
+  padding-inline: var(--zd-rand);
+}
+.zd-container--schmal { max-width: calc(var(--zd-breite-schmal) + 2 * var(--zd-rand)); }
+
+/* Stapel: vertikale Abstände zwischen Kindern */
+.zd-stack { display: flex; flex-direction: column; gap: var(--zd-s-4); }
+.zd-stack--eng { gap: var(--zd-s-2); }
+/* Badges und Überzeilen im Stapel nicht auf volle Breite ziehen */
+.zd-stack > :is(.zd-badge, .zd-eyebrow) { align-self: flex-start; }
+.zd-mitte > .zd-stack > :is(.zd-badge, .zd-eyebrow), .zd-stack.zd-mitte > :is(.zd-badge, .zd-eyebrow) { align-self: center; }
+.zd-stack--weit { gap: var(--zd-s-6); }
+
+/* Reihe: Elemente nebeneinander, bricht um */
+.zd-reihe { display: flex; flex-wrap: wrap; align-items: center; gap: var(--zd-s-3); }
+.zd-reihe--zwischen { justify-content: space-between; }
+.zd-reihe--mitte { justify-content: center; }
+
+/* Raster: passt Spaltenzahl automatisch an */
+.zd-grid { display: grid; gap: var(--zd-s-5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.zd-grid--2, .zd-grid--3, .zd-grid--4 { grid-template-columns: 1fr; }
+.zd-grid--4.zd-grid--kompakt { grid-template-columns: repeat(2, 1fr); }  /* z. B. Kennzahlen: auf dem Handy 2 × 2 */
+@media (min-width: 640px) {
+  .zd-grid--2, .zd-grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 720px) {
+  .zd-grid--3 { grid-template-columns: repeat(3, 1fr); gap: var(--zd-s-4); }
+}
+@media (min-width: 1024px) {
+  .zd-grid--3 { gap: var(--zd-s-5); }
+  .zd-grid--4, .zd-grid--4.zd-grid--kompakt { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Zweispalter: Text + Bild/Formular */
+.zd-split { display: grid; gap: var(--zd-s-7); align-items: center; }
+@media (min-width: 960px) {
+  .zd-split { grid-template-columns: 1fr 1fr; }
+  .zd-split--text-breit { grid-template-columns: 1.2fr 1fr; }
+}
+
+
+/* 5. SEKTIONEN ============================================================ */
+.zd-sektion { padding-block: var(--zd-sektion); position: relative; }
+.zd-sektion--weiss { background: var(--zd-weiss); }
+.zd-sektion--zart { background: var(--zd-verlauf-zart); }
+.zd-sektion--dunkel { background: var(--zd-anthrazit); color: rgba(255, 255, 255, 0.82); }
+.zd-sektion--dunkel :is(h1, h2, h3, h4, strong) { color: var(--zd-weiss); }
+.zd-sektion--dunkel a:not(.zd-btn) { color: #9CC3FF; }
+
+/* Kopf einer Sektion: Überzeile, Titel, Einleitung */
+.zd-sektion-kopf { max-width: 720px; margin-bottom: var(--zd-s-7); }
+.zd-sektion-kopf > * + * { margin-top: var(--zd-s-3); }
+.zd-sektion-kopf--mitte { margin-inline: auto; text-align: center; }
+.zd-sektion-kopf--mitte p { margin-inline: auto; }
+
+
+/* 6. BUTTONS ============================================================== */
+.zd-btn {
+  --_hoehe: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--zd-s-2);
+  min-height: var(--_hoehe);
+  padding: 0 1.75rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--zd-radius-pill);
+  font-size: var(--zd-fs-m);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--zd-dauer) var(--zd-kurve), box-shadow var(--zd-dauer) var(--zd-kurve), background-color var(--zd-dauer), border-color var(--zd-dauer);
+}
+.zd-btn:hover { text-decoration: none; }
+.zd-btn svg { width: 1.15em; height: 1.15em; flex: none; }
+
+/* Hauptbutton: einer pro Ansicht */
+.zd-btn--primaer {
+  background: var(--zd-verlauf-button);
+  color: var(--zd-anthrazit);
+  box-shadow: 0 6px 18px rgba(155, 92, 246, 0.22);
+}
+.zd-btn--primaer:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(155, 92, 246, 0.30); }
+.zd-btn--primaer:active { transform: translateY(0); }
+
+.zd-btn--sekundaer {
+  background: var(--zd-weiss);
+  color: var(--zd-anthrazit);
+  border-color: var(--zd-linie-stark);
+}
+.zd-btn--sekundaer:hover { border-color: var(--zd-anthrazit); }
+
+.zd-btn--dunkel { background: var(--zd-anthrazit); color: var(--zd-weiss); }
+.zd-btn--dunkel:hover { background: #1E2129; }
+
+.zd-btn--link {
+  min-height: 44px; padding: 0; border: 0; background: none;
+  color: var(--zd-blau-tief);
+}
+.zd-btn--link:hover { text-decoration: underline; }
+
+.zd-btn--klein { --_hoehe: 44px; padding: 0 1.25rem; font-size: var(--zd-fs-s); }
+.zd-btn--gross { --_hoehe: 60px; padding: 0 2.25rem; font-size: 1.125rem; }
+.zd-btn--voll { width: 100%; }
+
+/* Auf dem Handy: Button-Gruppen untereinander und volle Breite */
+@media (max-width: 479px) {
+  .zd-reihe--stapeln { flex-direction: column; align-items: stretch; }
+  .zd-reihe--stapeln > .zd-btn { width: 100%; }
+  .zd-btn--gross { --_hoehe: 56px; padding: 0 1.5rem; font-size: var(--zd-fs-m); }
+  .zd-btn { white-space: normal; text-align: center; }
+}
+.zd-btn:disabled, .zd-btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+
+/* 7. BADGES & PILLS ======================================================= */
+.zd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.3em 0.85em;
+  border-radius: var(--zd-radius-pill);
+  font-size: var(--zd-fs-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  background: var(--zd-weiss);
+  color: var(--zd-anthrazit);
+  border: 1px solid var(--zd-linie);
+}
+.zd-badge--blau { background: var(--zd-blau-hell); border-color: transparent; color: #1A4FA8; }
+.zd-badge--violett { background: var(--zd-violett-hell); border-color: transparent; color: #6233B8; }
+.zd-badge--tuerkis { background: var(--zd-tuerkis-hell); border-color: transparent; color: #0F6E68; }
+.zd-badge--gelb { background: var(--zd-gelb-hell); border-color: transparent; color: #7A5A00; }
+.zd-badge--koralle { background: var(--zd-koralle-hell); border-color: transparent; color: #A33A1E; }
+
+/* Punkt vor dem Badge-Text */
+.zd-badge--punkt::before {
+  content: ""; width: 0.5em; height: 0.5em; border-radius: 50%;
+  background: currentColor;
+}
+
+
+/* 8. KARTEN & SCHRITTE ==================================================== */
+.zd-karte {
+  background: var(--zd-weiss);
+  border-radius: var(--zd-radius);
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+  box-shadow: var(--zd-schatten-s);
+  border: 1px solid var(--zd-linie);
+}
+.zd-karte > * + * { margin-top: var(--zd-s-3); }
+.zd-karte--gross { border-radius: var(--zd-radius-l); box-shadow: var(--zd-schatten); }
+.zd-karte--link { display: block; color: inherit; text-decoration: none; transition: transform var(--zd-dauer) var(--zd-kurve), box-shadow var(--zd-dauer) var(--zd-kurve); }
+.zd-karte--link:hover { transform: translateY(-2px); box-shadow: var(--zd-schatten); text-decoration: none; }
+
+/* Karte mit Verlaufskante oben: für hervorgehobene Angebote */
+.zd-karte--akzent { position: relative; overflow: hidden; }
+.zd-karte--akzent::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+  background: var(--zd-verlauf);
+}
+
+/* Icon-Feld in Karten (Linien-Icons, 2 px) */
+.zd-icon {
+  display: inline-grid; place-items: center;
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: var(--zd-blau-hell);
+  color: var(--zd-blau);
+}
+.zd-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.zd-icon--violett { background: var(--zd-violett-hell); color: var(--zd-violett); }
+.zd-icon--tuerkis { background: var(--zd-tuerkis-hell); color: #1FAFA6; }
+.zd-icon--gelb { background: var(--zd-gelb-hell); color: #C99A00; }
+.zd-icon--koralle { background: var(--zd-koralle-hell); color: var(--zd-koralle); }
+
+/* Nummerierte Schritt-Karten: <ol class="zd-schritte"><li class="zd-schritt"> */
+.zd-schritte {
+  list-style: none; padding: 0;
+  display: grid; gap: var(--zd-s-5);
+  grid-template-columns: 1fr;
+  counter-reset: zd-schritt;
+}
+.zd-schritt {
+  counter-increment: zd-schritt;
+  margin: 0;
+  background: var(--zd-weiss);
+  border: 1px solid var(--zd-linie);
+  border-radius: var(--zd-radius);
+  padding: var(--zd-s-6) var(--zd-s-5) var(--zd-s-5);
+  box-shadow: var(--zd-schatten-s);
+}
+.zd-schritt + .zd-schritt { margin-top: 0; }
+@media (min-width: 720px) {
+  .zd-schritte { grid-template-columns: repeat(var(--zd-schritte-spalten, 3), 1fr); gap: var(--zd-s-4); }
+}
+@media (max-width: 719px) {
+  /* Auf dem Handy: Nummer links neben dem Text, spart Höhe */
+  .zd-schritt { display: grid; grid-template-columns: 40px 1fr; column-gap: var(--zd-s-4); padding: var(--zd-s-5); }
+  .zd-schritt::before { grid-row: span 2; margin-bottom: 0; }
+}
+.zd-schritt::before {
+  content: counter(zd-schritt);
+  display: inline-grid; place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--zd-verlauf-button);
+  color: var(--zd-anthrazit);
+  font-weight: 700;
+  margin-bottom: var(--zd-s-4);
+}
+.zd-schritt h3, .zd-schritt h4 { font-size: var(--zd-fs-h4); margin-bottom: var(--zd-s-2); }
+
+/* Checkliste mit Haken */
+.zd-checkliste { list-style: none; padding: 0; }
+.zd-checkliste li { position: relative; padding-left: 2rem; }
+.zd-checkliste li::before {
+  content: ""; position: absolute; left: 0; top: 0.2em;
+  width: 1.3rem; height: 1.3rem; border-radius: 50%;
+  background: var(--zd-tuerkis-hell) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231FAFA6' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 0.8rem no-repeat;
+}
+
+/* Kennzahl */
+.zd-kennzahl { display: flex; flex-direction: column; gap: var(--zd-s-1); }
+.zd-kennzahl__wert { font-size: clamp(2rem, 1.5rem + 2vw, 3rem); font-weight: 700; line-height: 1; color: var(--zd-anthrazit); letter-spacing: -0.02em; }
+.zd-kennzahl__label { font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+
+/* Zitat / Kundenstimme */
+.zd-zitat { background: var(--zd-weiss); border-radius: var(--zd-radius); padding: var(--zd-s-6); border: 1px solid var(--zd-linie); }
+.zd-zitat blockquote { font-size: var(--zd-fs-l); line-height: 1.5; color: var(--zd-anthrazit); }
+.zd-zitat figcaption { margin-top: var(--zd-s-4); font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+.zd-zitat figcaption strong { display: block; color: var(--zd-anthrazit); }
+
+
+/* 9. HERO ================================================================= */
+.zd-hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(4rem, 2.5rem + 6vw, 8rem) clamp(3.5rem, 2rem + 5vw, 6.5rem);
+  isolation: isolate;
+}
+.zd-hero > .zd-container > * + * { margin-top: var(--zd-s-5); }
+.zd-hero h1 { max-width: 16ch; }
+.zd-hero .zd-lead { max-width: 56ch; }
+
+/* Schwingende Ellipsen aus dem Z als Hintergrundgeste */
+.zd-hero--ellipse::before,
+.zd-hero--ellipse::after {
+  content: ""; position: absolute; z-index: -1;
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.zd-hero--ellipse::before {
+  width: min(900px, 120vw); height: min(420px, 60vw);
+  right: -18%; top: -12%;
+  background: var(--zd-verlauf);
+  opacity: 0.16;
+  transform: rotate(-14deg);
+}
+.zd-hero--ellipse::after {
+  width: min(620px, 90vw); height: min(260px, 40vw);
+  right: -6%; top: 18%;
+  border: 2px solid rgba(155, 92, 246, 0.25);
+  transform: rotate(-14deg);
+}
+@media (max-width: 639px) {
+  .zd-hero--ellipse::before { right: -60%; top: -6%; opacity: 0.12; }
+  .zd-hero--ellipse::after { display: none; }
+  .zd-hero > .zd-container > * + * { margin-top: var(--zd-s-4); }
+}
+.zd-hero--mitte { text-align: center; }
+.zd-hero--mitte h1, .zd-hero--mitte .zd-lead { margin-inline: auto; }
+.zd-hero--mitte .zd-reihe { justify-content: center; }
+
+/* Vertrauenszeile unter dem Hero-Button */
+.zd-vertrauen { display: flex; flex-wrap: wrap; gap: var(--zd-s-2) var(--zd-s-5); font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+.zd-vertrauen span { display: inline-flex; align-items: center; gap: 0.45em; }
+.zd-vertrauen span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--zd-tuerkis); }
+
+
+/* 10. FORMULARE =========================================================== */
+.zd-formular { display: grid; gap: var(--zd-s-4); }
+.zd-feld { display: grid; gap: var(--zd-s-2); }
+.zd-feld label, .zd-label { font-size: var(--zd-fs-s); font-weight: 600; color: var(--zd-anthrazit); }
+.zd-pflicht { color: var(--zd-koralle); margin-left: 0.15em; }
+
+.zd-input, .zd-select, .zd-textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.75rem 1rem;
+  background: var(--zd-weiss);
+  border: 1.5px solid var(--zd-linie-stark);
+  border-radius: var(--zd-radius-s);
+  color: var(--zd-anthrazit);
+  font-size: 1rem;   /* 16 px verhindert Zoom auf iOS */
+  transition: border-color var(--zd-dauer), box-shadow var(--zd-dauer);
+}
+.zd-textarea { min-height: 120px; resize: vertical; }
+.zd-input::placeholder, .zd-textarea::placeholder { color: rgba(43, 47, 56, 0.40); }
+.zd-input:hover, .zd-select:hover, .zd-textarea:hover { border-color: rgba(43, 47, 56, 0.35); }
+.zd-input:focus, .zd-select:focus, .zd-textarea:focus {
+  outline: none;
+  border-color: var(--zd-blau);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
+}
+.zd-select {
+  appearance: none;
+  padding-right: 2.75rem;
+  background: var(--zd-weiss) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B2F38' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 1rem center / 18px no-repeat;
+}
+
+/* Fehlerzustand: aria-invalid="true" am Feld setzen */
+.zd-input[aria-invalid="true"], .zd-select[aria-invalid="true"], .zd-textarea[aria-invalid="true"] { border-color: var(--zd-koralle); }
+.zd-feld__hilfe { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+.zd-feld__fehler { font-size: var(--zd-fs-xs); color: #B23A1C; font-weight: 600; }
+
+/* Checkbox (Einwilligung) */
+.zd-check { display: flex; gap: var(--zd-s-3); align-items: flex-start; font-size: var(--zd-fs-s); line-height: 1.5; cursor: pointer; }
+.zd-check input {
+  appearance: none; flex: none;
+  width: 22px; height: 22px; margin-top: 1px;
+  border: 1.5px solid var(--zd-linie-stark);
+  border-radius: 6px;
+  background: var(--zd-weiss);
+  display: grid; place-items: center;
+  transition: background var(--zd-dauer), border-color var(--zd-dauer);
+}
+.zd-check input::after {
+  content: ""; width: 12px; height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0;
+}
+.zd-check input:checked { background: var(--zd-blau); border-color: var(--zd-blau); }
+.zd-check input:checked::after { opacity: 1; }
+.zd-check input:focus-visible { outline: 3px solid rgba(59, 130, 246, 0.35); outline-offset: 2px; }
+
+/* Formular-Box: Formular in weißer Karte, z. B. neben dem Hero */
+.zd-formular-box {
+  background: var(--zd-weiss);
+  border-radius: var(--zd-radius-l);
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  box-shadow: var(--zd-schatten-l);
+  border: 1px solid var(--zd-linie);
+}
+.zd-formular-box > h2, .zd-formular-box > h3 { font-size: var(--zd-fs-h3); margin-bottom: var(--zd-s-2); }
+.zd-formular-box > p { margin-bottom: var(--zd-s-5); }
+
+
+/* 11. FAQ (details/summary, ohne JavaScript) ============================== */
+.zd-faq { display: grid; gap: var(--zd-s-3); }
+.zd-faq details {
+  background: var(--zd-weiss);
+  border: 1px solid var(--zd-linie);
+  border-radius: var(--zd-radius-s);
+  padding: 0 var(--zd-s-5);
+  transition: box-shadow var(--zd-dauer);
+}
+.zd-faq details[open] { box-shadow: var(--zd-schatten-s); }
+.zd-faq summary {
+  list-style: none; min-height: 56px;
+  display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-4);
+  padding: var(--zd-s-5) 0;
+  font-weight: 600;
+  color: var(--zd-anthrazit);
+  cursor: pointer;
+}
+.zd-faq summary::-webkit-details-marker { display: none; }
+.zd-faq summary::after {
+  content: ""; flex: none;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--zd-grund) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B2F38' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 14px no-repeat;
+  transition: transform var(--zd-dauer) var(--zd-kurve);
+}
+.zd-faq details[open] summary::after { transform: rotate(45deg); }
+.zd-faq details > div, .zd-faq details > p { padding-bottom: var(--zd-s-5); }
+
+
+/* 12. HINWEISE ============================================================ */
+.zd-hinweis {
+  display: flex; gap: var(--zd-s-3);
+  padding: var(--zd-s-4) var(--zd-s-5);
+  border-radius: var(--zd-radius-s);
+  background: var(--zd-blau-hell);
+  font-size: var(--zd-fs-s);
+  color: var(--zd-anthrazit);
+}
+.zd-hinweis--erfolg { background: var(--zd-tuerkis-hell); }
+.zd-hinweis--warnung { background: var(--zd-koralle-hell); }
+.zd-hinweis--info { background: var(--zd-gelb-hell); }
+
+
+/* 13. HEADER & FOOTER ===================================================== */
+.zd-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(247, 248, 251, 0.85);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid var(--zd-linie);
+}
+/* Aufbau:
+   <header class="zd-header"><div class="zd-container zd-header__innen">
+     <a class="zd-wortmarke">…</a>
+     <nav class="zd-nav"><a>…</a></nav>                 ← nur Desktop
+     <div class="zd-header__aktionen">
+       <a class="zd-btn …">Demo buchen</a>
+       <details class="zd-menue"><summary>…</summary>     ← nur Handy/Tablet
+         <div class="zd-menue__panel"><a>…</a></div></details>
+     </div></div></header>                                                */
+.zd-header__innen { display: flex; align-items: center; justify-content: space-between; gap: var(--zd-s-4); min-height: var(--zd-header-hoehe); }
+.zd-header__aktionen { display: flex; align-items: center; gap: var(--zd-s-2); }
+
+.zd-nav { display: none; gap: var(--zd-s-1); align-items: center; }
+.zd-nav a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--zd-s-3);
+  border-radius: var(--zd-radius-pill);
+  color: var(--zd-anthrazit); text-decoration: none; font-size: var(--zd-fs-s); font-weight: 500;
+  transition: background var(--zd-dauer);
+}
+.zd-nav a:hover { background: rgba(43, 47, 56, 0.05); }
+.zd-nav a[aria-current="page"] { background: var(--zd-weiss); box-shadow: var(--zd-schatten-s); font-weight: 600; }
+
+/* Klappmenü für Handy und Tablet, funktioniert ohne JavaScript */
+.zd-menue { position: static; }
+.zd-menue > summary {
+  list-style: none; cursor: pointer;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--zd-weiss); border: 1px solid var(--zd-linie);
+  color: var(--zd-anthrazit);
+}
+.zd-menue > summary::-webkit-details-marker { display: none; }
+.zd-menue > summary svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+.zd-menue > summary .zd-menue__zu { display: none; }
+.zd-menue[open] > summary .zd-menue__auf { display: none; }
+.zd-menue[open] > summary .zd-menue__zu { display: block; }
+.zd-menue__panel {
+  position: absolute; left: 0; right: 0; top: 100%;
+  max-height: calc(100dvh - var(--zd-header-hoehe)); overflow-y: auto;
+  background: var(--zd-weiss);
+  border-bottom: 1px solid var(--zd-linie);
+  box-shadow: 0 18px 40px rgba(43, 47, 56, 0.12);
+  padding: var(--zd-s-3) var(--zd-rand) calc(var(--zd-s-5) + env(safe-area-inset-bottom));
+  display: grid; gap: var(--zd-s-1);
+  animation: zd-einblenden var(--zd-dauer) var(--zd-kurve);
+}
+.zd-menue__panel a:not(.zd-btn) {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 52px; padding: 0 var(--zd-s-3);
+  border-radius: var(--zd-radius-s);
+  color: var(--zd-anthrazit); text-decoration: none; font-weight: 500; font-size: var(--zd-fs-m);
+}
+.zd-menue__panel a:not(.zd-btn)::after { content: "›"; font-size: 1.4em; color: var(--zd-text-leise); }
+.zd-menue__panel a:not(.zd-btn):hover, .zd-menue__panel a[aria-current="page"] { background: var(--zd-grund); }
+.zd-menue__panel .zd-btn { margin-top: var(--zd-s-3); }
+@keyframes zd-einblenden { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* Header-Button auf kleinen Handys ausblenden, er steckt dann im Menü */
+@media (max-width: 479px) { .zd-header__aktionen > .zd-btn { display: none; } }
+
+@media (min-width: 1024px) {
+  .zd-nav { display: flex; }
+  .zd-menue { display: none; }
+}
+
+/* Mobile CTA-Leiste: fest am unteren Rand, nur Handy und Tablet.
+   Bei Verwendung <body class="zd-mit-cta-leiste"> setzen. */
+.zd-cta-leiste {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  padding: var(--zd-s-3) var(--zd-rand) calc(var(--zd-s-3) + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--zd-linie);
+}
+.zd-cta-leiste .zd-btn { width: 100%; }
+.zd-mit-cta-leiste { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+@media (min-width: 1024px) {
+  .zd-cta-leiste { display: none; }
+  .zd-mit-cta-leiste { padding-bottom: 0; }
+}
+
+/* Wortmarke als Text: "zen" fett, "day" leicht */
+.zd-wortmarke { display: inline-flex; align-items: center; min-height: 44px; font-size: 1.5rem; color: var(--zd-anthrazit); text-decoration: none; letter-spacing: -0.02em; line-height: 1; }
+.zd-wortmarke b { font-weight: 700; color: inherit; }
+.zd-wortmarke span { font-weight: 400; }
+.zd-wortmarke:hover { text-decoration: none; }
+.zd-sektion--dunkel .zd-wortmarke, .zd-footer .zd-wortmarke { color: var(--zd-weiss); }
+
+.zd-footer {
+  background: var(--zd-anthrazit);
+  color: rgba(255, 255, 255, 0.70);
+  padding-block: var(--zd-s-8) var(--zd-s-6);
+  font-size: var(--zd-fs-s);
+}
+.zd-footer a:not(.zd-btn):not(.zd-wortmarke) { color: rgba(255, 255, 255, 0.85); text-decoration: none; }
+.zd-footer a:hover { color: var(--zd-weiss); text-decoration: underline; }
+.zd-footer__unten {
+  margin-top: var(--zd-s-7); padding-top: var(--zd-s-5);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--zd-s-3);
+  font-size: var(--zd-fs-xs);
+}
+.zd-footer__links { display: flex; flex-wrap: wrap; gap: var(--zd-s-4); list-style: none; padding: 0; }
+.zd-footer__links li + li { margin-top: 0; }
+.zd-footer a:not(.zd-wortmarke) { display: inline-flex; align-items: center; min-height: 32px; }
+@media (max-width: 639px) {
+  .zd-footer__unten { flex-direction: column; }
+}
+
+
+/* 14. UTILITIES =========================================================== */
+.zd-mitte { text-align: center; }
+.zd-mitte p { margin-inline: auto; }
+.zd-mt-0 { margin-top: 0 !important; }
+.zd-mt-4 { margin-top: var(--zd-s-4) !important; }
+.zd-mt-6 { margin-top: var(--zd-s-6) !important; }
+.zd-mt-8 { margin-top: var(--zd-s-8) !important; }
+.zd-mb-6 { margin-bottom: var(--zd-s-6) !important; }
+.zd-volle-breite { width: 100%; }
+.zd-trenner-ellipse {
+  height: 40px; margin-block: var(--zd-s-6);
+  background: radial-gradient(ellipse 50% 2px at center, rgba(155, 92, 246, 0.45), transparent 70%);
+}
+.zd-bild { border-radius: var(--zd-radius-l); overflow: hidden; box-shadow: var(--zd-schatten); }
+.zd-bild img { width: 100%; height: 100%; object-fit: cover; }
+
+
+/* 15. BARRIEREFREIHEIT ==================================================== */
+:focus-visible { outline: 3px solid rgba(59, 130, 246, 0.55); outline-offset: 3px; border-radius: 4px; }
+.zd-btn:focus-visible { outline-offset: 3px; border-radius: var(--zd-radius-pill); }
+
+.zd-sr-only {
+  position: absolute !important; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+.zd-skip-link { position: absolute; left: var(--zd-s-4); top: -100px; z-index: 100; background: var(--zd-anthrazit); color: var(--zd-weiss); padding: var(--zd-s-2) var(--zd-s-4); border-radius: var(--zd-radius-s); }
+.zd-skip-link:focus { top: var(--zd-s-4); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+@media print {
+  .zd-header, .zd-footer, .zd-btn { display: none !important; }
+  body { background: #fff; }
+  .zd-karte, .zd-schritt { box-shadow: none; break-inside: avoid; }
+}

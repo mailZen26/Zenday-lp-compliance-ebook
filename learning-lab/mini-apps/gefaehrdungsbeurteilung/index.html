@@ -367,8 +367,8 @@
           '<h3>' + esc(r.title) + '</h3>' +
           '<p class="zd-klein zdgb-erl"><strong>' + (r.kind === 'clar' ? 'Was zu klären ist: ' : 'Worum es geht: ') + '</strong>' + esc(r.e) + '</p>' +
           '<p class="zdgb-label">Zu ergreifende Maßnahmen</p>' +
-          '<p class="zd-klein zd-leise zdgb-basis">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
           '<ul class="zdgb-meas">' + r.m.map(function (x) { return '<li><span class="zd-badge zd-badge--violett">' + TOP[x[0]] + '</span><span>' + esc(x[1]) + '</span></li>'; }).join('') + '</ul>' +
+          '<p class="zd-klein zd-leise zdgb-basis">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
           '<div class="zdgb-grid zdgb-meta">' +
             '<label class="zd-feld"><span class="zdgb-lbl">Verantwortlich</span><input class="zd-input" type="text" data-meta="' + i + '" data-k="who" value="' + esc((st.meta[i] || {}).who || '') + '" placeholder="Name oder Funktion"></label>' +
             '<label class="zd-feld"><span class="zdgb-lbl">Überprüfen bis</span><input class="zd-input" type="date" data-meta="' + i + '" data-k="due" value="' + esc((st.meta[i] || {}).due || '') + '"></label>' +

@@ -1,554 +1,493 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>zenday KI Teamassistenz – Warteliste</title>
-<meta name="description" content="Ihr Team fragt die KI – nicht mehr Sie. Antworten zu QM, Hygiene, Geräten und Gefahrstoffen aus den Dokumenten Ihrer Praxis. Jetzt in die Warteliste eintragen.">
-<meta property="og:title" content="Ihr Team fragt die KI – nicht mehr Sie.">
-<meta property="og:description" content="zenday KI Teamassistenz für Zahnarztpraxen: Die ersten 50 Praxen erhalten 10 % Rabatt und 1 Monat Pre-Launch-Zugang.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://zen-day.ai/ki-teamassistenz">
-<!-- OG-Bild ergänzen: <meta property="og:image" content="https://zen-day.ai/ki-teamassistenz/assets/og.jpg"> -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#2B2F38; --ink-85:rgba(43,47,56,.85); --ink-60:rgba(43,47,56,.6);
-  --bg:#F7F8FB; --card:#FFFFFF; --line:#E6E8EF;
-  --yellow:#FFD23F; --coral:#FF7A59; --magenta:#F0508C; --violet:#9B5CF6; --blue:#3B82F6; --teal:#4FD8D0;
-  --grad:linear-gradient(100deg,var(--yellow) 0%,var(--magenta) 55%,var(--violet) 100%);
-  --r:24px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:"DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-p,li{color:var(--ink-85)}
-a{color:var(--blue)}
-h1,h2,h3{line-height:1.15;font-weight:700;color:var(--ink)}
-h1{font-size:clamp(2.1rem,5.2vw,3.4rem);letter-spacing:-.02em}
-h2{font-size:clamp(1.6rem,3.6vw,2.3rem);letter-spacing:-.01em}
-h3{font-size:1.2rem}
-strong{color:var(--ink);font-weight:700}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.narrow{max-width:720px}
-section{padding:72px 0}
-.eyebrow{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-60);margin-bottom:16px}
-.pill{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--violet)}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>zenday KI Teamassistenz – Warteliste</title>
+  <meta name="description" content="Ihr Team fragt die KI – nicht mehr Sie. Antworten zu QM, Hygiene, Geräten und Gefahrstoffen aus den Dokumenten Ihrer Praxis. Jetzt in die Warteliste eintragen.">
+  <meta property="og:title" content="Ihr Team fragt die KI – nicht mehr Sie.">
+  <meta property="og:description" content="zenday KI Teamassistenz für Zahnarztpraxen: Die ersten 50 Praxen erhalten 10 % Rabatt und 1 Monat Pre-Launch-Zugang.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:url" content="https://zen-day.ai/ki-teamassistenz">
+  <!-- OG-Bild ergänzen: <meta property="og:image" content="https://zen-day.ai/ki-teamassistenz/assets/og.jpg"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+  <style>
+    /* Seitenspezifisch: nur var(--zd-…) */
+    .zd-hinweis[hidden] { display: none; }
+    .lp-angebot { display: flex; gap: var(--zd-s-4); align-items: flex-start; }
+    .lp-angebot .zd-icon { flex: none; width: 40px; height: 40px; border-radius: var(--zd-radius-s); }
+    .lp-angebot p { margin: 0; }
+    .lp-basis { display: flex; flex-wrap: wrap; align-items: center; gap: var(--zd-s-2); font-size: var(--zd-fs-s); }
+    .lp-basis > span { color: var(--zd-text-leise); font-weight: 600; }
+    .lp-basis a { display: inline-flex; align-items: center; gap: var(--zd-s-1); min-height: 36px; text-decoration: none; }
+    .lp-basis a:hover { border-color: var(--zd-violett); }
+    .lp-neu { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: var(--zd-verlauf-button); color: var(--zd-anthrazit); border-radius: var(--zd-radius-pill); padding: 0.1em 0.6em; }
+    .lp-hinweis-klein { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+    .lp-bruecke { font-size: var(--zd-fs-l); font-style: italic; }
+    .lp-rechnung code { font-family: inherit; font-weight: 700; color: var(--zd-anthrazit); }
 
-/* Header */
-header{padding:22px 0}
-.brand{font-size:1.5rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
-.brand b{font-weight:700}.brand span{font-weight:400}
+    /* Feature-Zeilen: Text + Beispiel, auf Desktop abwechselnd */
+    .lp-feature + .lp-feature { margin-top: var(--zd-s-8); }
+    @media (min-width: 960px) { .lp-feature:nth-of-type(even) > :last-child { order: -1; } }
+    .lp-vorher-nachher { display: grid; gap: var(--zd-s-3); }
+    .lp-vorher-nachher > div { display: flex; gap: var(--zd-s-3); align-items: flex-start; }
+    .lp-vorher-nachher .zd-badge { flex: none; margin-top: 2px; }
+    .lp-vorher-nachher p { margin: 0; }
 
-/* Hero */
-.hero{position:relative;overflow:hidden;padding:24px 0 72px}
-.hero::before{content:"";position:absolute;z-index:0;width:900px;height:520px;right:-280px;top:-160px;border-radius:50%;
-  background:var(--grad);opacity:.16;filter:blur(30px);transform:rotate(-14deg)}
-.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:start}
-.hero h1{margin:6px 0 18px}
-.sub{font-size:1.15rem;max-width:34em}
-.offer{margin-top:24px;background:var(--card);border-radius:20px;padding:18px 20px;border:1px solid var(--line);display:flex;gap:14px;align-items:flex-start}
-.offer .ic{flex:none;width:40px;height:40px;border-radius:12px;background:#FFF6D6;display:grid;place-items:center}
-.offer p{margin:0}
+    /* Chat-Beispiele */
+    .lp-chat { display: grid; gap: var(--zd-s-3); }
+    .lp-blase { max-width: 88%; padding: var(--zd-s-3) var(--zd-s-4); border-radius: var(--zd-radius); font-size: var(--zd-fs-s); line-height: 1.5; }
+    .lp-blase--frage { justify-self: end; background: var(--zd-blau-hell); color: var(--zd-anthrazit); border-bottom-right-radius: 6px; }
+    .lp-blase--antwort { background: var(--zd-grund); border-bottom-left-radius: 6px; }
+    .lp-quelle { display: inline-flex; align-items: center; gap: var(--zd-s-2); margin-top: var(--zd-s-2); font-size: var(--zd-fs-xs); font-weight: 600; color: var(--zd-blau-tief); }
+    .lp-quelle svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .lp-bildschritte { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--zd-s-2); margin-top: var(--zd-s-3); }
+    .lp-bildschritte span { aspect-ratio: 4 / 3; border-radius: var(--zd-radius-s); background: var(--zd-verlauf-zart); display: grid; place-items: center; font-size: var(--zd-fs-xs); font-weight: 600; color: var(--zd-text-leise); }
+    .lp-beispiel { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); text-align: right; }
+    .lp-ablauf { display: grid; gap: var(--zd-s-3); }
+    .lp-ablauf > div { display: flex; gap: var(--zd-s-3); align-items: center; background: var(--zd-grund); border-radius: var(--zd-radius-s); padding: var(--zd-s-3) var(--zd-s-4); font-size: var(--zd-fs-s); }
+    .lp-ablauf .lp-nr { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--zd-verlauf-button); display: grid; place-items: center; font-weight: 700; font-size: var(--zd-fs-xs); color: var(--zd-anthrazit); }
+    .lp-chips { display: flex; flex-wrap: wrap; gap: var(--zd-s-1); margin-top: var(--zd-s-1); }
 
-/* Form card */
-.formcard{background:var(--card);border-radius:28px;padding:28px;box-shadow:0 20px 50px -24px rgba(43,47,56,.25);border:1px solid var(--line)}
-.formcard h2{font-size:1.35rem;margin-bottom:4px}
-.formcard .hint{font-size:.92rem;color:var(--ink-60);margin-bottom:18px}
-label{display:block;font-size:.88rem;font-weight:600;margin:14px 0 6px}
-input[type=text],input[type=email],input[type=tel],select{width:100%;font:inherit;font-size:16px;color:var(--ink);padding:13px 16px;border:1.5px solid var(--line);border-radius:14px;background:#fff;outline:none;transition:border-color .15s}
-input:focus,select:focus{border-color:var(--blue)}
-.check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:.88rem;color:var(--ink-85);font-weight:400}
-.check input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--violet)}
-.btn{display:inline-flex;justify-content:center;align-items:center;width:100%;border:0;cursor:pointer;margin-top:20px;
-  background:var(--grad);color:var(--ink);font:700 19px/1.2 "DM Sans",sans-serif;padding:17px 24px;border-radius:999px;text-decoration:none;transition:transform .15s,box-shadow .15s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -10px rgba(155,92,246,.6)}
-.btn:disabled{opacity:.6;cursor:wait}
-.btn.inline{width:auto;padding:16px 34px}
-.micro{font-size:.82rem;color:var(--ink-60);margin-top:12px;text-align:center}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-#form-error{margin-top:12px;font-size:.9rem;color:#B4321B;background:#FFF0EC;border-radius:12px;padding:10px 14px}
+    /* Vorteile */
+    .lp-vorteil { display: flex; flex-direction: column; gap: var(--zd-s-3); font-weight: 600; color: var(--zd-anthrazit); }
+    .lp-vorteil .zd-icon { width: 40px; height: 40px; border-radius: var(--zd-radius-s); }
 
-/* Trust */
-.trust{padding:0 0 8px}
-.trust ul{list-style:none;display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0}
-.trust li{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink)}
-.trust li b{font-size:1.15rem}
+    /* Module */
+    .lp-modul-kopf { display: flex; justify-content: space-between; align-items: center; }
+    .lp-claim { font-weight: 600; color: var(--zd-anthrazit); }
 
-/* Reframe */
-.reframe p{font-size:1.15rem;margin-top:16px}
+    /* Vorteile Warteliste */
+    .lp-perk { display: flex; gap: var(--zd-s-4); align-items: center; }
+    .lp-perk b { font-size: var(--zd-fs-h3); min-width: 4.5rem; }
 
-/* Situations */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
-.card{background:var(--card);border-radius:var(--r);padding:26px;border:1px solid var(--line)}
-.card svg{margin-bottom:14px}
-.bridge{margin-top:28px;font-size:1.1rem;font-style:italic}
-.calc{margin-top:24px;background:#EEF4FF;border-radius:20px;padding:20px 22px}
-.calc code{font-family:inherit;font-weight:700;color:var(--ink)}
-
-/* Features */
-.feature{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:56px}
-.feature:nth-of-type(even) .media{order:-1}
-.tag{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--violet);margin-bottom:10px}
-.oldnew{margin-top:18px;display:grid;gap:10px}
-.oldnew div{display:flex;gap:12px;align-items:flex-start}
-.oldnew .k{flex:none;font-size:.78rem;font-weight:700;border-radius:999px;padding:3px 10px;margin-top:3px}
-.k.old{background:#F0F1F5;color:var(--ink-60)}.k.new{background:#E8FAF8;color:#1E7F78}
-
-/* Chat mockups */
-.media{background:var(--card);border-radius:28px;padding:22px;border:1px solid var(--line);box-shadow:0 20px 50px -30px rgba(43,47,56,.3)}
-.chat{display:grid;gap:12px}
-.bubble{max-width:88%;padding:12px 16px;border-radius:18px;font-size:.95rem;line-height:1.5}
-.q{justify-self:end;background:#EEF4FF;color:var(--ink);border-bottom-right-radius:6px}
-.a{background:#F7F8FB;color:var(--ink-85);border-bottom-left-radius:6px}
-.a .src{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:.82rem;font-weight:600;color:var(--blue)}
-.steps-img{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.steps-img span{aspect-ratio:4/3;border-radius:10px;background:linear-gradient(135deg,#EEF4FF,#F5EEFF);display:grid;place-items:center;font-size:.75rem;font-weight:600;color:var(--ink-60)}
-.mock-note{font-size:.75rem;color:var(--ink-60);text-align:right;margin-top:10px}
-.gfs{display:grid;gap:10px}
-.gfs .row{display:flex;gap:12px;align-items:center;background:#F7F8FB;border-radius:14px;padding:12px 14px;font-size:.92rem}
-.gfs .n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:.85rem}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
-.chips i{font-style:normal;font-size:.72rem;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 8px}
-
-.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
-.benefits div{background:var(--card);border-radius:20px;padding:20px;border:1px solid var(--line);font-weight:600;color:var(--ink);font-size:.98rem}
-.benefits svg{display:block;margin-bottom:10px}
-
-/* Why now */
-.why{background:var(--card)}
-.why .box{display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center}
-.perks{display:grid;gap:12px}
-.perk{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:16px 18px}
-.perk b{font-size:1.5rem;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;min-width:72px}
-.perk span{font-weight:600;color:var(--ink)}
-
-/* Basis-Chips im Hero */
-.basis{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:18px;font-size:.88rem}
-.basis span{color:var(--ink-60);font-weight:600;margin-right:2px}
-.basis a{text-decoration:none;color:var(--ink);font-weight:600;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;transition:border-color .15s}
-.basis a:hover{border-color:var(--violet)}
-.basis em,.new{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--grad);color:var(--ink);border-radius:999px;padding:2px 8px;margin-left:4px}
-
-/* Fundament-Module */
-.lead{font-size:1.1rem;margin-top:14px;max-width:40em}
-.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
-.module{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:28px}
-.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.mic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center}
-.module h3{font-size:1.4rem}
-.module .claim{margin-top:6px;font-size:1.05rem;font-weight:600;color:var(--ink)}
-.module ul{list-style:none;margin-top:14px;display:grid;gap:10px}
-.module li{position:relative;padding-left:22px;font-size:.98rem}
-.module li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--grad)}
-
-/* Proof */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
-.stat{background:var(--card);border-radius:var(--r);padding:26px;border:1px solid var(--line)}
-.stat b{display:block;font-size:2.2rem;line-height:1.1;margin-bottom:6px}
-
-/* Founder */
-.founder{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;background:var(--card);border-radius:28px;padding:32px;border:1px solid var(--line)}
-.avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--grad);display:grid;place-items:center;font-weight:700;font-size:2rem;color:var(--ink)}
-.founder blockquote{font-size:1.1rem;color:var(--ink-85)}
-.founder cite{display:block;margin-top:12px;font-style:normal;font-weight:700;color:var(--ink)}
-.founder cite span{font-weight:400;color:var(--ink-60)}
-
-/* FAQ */
-.faq details{background:var(--card);border-radius:18px;border:1px solid var(--line);padding:18px 22px;margin-top:12px}
-.faq summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:16px}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--violet)}
-.faq details[open] summary::after{content:"–"}
-.faq details p{margin-top:10px}
-
-.cta-end{text-align:center}
-.cta-end p{margin:12px auto 0;max-width:34em}
-
-footer{padding:36px 0 110px;font-size:.88rem;color:var(--ink-60);border-top:1px solid var(--line)}
-footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between}
-footer a{color:var(--ink-60)}
-
-/* Sticky mobile CTA */
-.sticky{display:none;position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);transition:transform .2s}
-.sticky .btn{margin:0}
-.sticky.hide{transform:translateY(110%)}
-
-@media (max-width:900px){
-  .modules{grid-template-columns:1fr}
-  section{padding:56px 0}
-  .hero .wrap,.feature,.why .box{grid-template-columns:1fr;gap:28px}
-  .feature:nth-of-type(even) .media{order:0}
-  .cards,.stats{grid-template-columns:1fr}
-  .benefits{grid-template-columns:1fr 1fr}
-  .hero::before{width:600px;height:400px;right:-300px;top:-120px}
-  .sticky{display:block}
-}
-@media (max-width:520px){
-  .wrap{padding:0 16px}
-  .formcard{padding:22px;border-radius:24px}
-  .founder{grid-template-columns:1fr;text-align:left;padding:24px}
-  .avatar{width:84px;height:84px;font-size:1.4rem}
-  .benefits{grid-template-columns:1fr}
-}
-</style>
+    /* Gründer */
+    .lp-gruender { display: grid; gap: var(--zd-s-5); align-items: center; }
+    .lp-gruender img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+    .lp-gruender blockquote { font-size: var(--zd-fs-l); line-height: 1.5; }
+    .lp-gruender cite { display: block; margin-top: var(--zd-s-3); font-style: normal; font-weight: 700; color: var(--zd-anthrazit); }
+    .lp-gruender cite span { font-weight: 400; color: var(--zd-text-leise); }
+    @media (min-width: 640px) { .lp-gruender { grid-template-columns: auto 1fr; gap: var(--zd-s-6); } }
+    @media (max-width: 639px) { .lp-gruender img { width: 84px; height: 84px; } }
+    .zd-kennzahl__label, figcaption { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
+  </style>
 </head>
-<body>
+<body class="zd-mit-cta-leiste">
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
 
-<header>
-  <div class="wrap"><a class="brand" href="https://www.zen-day.ai/" aria-label="zenday"><b>zen</b><span>day</span></a></div>
-</header>
-
-<main>
-<!-- 1 HERO -->
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow">Für Praxisinhaberinnen und Praxisinhaber · Warteliste zenday KI</span>
-      <h1>Ihr Team fragt die KI – nicht mehr Sie.</h1>
-      <p class="sub">Die zenday KI Teamassistenz beantwortet Fragen zu <strong>QM, Hygiene, Geräten und Gefahrstoffen</strong>. Grundlage sind die Dokumente Ihrer eigenen Praxis, und jede Antwort nennt die <strong>Quelle zum Nachlesen</strong>.</p>
-      <div class="offer">
-        <div class="ic" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2B2F38" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 21V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
-        </div>
-        <p>Die ersten 50 Praxen erhalten <strong>10 % Rabatt auf die KI-Funktionen</strong> und <strong>1 Monat Pre-Launch-Zugang</strong>.</p>
-      </div>
-      <div class="basis">
-        <span>Baut auf zenday auf:</span>
-        <a href="#fundament">Gerätemanager <em>Neu</em></a>
-        <a href="#fundament">Aufgabenmodul</a>
-        <a href="#fundament">Smarte Felder</a>
-        <a href="#fundament">Smart Fill für Geräte</a>
-      </div>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="/" aria-label="zenday Startseite"><b>zen</b><span>day</span></a>
     </div>
+  </header>
 
-    <div class="formcard" id="warteliste">
-      <h2>Wartelistenplatz sichern</h2>
-      <p class="hint">Dauert 30 Sekunden. Wir melden uns vor dem Start.</p>
-      <form id="lead-form" novalidate>
-        <label for="vorname">Vorname</label>
-        <input id="vorname" name="vorname" type="text" autocomplete="given-name" required>
-        <label for="email">Praxis-E-Mail</label>
-        <input id="email" name="email" type="email" autocomplete="email" required>
-        <label for="telefon">Telefon</label>
-        <input id="telefon" name="telefon" type="tel" autocomplete="tel" required>
-        <label for="rolle">Ihre Rolle</label>
-        <select id="rolle" name="rolle" required>
-          <option value="">Bitte wählen</option>
-          <option>Praxisinhaber/in</option>
-          <option>Praxismanager/in</option>
-          <option>QM-Beauftragte/r</option>
-          <option>Empfang/Assistenz</option>
-          <option>Andere</option>
-        </select>
-        <label class="check"><input type="checkbox" name="consent" value="ja"> Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten.</label>
+  <main id="inhalt">
 
-        <input type="hidden" name="produkt" value="ki-teamassistenz">
-        <input type="hidden" name="persona" value="A-B-inhaber">
-        <input type="hidden" name="quelle" value="landingpage-ki-teamassistenz">
-        <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
-        <input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
-        <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+    <!-- 1 · Hero mit Formular -->
+    <section class="zd-hero zd-hero--ellipse">
+      <div class="zd-container">
+        <div class="zd-split zd-split--text-breit">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Für Praxisinhaberinnen und Praxisinhaber · Warteliste zenday KI</span>
+            <h1>Ihr Team fragt die KI – <span class="zd-text-verlauf">nicht mehr Sie.</span></h1>
+            <p class="zd-lead">Die zenday KI Teamassistenz beantwortet Fragen zu <strong>QM, Hygiene, Geräten und Gefahrstoffen</strong>. Grundlage sind die Dokumente Ihrer eigenen Praxis, und jede Antwort nennt die <strong>Quelle zum Nachlesen</strong>.</p>
+            <div class="zd-karte lp-angebot">
+              <span class="zd-icon zd-icon--gelb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12v9H4v-9"/><path d="M2 7h20v5H2z"/><path d="M12 21V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg></span>
+              <p>Die ersten 50 Praxen erhalten <strong>10 % Rabatt auf die KI-Funktionen</strong> und <strong>1 Monat Pre-Launch-Zugang</strong>.</p>
+            </div>
+            <div class="lp-basis">
+              <span>Baut auf zenday auf:</span>
+              <a class="zd-badge" href="#fundament">Gerätemanager <span class="lp-neu">Neu</span></a>
+              <a class="zd-badge" href="#fundament">Aufgabenmodul</a>
+              <a class="zd-badge" href="#fundament">Smarte Felder</a>
+              <a class="zd-badge" href="#fundament">Smart Fill für Geräte</a>
+            </div>
+          </div>
 
-        <button class="btn" type="submit">Wartelistenplatz sichern</button>
-        <p id="form-error" role="alert" hidden>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:support@zen-day.de">support@zen-day.de</a>.</p>
-        <p class="micro">Unverbindlich und kostenlos. Hinweise zum Datenschutz: <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a></p>
-      </form>
-    </div>
-  </div>
-</section>
+          <div class="zd-formular-box" id="warteliste">
+            <h2>Wartelistenplatz sichern</h2>
+            <p class="zd-leise">Dauert 30 Sekunden. Wir melden uns vor dem Start.</p>
+            <form class="zd-formular" id="lead-form" novalidate>
+              <div class="zd-feld">
+                <label for="vorname">Vorname<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="vorname" name="vorname" type="text" autocomplete="given-name" required>
+              </div>
+              <div class="zd-feld">
+                <label for="email">Praxis-E-Mail<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              </div>
+              <div class="zd-feld">
+                <label for="telefon">Telefon<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
+              </div>
+              <div class="zd-feld">
+                <label for="rolle">Ihre Rolle<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <select class="zd-select" id="rolle" name="rolle" required>
+                  <option value="">Bitte wählen</option>
+                  <option>Praxisinhaber/in</option>
+                  <option>Praxismanager/in</option>
+                  <option>QM-Beauftragte/r</option>
+                  <option>Empfang/Assistenz</option>
+                  <option>Andere</option>
+                </select>
+              </div>
+              <label class="zd-check">
+                <input type="checkbox" name="consent" value="ja">
+                <span>Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten.</span>
+              </label>
 
-<!-- 2 TRUST -->
-<div class="trust">
-  <div class="wrap">
-    <ul>
-      <li><b>200+</b> Praxisstandorte</li>
-      <li><b>2.000+</b> User</li>
-      <li>Gefördert im EFRE/JTF-Programm NRW 2021–2027 „Go-to-Market“</li>
-    </ul>
-  </div>
-</div>
+              <input type="hidden" name="produkt" value="ki-teamassistenz">
+              <input type="hidden" name="persona" value="A-B-inhaber">
+              <input type="hidden" name="quelle" value="landingpage-ki-teamassistenz">
+              <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium">
+              <input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
+              <!-- Honeypot gegen Spam -->
+              <div aria-hidden="true">
+                <label class="zd-sr-only" for="website">Website</label>
+                <input class="zd-sr-only" id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
 
-<!-- 3 REFRAME -->
-<section class="reframe">
-  <div class="wrap narrow">
-    <h2>QM-Wissen ist meist da. Nur nicht dort, wo die Frage entsteht.</h2>
-    <p>Fragen entstehen bei der Einarbeitung, am Steri, vor der Behandlung oder kurz vor der Begehung. In diesem Moment schlägt niemand im Ordner nach. Es wird gefragt – und zwar meistens <strong>Sie oder Ihre erfahrensten Kräfte</strong>.</p>
-  </div>
-</section>
-
-<!-- 4 IST DAS FÜR SIE -->
-<section style="padding-top:0">
-  <div class="wrap">
-    <span class="eyebrow">Ist das für Sie?</span>
-    <h2>Kommt Ihnen das bekannt vor?</h2>
-    <div class="cards">
-      <div class="card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F0508C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <p>Neue Kolleginnen fragen Dinge, die längst im Praxishandbuch stehen. Damit binden sie <strong>Ihre erfahrensten Kräfte</strong>.</p>
-      </div>
-      <div class="card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <p>Wie das Gerät monatlich gereinigt wird, weiß im Zweifel nur eine Person. Ist sie im Urlaub, <strong>wird gesucht</strong>.</p>
-      </div>
-      <div class="card">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF7A59" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-        <p>Gefahrstoffverzeichnis und Betriebsanweisungen hängen hinterher, weil niemand Zeit für <strong>Sicherheitsdatenblätter</strong> hat.</p>
-      </div>
-    </div>
-    <p class="bridge">Wenn Sie sich wiedererkennen, ist das kein Disziplinproblem. Es fehlt ein kurzer Weg vom Dokument zur Antwort.</p>
-    <div class="calc">
-      <p><strong>Rechnen Sie kurz nach:</strong> <code>[Rückfragen pro Tag]</code> × <code>[Minuten je Rückfrage]</code> × <code>[Arbeitstage]</code> = Stunden, in denen Sie oder Ihre erfahrenen Kräfte nicht behandeln oder führen.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 5 WAS DIE KI KANN -->
-<section style="padding-top:24px">
-  <div class="wrap">
-    <span class="eyebrow">Was die KI Teamassistenz kann</span>
-    <h2>Drei Assistenten für die Fragen, die täglich aufkommen</h2>
-
-    <div class="feature">
-      <div>
-        <span class="tag">Praxisfragen im Chat</span>
-        <h3>Antworten aus Ihren eigenen Dokumenten</h3>
-        <div class="oldnew">
-          <div><span class="k old">Früher</span><p>Im Ordner suchen oder die Kollegin unterbrechen.</p></div>
-          <div><span class="k new">Jetzt</span><p>Frage stellen. Die Antwort kommt aus Ihren hinterlegten Dokumenten, <strong>die Quelle steht als Link dabei</strong>.</p></div>
-        </div>
-      </div>
-      <div class="media" aria-label="Beispiel einer Chat-Antwort">
-        <div class="chat">
-          <div class="bubble q">Wie wird die Inzision vorbereitet?</div>
-          <div class="bubble a">Die Schritte aus Ihrer Arbeitsanweisung, zusammengefasst – von der Tray-Vorbereitung bis zur Patientenaufklärung.<br><span class="src"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Quelle: Arbeitsanweisung Inzision</span></div>
-        </div>
-        <p class="mock-note">Darstellung beispielhaft</p>
-      </div>
-    </div>
-
-    <div class="feature">
-      <div>
-        <span class="tag">Mit Geräte-Anleitungen chatten</span>
-        <h3>Bedienung, Wartung, Reinigung – mit Bildern zu jedem Schritt</h3>
-        <p style="margin-top:14px">Sterilisator, Röntgengerät oder Behandlungseinheit: Die KI hilft bei <strong>Bedienung, Wartung, Reinigung und Routinefragen</strong>. Die Antwort zeigt die Bilder zu jedem einzelnen Arbeitsschritt.</p>
-      </div>
-      <div class="media" aria-label="Beispiel einer Geräte-Antwort">
-        <div class="chat">
-          <div class="bubble q">Wie wird der Steri monatlich gereinigt?</div>
-          <div class="bubble a">Hier sind die Arbeitsschritte aus der Bedienungsanleitung Ihres Geräts:
-            <div class="steps-img"><span>Schritt 1</span><span>Schritt 2</span><span>Schritt 3</span></div>
+              <button class="zd-btn zd-btn--primaer zd-btn--voll" type="submit">Wartelistenplatz sichern</button>
+              <div class="zd-hinweis zd-hinweis--warnung" id="form-error" role="alert" hidden><span>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:support@zen-day.de">support@zen-day.de</a>.</span></div>
+              <p class="lp-hinweis-klein zd-mitte">Unverbindlich und kostenlos. Hinweise zum Datenschutz: <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a></p>
+            </form>
           </div>
         </div>
-        <p class="mock-note">Darstellung beispielhaft</p>
       </div>
-    </div>
+    </section>
 
-    <div class="feature">
-      <div>
-        <span class="tag">Gefahrstoff-Assistent</span>
-        <h3>Vom Produktnamen zur Betriebsanweisung</h3>
-        <p style="margin-top:14px">Gefahrstoff über Hersteller oder Namen suchen. Der Eintrag im Gefahrstoffverzeichnis steht <strong>mit H- und P-Sätzen nach wenigen Sekunden</strong>. Die Betriebsanweisung wird automatisch erzeugt, inklusive Notrufnummer.</p>
-      </div>
-      <div class="media" aria-label="Ablauf Gefahrstoff-Assistent">
-        <div class="gfs">
-          <div class="row"><span class="n">1</span><div>Gefahrstoff hinzufügen<div class="chips"><i>Hersteller</i><i>Produktname</i></div></div></div>
-          <div class="row"><span class="n">2</span><div>Automatischer Eintrag im Verzeichnis<div class="chips"><i>H-Sätze</i><i>P-Sätze</i></div></div></div>
-          <div class="row"><span class="n">3</span><div>Betriebsanweisung sofort erzeugt<div class="chips"><i>inkl. Notrufnummer</i></div></div></div>
+    <!-- 2 · Vertrauen -->
+    <section class="zd-sektion zd-sektion--weiss" aria-label="zenday in Zahlen" style="padding-block: var(--zd-s-6);">
+      <div class="zd-container">
+        <div class="zd-vertrauen" style="justify-content: center;">
+          <span><strong>200+</strong>&nbsp;Praxisstandorte</span>
+          <span><strong>2.000+</strong>&nbsp;User</span>
+          <span>Gefördert im EFRE/JTF-Programm NRW 2021–2027 „Go-to-Market“</span>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="benefits">
-      <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Schnellere Antworten</div>
-      <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Leichtere Einarbeitung</div>
-      <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0508C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M2 2l20 20"/></svg>Weniger Unterbrechungen</div>
-      <div><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E9F97" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Einheitliche Abläufe</div>
-    </div>
-  </div>
-</section>
+    <!-- 3 · Reframe -->
+    <section class="zd-sektion">
+      <div class="zd-container zd-container--schmal zd-stack">
+        <h2>QM-Wissen ist meist da. Nur nicht dort, wo die Frage entsteht.</h2>
+        <p class="zd-lead">Fragen entstehen bei der Einarbeitung, am Steri, vor der Behandlung oder kurz vor der Begehung. In diesem Moment schlägt niemand im Ordner nach. Es wird gefragt – und zwar meistens <strong>Sie oder Ihre erfahrensten Kräfte</strong>.</p>
+      </div>
+    </section>
 
-<!-- 7 FUNDAMENT + PROOF -->
-<section id="fundament">
-  <div class="wrap">
-    <span class="eyebrow">Das Fundament</span>
-    <h2>Die KI antwortet aus dem, was zenday über Ihre Praxis weiß</h2>
-    <p class="lead">Vier Bausteine sorgen dafür, dass Praxisdaten, Geräte und Aufgaben vollständig im System stehen. Darauf greift die KI zu.</p>
-
-    <div class="modules">
-      <article class="module">
-        <div class="mhead">
-          <span class="mic" style="background:#F1EAFE"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 9h4M7 12h7"/></svg></span>
-          <span class="new">Neu</span>
+    <!-- 4 · Ist das für Sie? -->
+    <section class="zd-sektion" style="padding-top: 0;">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Ist das für Sie?</span>
+          <h2>Kommt Ihnen das bekannt vor?</h2>
         </div>
-        <h3>Gerätemanager</h3>
-        <p class="claim">Alle Geräte Ihrer Praxis auf einen Blick.</p>
-        <ul>
-          <li>Jedes Gerät mit <strong>Anleitung, Wartungs- und Prüfintervallen</strong></li>
-          <li>Sie sehen, welche Wartung als Nächstes fällig ist</li>
-          <li>Grundlage für den <strong>Geräte-Assistenten</strong> der KI</li>
-        </ul>
-      </article>
-
-      <article class="module">
-        <div class="mhead">
-          <span class="mic" style="background:#EEF4FF"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--koralle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <p>Neue Kolleginnen fragen Dinge, die längst im Praxishandbuch stehen. Damit binden sie <strong>Ihre erfahrensten Kräfte</strong>.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--violett" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+            <p>Wie das Gerät monatlich gereinigt wird, weiß im Zweifel nur eine Person. Ist sie im Urlaub, <strong>wird gesucht</strong>.</p>
+          </div>
+          <div class="zd-karte">
+            <span class="zd-icon zd-icon--gelb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+            <p>Gefahrstoffverzeichnis und Betriebsanweisungen hängen hinterher, weil niemand Zeit für <strong>Sicherheitsdatenblätter</strong> hat.</p>
+          </div>
         </div>
-        <h3>Aufgabenmodul</h3>
-        <p class="claim">Jede im Team weiß, was bis wann zu tun ist.</p>
-        <ul>
-          <li>Wiederkehrende Aufgaben mit <strong>Verantwortlichen und Vertretung</strong></li>
-          <li>Offene und überfällige Aufgaben werden <strong>sichtbar, erinnert und eskaliert</strong></li>
-          <li>Heute-Ansicht für den Tag, Jahresvorschau für die Planung</li>
-        </ul>
-      </article>
-
-      <article class="module">
-        <div class="mhead">
-          <span class="mic" style="background:#FFF6D6"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B88A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h10M4 17h7"/><path d="m16 15 2 2 4-4"/></svg></span>
+        <p class="lp-bruecke zd-mt-8">Wenn Sie sich wiedererkennen, ist das kein Disziplinproblem. Es fehlt ein kurzer Weg vom Dokument zur Antwort.</p>
+        <div class="zd-hinweis zd-mt-6 lp-rechnung">
+          <p><strong>Rechnen Sie kurz nach:</strong> <code>[Rückfragen pro Tag]</code> × <code>[Minuten je Rückfrage]</code> × <code>[Arbeitstage]</code> = Stunden, in denen Sie oder Ihre erfahrenen Kräfte nicht behandeln oder führen.</p>
         </div>
-        <h3>Smarte Felder</h3>
-        <p class="claim">Praxisdaten einmal eintragen – in allen Dokumenten aktuell.</p>
-        <ul>
-          <li>Angaben zu Ihrer Praxis werden <strong>einmal erfasst</strong></li>
-          <li>Sie erscheinen <strong>automatisch in allen QM-Dokumenten</strong></li>
-          <li>Neue Kunden sind mit Smart Fields in <strong>3 Wochen begehungsbereit</strong></li>
-        </ul>
-      </article>
+      </div>
+    </section>
 
-      <article class="module">
-        <div class="mhead">
-          <span class="mic" style="background:#FFEAF2"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F0508C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span>
+    <!-- 5 · Was die KI kann -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Was die KI Teamassistenz kann</span>
+          <h2>Drei Assistenten für die Fragen, die täglich aufkommen</h2>
         </div>
-        <h3>Smart Fill für Geräte</h3>
-        <p class="claim">Ihre Geräte – für Sie eingerichtet.</p>
-        <ul>
-          <li>Unser Customer-Success-Team <strong>bildet Ihre Geräte individuell ab</strong></li>
-          <li>Mit Anleitungen, Videos und <strong>bebilderten Abläufen</strong></li>
-          <li>Wartungsintervalle kommen als <strong>fertige Aufgabenketten</strong></li>
+
+        <div class="zd-split lp-feature">
+          <div class="zd-stack">
+            <span class="zd-badge zd-badge--violett">Praxisfragen im Chat</span>
+            <h3>Antworten aus Ihren eigenen Dokumenten</h3>
+            <div class="lp-vorher-nachher">
+              <div><span class="zd-badge">Früher</span><p>Im Ordner suchen oder die Kollegin unterbrechen.</p></div>
+              <div><span class="zd-badge zd-badge--tuerkis">Jetzt</span><p>Frage stellen. Die Antwort kommt aus Ihren hinterlegten Dokumenten, <strong>die Quelle steht als Link dabei</strong>.</p></div>
+            </div>
+          </div>
+          <div class="zd-karte zd-karte--gross" aria-label="Beispiel einer Chat-Antwort">
+            <div class="lp-chat">
+              <div class="lp-blase lp-blase--frage">Wie wird die Inzision vorbereitet?</div>
+              <div class="lp-blase lp-blase--antwort">Die Schritte aus Ihrer Arbeitsanweisung, zusammengefasst – von der Tray-Vorbereitung bis zur Patientenaufklärung.<br><span class="lp-quelle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Quelle: Arbeitsanweisung Inzision</span></div>
+            </div>
+            <p class="lp-beispiel">Darstellung beispielhaft</p>
+          </div>
+        </div>
+
+        <div class="zd-split lp-feature">
+          <div class="zd-stack">
+            <span class="zd-badge zd-badge--violett">Mit Geräte-Anleitungen chatten</span>
+            <h3>Bedienung, Wartung, Reinigung – mit Bildern zu jedem Schritt</h3>
+            <p>Sterilisator, Röntgengerät oder Behandlungseinheit: Die KI hilft bei <strong>Bedienung, Wartung, Reinigung und Routinefragen</strong>. Die Antwort zeigt die Bilder zu jedem einzelnen Arbeitsschritt.</p>
+          </div>
+          <div class="zd-karte zd-karte--gross" aria-label="Beispiel einer Geräte-Antwort">
+            <div class="lp-chat">
+              <div class="lp-blase lp-blase--frage">Wie wird der Steri monatlich gereinigt?</div>
+              <div class="lp-blase lp-blase--antwort">Hier sind die Arbeitsschritte aus der Bedienungsanleitung Ihres Geräts:
+                <div class="lp-bildschritte"><span>Schritt 1</span><span>Schritt 2</span><span>Schritt 3</span></div>
+              </div>
+            </div>
+            <p class="lp-beispiel">Darstellung beispielhaft</p>
+          </div>
+        </div>
+
+        <div class="zd-split lp-feature">
+          <div class="zd-stack">
+            <span class="zd-badge zd-badge--violett">Gefahrstoff-Assistent</span>
+            <h3>Vom Produktnamen zur Betriebsanweisung</h3>
+            <p>Gefahrstoff über Hersteller oder Namen suchen. Der Eintrag im Gefahrstoffverzeichnis steht <strong>mit H- und P-Sätzen nach wenigen Sekunden</strong>. Die Betriebsanweisung wird automatisch erzeugt, inklusive Notrufnummer.</p>
+          </div>
+          <div class="zd-karte zd-karte--gross" aria-label="Ablauf Gefahrstoff-Assistent">
+            <div class="lp-ablauf">
+              <div><span class="lp-nr">1</span><div>Gefahrstoff hinzufügen<div class="lp-chips"><span class="zd-badge">Hersteller</span><span class="zd-badge">Produktname</span></div></div></div>
+              <div><span class="lp-nr">2</span><div>Automatischer Eintrag im Verzeichnis<div class="lp-chips"><span class="zd-badge">H-Sätze</span><span class="zd-badge">P-Sätze</span></div></div></div>
+              <div><span class="lp-nr">3</span><div>Betriebsanweisung sofort erzeugt<div class="lp-chips"><span class="zd-badge">inkl. Notrufnummer</span></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="zd-grid zd-grid--4 zd-mt-8">
+          <div class="zd-karte lp-vorteil"><span class="zd-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Schnellere Antworten</div>
+          <div class="zd-karte lp-vorteil"><span class="zd-icon zd-icon--violett" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>Leichtere Einarbeitung</div>
+          <div class="zd-karte lp-vorteil"><span class="zd-icon zd-icon--koralle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M2 2l20 20"/></svg></span>Weniger Unterbrechungen</div>
+          <div class="zd-karte lp-vorteil"><span class="zd-icon zd-icon--tuerkis" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>Einheitliche Abläufe</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · Fundament + Proof -->
+    <section class="zd-sektion" id="fundament">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Das Fundament</span>
+          <h2>Die KI antwortet aus dem, was zenday über Ihre Praxis weiß</h2>
+          <p class="zd-lead">Vier Bausteine sorgen dafür, dass Praxisdaten, Geräte und Aufgaben vollständig im System stehen. Darauf greift die KI zu.</p>
+        </div>
+
+        <div class="zd-grid zd-grid--2">
+          <article class="zd-karte zd-karte--gross">
+            <div class="lp-modul-kopf">
+              <span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 9h4M7 12h7"/></svg></span>
+              <span class="lp-neu">Neu</span>
+            </div>
+            <h3>Gerätemanager</h3>
+            <p class="lp-claim">Alle Geräte Ihrer Praxis auf einen Blick.</p>
+            <ul class="zd-checkliste">
+              <li>Jedes Gerät mit <strong>Anleitung, Wartungs- und Prüfintervallen</strong></li>
+              <li>Sie sehen, welche Wartung als Nächstes fällig ist</li>
+              <li>Grundlage für den <strong>Geräte-Assistenten</strong> der KI</li>
+            </ul>
+          </article>
+
+          <article class="zd-karte zd-karte--gross">
+            <div class="lp-modul-kopf">
+              <span class="zd-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+            </div>
+            <h3>Aufgabenmodul</h3>
+            <p class="lp-claim">Jede im Team weiß, was bis wann zu tun ist.</p>
+            <ul class="zd-checkliste">
+              <li>Wiederkehrende Aufgaben mit <strong>Verantwortlichen und Vertretung</strong></li>
+              <li>Offene und überfällige Aufgaben werden <strong>sichtbar, erinnert und eskaliert</strong></li>
+              <li>Heute-Ansicht für den Tag, Jahresvorschau für die Planung</li>
+            </ul>
+          </article>
+
+          <article class="zd-karte zd-karte--gross">
+            <div class="lp-modul-kopf">
+              <span class="zd-icon zd-icon--gelb"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/><path d="m16 15 2 2 4-4"/></svg></span>
+            </div>
+            <h3>Smarte Felder</h3>
+            <p class="lp-claim">Praxisdaten einmal eintragen – in allen Dokumenten aktuell.</p>
+            <ul class="zd-checkliste">
+              <li>Angaben zu Ihrer Praxis werden <strong>einmal erfasst</strong></li>
+              <li>Sie erscheinen <strong>automatisch in allen QM-Dokumenten</strong></li>
+              <li>Neue Kunden sind mit Smart Fields in <strong>3 Wochen begehungsbereit</strong></li>
+            </ul>
+          </article>
+
+          <article class="zd-karte zd-karte--gross">
+            <div class="lp-modul-kopf">
+              <span class="zd-icon zd-icon--koralle"><svg viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9l-4.6 1.9L12 15.5l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span>
+            </div>
+            <h3>Smart Fill für Geräte</h3>
+            <p class="lp-claim">Ihre Geräte – für Sie eingerichtet.</p>
+            <ul class="zd-checkliste">
+              <li>Unser Customer-Success-Team <strong>bildet Ihre Geräte individuell ab</strong></li>
+              <li>Mit Anleitungen, Videos und <strong>bebilderten Abläufen</strong></li>
+              <li>Wartungsintervalle kommen als <strong>fertige Aufgabenketten</strong></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="zd-grid zd-grid--3 zd-mt-8">
+          <div class="zd-karte zd-kennzahl"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte arbeiten mit zenday</span></div>
+          <div class="zd-karte zd-kennzahl"><span class="zd-kennzahl__wert">2.000+</span><span class="zd-kennzahl__label">User in Zahnarztpraxen</span></div>
+          <div class="zd-karte zd-kennzahl"><span class="zd-kennzahl__wert">3 Wochen</span><span class="zd-kennzahl__label">bis neue Kunden mit Smart Fields begehungsbereit sind</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · Warum jetzt -->
+    <section class="zd-sektion zd-sektion--zart">
+      <div class="zd-container">
+        <div class="zd-split zd-split--text-breit">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Warum jetzt</span>
+            <h2>Früh dabei sein und im eigenen Alltag testen</h2>
+            <p>Die KI-Funktionen entstehen gerade in einem geförderten Pilotprojekt. Wartelisten-Praxen testen sie <strong>1 Monat vor dem offiziellen Start</strong> im eigenen Praxisalltag. Die ersten 50 erhalten zusätzlich <strong>10 % Rabatt</strong>.</p>
+            <div class="zd-reihe zd-reihe--stapeln"><a class="zd-btn zd-btn--primaer zd-btn--gross" href="#warteliste">Wartelistenplatz sichern</a></div>
+          </div>
+          <div class="zd-stack">
+            <div class="zd-karte lp-perk"><b class="zd-text-verlauf">10 %</b><strong>Rabatt auf die KI-Funktionen</strong></div>
+            <div class="zd-karte lp-perk"><b class="zd-text-verlauf">1 Mon.</b><strong>Pre-Launch-Zugang</strong></div>
+            <div class="zd-karte lp-perk"><b class="zd-text-verlauf">50</b><strong>Plätze für Wartelisten-Praxen</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · Absender -->
+    <section class="zd-sektion">
+      <div class="zd-container">
+        <figure class="zd-zitat lp-gruender">
+          <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" width="120" height="120" loading="lazy">
+          <div>
+            <blockquote>„Wir haben zenday gemeinsam mit Zahnarztpraxen entwickelt. In über 50 Interviews hörten wir immer wieder dasselbe: Das Wissen ist da, aber im entscheidenden Moment findet es niemand. Mit der KI Teamassistenz wollen wir genau diese Lücke schließen.“</blockquote>
+            <cite>Tilmann Förster <span>· Gründer von zenday</span></cite>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 9 · FAQ -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-sektion-kopf">
+          <span class="zd-eyebrow">Fragen und Antworten</span>
+          <h2>Was Praxisinhaber vorher wissen wollen</h2>
+        </div>
+        <div class="zd-faq">
+          <details>
+            <summary>Erfindet die KI Antworten?</summary>
+            <p>Die Antworten basieren auf den Dokumenten, die in Ihrer Praxis hinterlegt sind. Jede Antwort verlinkt ihre Quelle, damit Ihr Team nachprüfen kann. Die fachliche Verantwortung bleibt in der Praxis.</p>
+          </details>
+          <details>
+            <summary>Was kostet das?</summary>
+            <p>Der Preis der KI-Funktionen steht noch nicht fest. Der Eintrag in die Warteliste ist kostenlos und unverbindlich. Die ersten 50 Praxen erhalten 10 % Rabatt auf die KI-Funktionen.</p>
+          </details>
+          <details>
+            <summary>Brauche ich zenday dafür schon?</summary>
+            <!-- TODO Til bestätigen: nur Bestandskunden oder auch Neukunden? -->
+            <p>Die KI Teamassistenz ist eine Erweiterung von zenday und arbeitet mit den Inhalten Ihres zenday-Systems. Sie nutzen zenday noch nicht? Tragen Sie sich trotzdem ein – wir zeigen Ihnen vor dem Start, wie Sie beides gemeinsam einführen.</p>
+          </details>
+          <details>
+            <summary>Wo liegen die Daten?</summary>
+            <!-- TODO Til bestätigen: gilt auch für die KI-Module -->
+            <p>zenday speichert auf Servern in Deutschland bei Microsoft, mit SSL-Verschlüsselung und täglichen Backups. Details finden Sie in der <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Abschluss-CTA -->
+    <section class="zd-sektion zd-sektion--dunkel">
+      <div class="zd-container zd-container--schmal zd-mitte zd-stack">
+        <h2>Ihr Team fragt die KI – nicht mehr Sie.</h2>
+        <p class="zd-lead">Sichern Sie sich einen der 50 Plätze mit 10 % Rabatt und 1 Monat Pre-Launch-Zugang.</p>
+        <div class="zd-reihe zd-reihe--mitte zd-reihe--stapeln">
+          <a class="zd-btn zd-btn--primaer zd-btn--gross" href="#warteliste">Wartelistenplatz sichern</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <div class="zd-grid zd-grid--3">
+        <div class="zd-stack zd-stack--eng">
+          <a class="zd-wortmarke" href="/"><b>zen</b><span>day</span></a>
+          <p>Qualitätsmanagement für Zahnarztpraxen.</p>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Kontakt</strong>
+          <a href="mailto:support@zen-day.de">support@zen-day.de</a>
+          <a href="https://calendly.com/digitalesqm/demo-praesentation">Demo-Termin buchen</a>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Ventria GmbH</strong>
+          <span>Malkastenstraße 8, 40211 Düsseldorf</span>
+        </div>
+      </div>
+      <div class="zd-footer__unten">
+        <span>© Ventria GmbH · zenday</span>
+        <ul class="zd-footer__links">
+          <li><a href="https://www.zen-day.ai/impressum">Impressum</a></li>
+          <li><a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></li>
         </ul>
-      </article>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><b>200+</b><p>Praxisstandorte arbeiten mit zenday</p></div>
-      <div class="stat"><b>2.000+</b><p>User in Zahnarztpraxen</p></div>
-      <div class="stat"><b>3 Wochen</b><p>bis neue Kunden mit Smart Fields begehungsbereit sind</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 6 WARUM JETZT -->
-<section class="why">
-  <div class="wrap box">
-    <div>
-      <span class="eyebrow">Warum jetzt</span>
-      <h2>Früh dabei sein und im eigenen Alltag testen</h2>
-      <p style="margin-top:16px">Die KI-Funktionen entstehen gerade in einem geförderten Pilotprojekt. Wartelisten-Praxen testen sie <strong>1 Monat vor dem offiziellen Start</strong> im eigenen Praxisalltag. Die ersten 50 erhalten zusätzlich <strong>10 % Rabatt</strong>.</p>
-      <a class="btn inline" href="#warteliste">Wartelistenplatz sichern</a>
-    </div>
-    <div class="perks">
-      <div class="perk"><b>10 %</b><span>Rabatt auf die KI-Funktionen</span></div>
-      <div class="perk"><b>1 Mon.</b><span>Pre-Launch-Zugang</span></div>
-      <div class="perk"><b>50</b><span>Plätze für Wartelisten-Praxen</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- 8 ABSENDER -->
-<section style="padding-top:0">
-  <div class="wrap">
-    <div class="founder">
-      <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" class="avatar" width="120" height="120" loading="lazy">
-      <div>
-        <blockquote>„Wir haben zenday gemeinsam mit Zahnarztpraxen entwickelt. In über 50 Interviews hörten wir immer wieder dasselbe: Das Wissen ist da, aber im entscheidenden Moment findet es niemand. Mit der KI Teamassistenz wollen wir genau diese Lücke schließen.“</blockquote>
-        <cite>Tilmann Förster <span>· Gründer von zenday</span></cite>
       </div>
     </div>
+  </footer>
+
+  <div class="zd-cta-leiste">
+    <a class="zd-btn zd-btn--primaer" href="#warteliste">Wartelistenplatz sichern</a>
   </div>
-</section>
 
-<!-- 9 FAQ -->
-<section class="faq" style="padding-top:0">
-  <div class="wrap narrow">
-    <span class="eyebrow">Fragen und Antworten</span>
-    <h2>Was Praxisinhaber vorher wissen wollen</h2>
-    <details>
-      <summary>Erfindet die KI Antworten?</summary>
-      <p>Die Antworten basieren auf den Dokumenten, die in Ihrer Praxis hinterlegt sind. Jede Antwort verlinkt ihre Quelle, damit Ihr Team nachprüfen kann. Die fachliche Verantwortung bleibt in der Praxis.</p>
-    </details>
-    <details>
-      <summary>Was kostet das?</summary>
-      <p>Der Preis der KI-Funktionen steht noch nicht fest. Der Eintrag in die Warteliste ist kostenlos und unverbindlich. Die ersten 50 Praxen erhalten 10 % Rabatt auf die KI-Funktionen.</p>
-    </details>
-    <details>
-      <summary>Brauche ich zenday dafür schon?</summary>
-      <!-- TODO Til bestätigen: nur Bestandskunden oder auch Neukunden? -->
-      <p>Die KI Teamassistenz ist eine Erweiterung von zenday und arbeitet mit den Inhalten Ihres zenday-Systems. Sie nutzen zenday noch nicht? Tragen Sie sich trotzdem ein – wir zeigen Ihnen vor dem Start, wie Sie beides gemeinsam einführen.</p>
-    </details>
-    <details>
-      <summary>Wo liegen die Daten?</summary>
-      <!-- TODO Til bestätigen: gilt auch für die KI-Module -->
-      <p>zenday speichert auf Servern in Deutschland bei Microsoft, mit SSL-Verschlüsselung und täglichen Backups. Details finden Sie in der <a href="https://www.zen-day.ai/datenschutz">Datenschutzerklärung</a>.</p>
-    </details>
-  </div>
-</section>
-
-<!-- CTA ENDE -->
-<section class="cta-end" style="padding-top:8px">
-  <div class="wrap narrow">
-    <h2>Ihr Team fragt die KI – nicht mehr Sie.</h2>
-    <p>Sichern Sie sich einen der 50 Plätze mit 10 % Rabatt und 1 Monat Pre-Launch-Zugang.</p>
-    <a class="btn inline" href="#warteliste">Wartelistenplatz sichern</a>
-  </div>
-</section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>© Ventria GmbH · zenday</span>
-    <span><a href="https://www.zen-day.ai/impressum">Impressum</a> · <a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></span>
-  </div>
-</footer>
-
-<div class="sticky" id="sticky"><a class="btn" href="#warteliste">Wartelistenplatz sichern</a></div>
-
-<script>
-// Zapier-Webhook (Catch Hook) eintragen
-const FORM_ENDPOINT = 'FORM_ENDPOINT';
-const form = document.getElementById('lead-form');
-const params = new URLSearchParams(location.search);
-['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
-  const el = form.querySelector(`[name="${k}"]`);
-  if (el) el.value = params.get(k) || '';
-});
-form.addEventListener('submit', async (ev) => {
-  ev.preventDefault();
-  const btn = form.querySelector('button[type=submit]');
-  const err = document.getElementById('form-error');
-  err.hidden = true;
-  if (!form.reportValidity()) return;
-  if (form.website.value) { location.href = 'danke/'; return; } // Honeypot
-  btn.disabled = true;
-  const data = new URLSearchParams(new FormData(form));
-  data.set('consent', form.consent.checked ? 'ja' : 'nein');
-  data.set('zeitstempel', new Date().toISOString());
-  try {
-    const r = await fetch(FORM_ENDPOINT, { method: 'POST', body: data });
-    if (!r.ok) throw new Error('status ' + r.status);
-    location.href = 'danke/' + (form.consent.checked ? '?doi=1' : '');
-  } catch (e) {
-    err.hidden = false;
-    btn.disabled = false;
-  }
-});
-// Sticky-CTA ausblenden, solange das Formular sichtbar ist
-const sticky = document.getElementById('sticky');
-new IntersectionObserver(([e]) => sticky.classList.toggle('hide', e.isIntersecting))
-  .observe(document.getElementById('warteliste'));
-</script>
+  <script src="/zenday.js?v=0.3" defer></script>
+  <script>
+  // Zapier-Webhook (Catch Hook) eintragen
+  const FORM_ENDPOINT = 'FORM_ENDPOINT';
+  // Absoluter Pfad: funktioniert auch, wenn die Seite ohne Schrägstrich aufgerufen wird (/ki-teamassistenz)
+  const DANKE_URL = '/ki-teamassistenz/danke/';
+  const form = document.getElementById('lead-form');
+  const params = new URLSearchParams(location.search);
+  ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
+    const el = form.querySelector(`[name="${k}"]`);
+    if (el) el.value = params.get(k) || '';
+  });
+  form.addEventListener('input', (e) => {
+    if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) e.target.setAttribute('aria-invalid', 'false');
+  });
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const btn = form.querySelector('button[type=submit]');
+    const err = document.getElementById('form-error');
+    err.hidden = true;
+    form.querySelectorAll('[required]').forEach(f => f.setAttribute('aria-invalid', f.checkValidity() ? 'false' : 'true'));
+    if (!form.reportValidity()) return;
+    if (form.website.value) { location.href = DANKE_URL; return; } // Honeypot
+    btn.disabled = true;
+    const data = new URLSearchParams(new FormData(form));
+    data.delete('website');
+    data.set('consent', form.consent.checked ? 'ja' : 'nein');
+    data.set('zeitstempel', new Date().toISOString());
+    try {
+      const r = await fetch(FORM_ENDPOINT, { method: 'POST', body: data });
+      if (!r.ok) throw new Error('status ' + r.status);
+      location.href = DANKE_URL + (form.consent.checked ? '?doi=1' : '');
+    } catch (e) {
+      err.hidden = false;
+      btn.disabled = false;
+    }
+  });
+  </script>
 </body>
 </html>

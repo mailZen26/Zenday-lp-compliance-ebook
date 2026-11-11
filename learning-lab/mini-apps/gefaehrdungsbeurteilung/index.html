@@ -80,6 +80,7 @@
 .zdgb .zdgb-kz .zdgb-kzl { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
 .zdgb .zdgb-kz > div { padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
 .zdgb .zdgb-risk { border-left: 4px solid var(--zd-tuerkis); }
+.zdgb .zdgb-erl { max-width: none; }
 .zdgb .zdgb-risk--klar { border-left-color: var(--zd-gelb); }
 .zdgb .zdgb-meas { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--zd-s-2); }
 .zdgb .zdgb-meas li { display: flex; gap: var(--zd-s-3); align-items: flex-start; font-size: var(--zd-fs-s); min-width: 0; margin-top: 0; }
@@ -288,7 +289,7 @@
         return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + '">' +
           '<span class="zd-badge ' + (r.kind === 'clar' ? 'zd-badge--gelb' : 'zd-badge--tuerkis') + '">' + (r.kind === 'clar' ? 'Klärung' : 'Gefährdung') + ' · ' + esc(r.mod.name) + '</span>' +
           '<h3>' + esc(r.title) + '</h3>' +
-          '<p class="zd-klein"><strong>' + (r.kind === 'clar' ? 'Was zu klären ist: ' : 'Worum es geht: ') + '</strong>' + esc(r.e) + '</p>' +
+          '<p class="zd-klein zdgb-erl"><strong>' + (r.kind === 'clar' ? 'Was zu klären ist: ' : 'Worum es geht: ') + '</strong>' + esc(r.e) + '</p>' +
           '<p class="zd-klein zd-leise">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
           '<ul class="zdgb-meas">' + r.m.map(function (x) { return '<li><span class="zd-badge zd-badge--violett">' + TOP[x[0]] + '</span><span>' + esc(x[1]) + '</span></li>'; }).join('') + '</ul>' +
           '<div class="zdgb-grid">' +

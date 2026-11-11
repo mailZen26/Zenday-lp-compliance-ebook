@@ -130,16 +130,24 @@
         ['O', 'Reinigungsschritte schriftlich festlegen']] },
       { id: 'beh3', t: 'Werden Behandlungseinheiten und Flächen nach jedem Patienten desinfiziert?', r: 'Kontamination von Flächen und Behandlungseinheiten', e: 'Behandlungsflächen und Einheiten können zwischen zwei Patienten Keime übertragen, wenn sie nicht zuverlässig desinfiziert werden.', m: [
         ['O', 'Desinfektionsplan mit Mitteln, Einwirkzeiten und Zuständigkeiten festlegen'],
-        ['P', 'Händedesinfektion und Hygieneregeln unterweisen']] }
+        ['P', 'Händedesinfektion und Hygieneregeln unterweisen']] },
+      { id: 'beh4', t: 'Kommt es regelmäßig zu Feuchtarbeit, z. B. häufiges Händewaschen, Desinfektion oder Arbeiten mit Handschuhen?', r: 'Hauterkrankungen durch Feuchtarbeit und Desinfektionsmittel', e: 'Häufiger Kontakt mit Wasser, Desinfektionsmitteln und Handschuhen kann die Haut reizen und Allergien begünstigen.', m: [
+        ['T', 'Hautschutz- und Hautpflegeprodukte bereitstellen'],
+        ['O', 'Hautschutzplan festlegen und Anwendung unterweisen'],
+        ['O', 'Arbeitsmedizinische Vorsorge (G 24) anbieten']] }
     ] },
-    { id: 'sterl', name: 'Aufbereitung von Medizinprodukten', basis: 'MPBetreibV · RKI/BfArM-Empfehlung · TRBA 250', qs: [
+    { id: 'sterl', name: 'Aufbereitung von Medizinprodukten', basis: 'MPBetreibV · BetrSichV · RKI/BfArM-Empfehlung', qs: [
       { id: 'st1', t: 'Werden Medizinprodukte in der Praxis selbst aufbereitet?', r: 'Gefährdung bei der Aufbereitung von Medizinprodukten', e: 'Die Aufbereitung muss so erfolgen, dass Instrumente danach sicher verwendbar sind. Fehler bei Ablauf, Gerät oder Dokumentation führen zu Infektions- und Haftungsrisiken.', m: [
         ['O', 'Aufbereitungsschritte und Verantwortlichkeiten schriftlich festlegen'],
         ['T', 'Geeignete, geprüfte Geräte und Verfahren einsetzen'],
         ['O', 'Nachweise und Chargendokumentation führen']] },
       { id: 'st2', t: 'Werden aufbereitete Instrumente vor der Verwendung zwischengelagert?', r: 'Rekontamination gelagerter Instrumente', e: 'Aufbereitete Instrumente können bei unsachgemäßer Lagerung wieder verunreinigt werden, bevor sie verwendet werden.', m: [
         ['O', 'Lagerungsbedingungen und Verpackung festlegen'],
-        ['O', 'Lagerdauer und Kontrolle der Verpackung regeln']] }
+        ['O', 'Lagerdauer und Kontrolle der Verpackung regeln']] },
+      { id: 'st3', t: 'Wird ein Dampfsterilisator (Autoklav) betrieben?', r: 'Gefahr durch Druck und Dampf am Sterilisator', e: 'Der Sterilisator arbeitet unter Druck und Hitze. Fehlende Prüfungen oder falsche Bedienung können zu Verbrühungen oder Geräteschäden führen.', m: [
+        ['O', 'Prüfpflichten nach BetrSichV festlegen und Nachweise führen'],
+        ['T', 'Sicherheitseinrichtungen und Wartung nach Herstellerangaben sicherstellen'],
+        ['O', 'Bedienung nur durch unterwiesene Personen zulassen']] }
     ] },
     { id: 'roe', name: 'Röntgen', basis: 'StrlSchG · StrlSchV · ArbSchG § 5', qs: [
       { id: 'roe1', t: 'Wird in der Praxis Röntgenstrahlung eingesetzt?', r: 'Strahlenexposition von Personal und Patienten', e: 'Röntgenstrahlung kann Gewebe schädigen. Personal und Patienten müssen durch Abstand, Abschirmung und klar geregelte Zuständigkeiten geschützt werden.', m: [
@@ -160,14 +168,10 @@
         ['T', 'Umfüllen mit geeigneten Behältern und Hilfsmitteln'],
         ['O', 'Kennzeichnung der Behälter sicherstellen']] }
     ] },
-    { id: 'arb', name: 'Arbeitsplatz & Ergonomie', basis: 'ArbStättV · Bildschirmarbeit · ArbSchG § 5', qs: [
+    { id: 'arb', name: 'Arbeitsplatz & Ergonomie', basis: 'ArbStättV · ArbSchG § 5', qs: [
       { id: 'arb1', t: 'Wird überwiegend am Bildschirm gearbeitet?', r: 'Belastung bei Bildschirmarbeit', e: 'Langes Arbeiten am Bildschirm kann Augen, Nacken und Schultern belasten. Ergonomie und regelmäßige Pausen wirken dem entgegen.', m: [
         ['T', 'Arbeitsplatz ergonomisch einrichten'],
         ['O', 'Pausen organisieren und Angebot arbeitsmedizinischer Vorsorge prüfen']] },
-      { id: 'arb2', t: 'Werden regelmäßig Lasten gehoben oder getragen, z. B. Behälter, Geräte oder Materialkisten?', r: 'Belastung durch Heben und Tragen', e: 'Häufiges Heben und Tragen schwerer Lasten kann zu Rückenbeschwerden führen, vor allem bei ungünstiger Körperhaltung oder hohem Gewicht.', m: [
-        ['T', 'Hebehilfen oder Transportwagen bereitstellen'],
-        ['O', 'Lasten nach Gewicht und Tätigkeit begrenzen'],
-        ['P', 'Unterweisung zu rückengerechtem Heben']] },
       { id: 'arb3', t: 'Gibt es Stolper-, Rutsch- oder Engstellen auf Verkehrswegen?', r: 'Sturz- und Rutschgefahr auf Verkehrswegen', e: 'Unebene Böden, Kabel, Engstellen oder Nässe auf Verkehrswegen erhöhen das Risiko von Stürzen und Ausrutschen.', m: [
         ['T', 'Verkehrswege freihalten und ausreichend beleuchten'],
         ['O', 'Mängel regelmäßig begehen und dokumentieren']] }
@@ -186,6 +190,33 @@
       { id: 'brd2', t: 'Sind die Abläufe bei Notfällen wie Kollaps oder Verletzung nicht schriftlich festgelegt?', r: 'Unzureichende Notfallvorbereitung', e: 'Ohne festgelegte Abläufe verlieren Beschäftigte bei Notfällen Zeit und wissen nicht sicher, wer handeln muss.', m: [
         ['O', 'Notfallplan schriftlich festlegen und Verantwortliche benennen'],
         ['O', 'Erste-Hilfe-Ausstattung und Ersthelfer bereitstellen (DGUV Vorschrift 1)']] }
+    ] },
+    { id: 'las', name: 'Lasten heben und tragen', basis: 'LasthandhabV · ArbSchG § 5', qs: [
+      { id: 'arb2', t: 'Werden regelmäßig Lasten gehoben oder getragen, z. B. Behälter, Geräte oder Materialkisten?', r: 'Belastung durch Heben und Tragen', e: 'Häufiges Heben und Tragen schwerer Lasten kann zu Rückenbeschwerden führen, vor allem bei ungünstiger Körperhaltung oder hohem Gewicht.', m: [
+        ['T', 'Hebehilfen oder Transportwagen bereitstellen'],
+        ['O', 'Lasten nach Gewicht und Tätigkeit begrenzen'],
+        ['P', 'Unterweisung zu rückengerechtem Heben']] }
+    ] },
+    { id: 'ele', name: 'Elektrische Anlagen & Geräte', basis: 'BetrSichV · DGUV Vorschrift 3 · ArbSchG § 5', qs: [
+      { id: 'ele1', t: 'Werden elektrische Geräte und Anlagen genutzt, z. B. Behandlungseinheiten, Röntgen, Sterilisatoren oder Verlängerungskabel?', r: 'Gefahr durch elektrische Anlagen und Geräte', e: 'Defekte Geräte, Kabel oder Anschlüsse können Stromschläge und Brände verursachen.', m: [
+        ['O', 'Prüfungen nach DGUV Vorschrift 3 durch eine Elektrofachkraft festlegen und dokumentieren'],
+        ['O', 'Defekte Geräte und Kabel sofort außer Betrieb nehmen und melden'],
+        ['P', 'Beschäftigte zu Sichtprüfung und sicherem Umgang unterweisen']] }
+    ] },
+    { id: 'psy', name: 'Arbeitsorganisation & psychische Belastung', basis: 'ArbSchG § 5 Abs. 3 Nr. 6 · ArbSchG § 4', qs: [
+      { id: 'psy1', t: 'Gibt es Arbeitsbedingungen, die belasten können, z. B. hohe Arbeitsintensität, Zeitdruck, häufige Unterbrechungen oder wenig Handlungsspielraum?', r: 'Psychische Belastung der Beschäftigten', e: 'Dauerhafter Zeitdruck, Unterbrechungen und fehlende Entscheidungsspielräume können zu Stress und Überlastung führen.', m: [
+        ['O', 'Belastungen im Team erheben, z. B. in einem Gespräch oder per kurzer Befragung'],
+        ['O', 'Abläufe, Pausen und Vertretungen so planen, dass Belastungsspitzen abgefedert werden'],
+        ['P', 'Ansprechpersonen für Überlastung und Konflikte benennen']] },
+      { id: 'psy2', t: 'Gibt es Situationen mit Personalausfall oder engen Terminen, in denen das Team unter Druck gerät?', r: 'Belastungsspitzen durch Personalausfall oder Terminengpässe', e: 'Wenn Vertretungen fehlen oder Termine eng getaktet sind, steigt das Risiko für Fehler und Überlastung.', m: [
+        ['O', 'Vertretungsregelungen schriftlich festlegen'],
+        ['O', 'Terminplanung mit Pufferzeiten gestalten']] }
+    ] },
+    { id: 'lsr', name: 'Laser & optische Strahlung', basis: 'OStrV · ArbSchG § 5', qs: [
+      { id: 'lsr1', t: 'Werden Laser oder andere Geräte mit künstlicher optischer Strahlung eingesetzt?', r: 'Augen- und Hautschäden durch optische Strahlung', e: 'Laserstrahlung kann Augen und Haut schädigen. Die Gefährdung hängt von Geräteklasse und Anwendung ab.', m: [
+        ['O', 'Geräteklasse und Schutzstufen dokumentieren'],
+        ['P', 'Schutzbrillen bereitstellen und Nutzung regeln'],
+        ['O', 'Behandlungsraum während der Anwendung kennzeichnen']] }
     ] }
   ];
 

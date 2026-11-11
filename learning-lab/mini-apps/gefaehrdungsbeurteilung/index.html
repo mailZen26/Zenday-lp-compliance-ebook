@@ -78,8 +78,12 @@
 .zdgb .zdgb-kz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--zd-s-3); }
 .zdgb .zdgb-kz .zdgb-kzw { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 700; color: var(--zd-anthrazit); line-height: 1; font-variant-numeric: tabular-nums; }
 .zdgb .zdgb-kz .zdgb-kzl { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
-.zdgb .zdgb-kz > div { padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
+.zdgb .zdgb-kz > button { font: inherit; color: var(--zd-anthrazit); text-align: left; cursor: pointer; border: 1.5px solid var(--zd-linie); min-height: 64px; padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
+.zdgb .zdgb-kz > button[aria-pressed="true"] { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+.zdgb .zdgb-kz > button:hover { border-color: var(--zd-anthrazit); }
+.zdgb .zdgb-compact .zdgb-erl, .zdgb .zdgb-compact .zdgb-basis, .zdgb .zdgb-compact .zdgb-meta { display: none; }
 .zdgb .zdgb-risk { border-left: 4px solid var(--zd-tuerkis); }
+.zdgb .zdgb-erl { max-width: none; }
 .zdgb .zdgb-risk--klar { border-left-color: var(--zd-gelb); }
 .zdgb .zdgb-meas { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--zd-s-2); }
 .zdgb .zdgb-meas li { display: flex; gap: var(--zd-s-3); align-items: flex-start; font-size: var(--zd-fs-s); min-width: 0; margin-top: 0; }
@@ -115,71 +119,71 @@
   // Inhalte: Gefährdungsbereiche mit Fragen, Rechtsgrundlagen und Maßnahmen (Entwurf, vor Veröffentlichung fachlich zu prüfen)
   var MODULES = [
     { id: 'beh', name: 'Behandlung am Patienten', basis: 'BioStoffV · TRBA 250 · ArbSchG § 5', qs: [
-      { id: 'beh1', t: 'Kommt es bei der Behandlung zu Kontakt mit Blut, Speichel oder anderen Körperflüssigkeiten?', r: 'Infektion durch Körperflüssigkeiten', m: [
+      { id: 'beh1', t: 'Kommt es bei der Behandlung zu Kontakt mit Blut, Speichel oder anderen Körperflüssigkeiten?', r: 'Infektion durch Körperflüssigkeiten', e: 'Blut und Speichel können Krankheitserreger übertragen. Beim Kontakt mit Instrumenten, Abfällen oder Schleimhäuten besteht ein Infektionsrisiko für Personal und Patienten.', m: [
         ['T', 'Sicherheitsinstrumente mit Schutzmechanismus einsetzen, soweit verfügbar'],
         ['O', 'Umgang mit spitzen und scharfen Gegenständen festlegen, einschließlich Entsorgung'],
         ['P', 'Schutzhandschuhe und Schutzbrille bereitstellen und deren Nutzung regeln'],
         ['O', 'Arbeitsmedizinische Vorsorge nach ArbMedVV prüfen']] },
-      { id: 'beh2', t: 'Werden Instrumente oder Materialien von Hand gereinigt, bevor sie aufbereitet werden?', r: 'Verletzungs- und Infektionsgefahr bei manueller Reinigung', m: [
+      { id: 'beh2', t: 'Werden Instrumente oder Materialien von Hand gereinigt, bevor sie aufbereitet werden?', r: 'Verletzungs- und Infektionsgefahr bei manueller Reinigung', e: 'Bei der manuellen Reinigung kommen Beschäftigte direkt mit kontaminierten, oft scharfen Instrumenten in Berührung. Das führt zu Stich- und Schnittverletzungen sowie zu Kontakt mit Erregern.', m: [
         ['T', 'Reinigung nach Möglichkeit maschinell durchführen'],
         ['P', 'Geeignete Schutzhandschuhe verwenden'],
         ['O', 'Reinigungsschritte schriftlich festlegen']] },
-      { id: 'beh3', t: 'Werden Behandlungseinheiten und Flächen nach jedem Patienten desinfiziert?', r: 'Kontamination von Flächen und Behandlungseinheiten', m: [
+      { id: 'beh3', t: 'Werden Behandlungseinheiten und Flächen nach jedem Patienten desinfiziert?', r: 'Kontamination von Flächen und Behandlungseinheiten', e: 'Behandlungsflächen und Einheiten können zwischen zwei Patienten Keime übertragen, wenn sie nicht zuverlässig desinfiziert werden.', m: [
         ['O', 'Desinfektionsplan mit Mitteln, Einwirkzeiten und Zuständigkeiten festlegen'],
         ['P', 'Händedesinfektion und Hygieneregeln unterweisen']] }
     ] },
     { id: 'sterl', name: 'Aufbereitung von Medizinprodukten', basis: 'MPBetreibV · RKI/BfArM-Empfehlung · TRBA 250', qs: [
-      { id: 'st1', t: 'Werden Medizinprodukte in der Praxis selbst aufbereitet?', r: 'Gefährdung bei der Aufbereitung von Medizinprodukten', m: [
+      { id: 'st1', t: 'Werden Medizinprodukte in der Praxis selbst aufbereitet?', r: 'Gefährdung bei der Aufbereitung von Medizinprodukten', e: 'Die Aufbereitung muss so erfolgen, dass Instrumente danach sicher verwendbar sind. Fehler bei Ablauf, Gerät oder Dokumentation führen zu Infektions- und Haftungsrisiken.', m: [
         ['O', 'Aufbereitungsschritte und Verantwortlichkeiten schriftlich festlegen'],
         ['T', 'Geeignete, geprüfte Geräte und Verfahren einsetzen'],
         ['O', 'Nachweise und Chargendokumentation führen']] },
-      { id: 'st2', t: 'Werden aufbereitete Instrumente vor der Verwendung zwischengelagert?', r: 'Rekontamination gelagerter Instrumente', m: [
+      { id: 'st2', t: 'Werden aufbereitete Instrumente vor der Verwendung zwischengelagert?', r: 'Rekontamination gelagerter Instrumente', e: 'Aufbereitete Instrumente können bei unsachgemäßer Lagerung wieder verunreinigt werden, bevor sie verwendet werden.', m: [
         ['O', 'Lagerungsbedingungen und Verpackung festlegen'],
         ['O', 'Lagerdauer und Kontrolle der Verpackung regeln']] }
     ] },
     { id: 'roe', name: 'Röntgen', basis: 'StrlSchG · StrlSchV · ArbSchG § 5', qs: [
-      { id: 'roe1', t: 'Wird in der Praxis Röntgenstrahlung eingesetzt?', r: 'Strahlenexposition von Personal und Patienten', m: [
+      { id: 'roe1', t: 'Wird in der Praxis Röntgenstrahlung eingesetzt?', r: 'Strahlenexposition von Personal und Patienten', e: 'Röntgenstrahlung kann Gewebe schädigen. Personal und Patienten müssen durch Abstand, Abschirmung und klar geregelte Zuständigkeiten geschützt werden.', m: [
         ['O', 'Strahlenschutzverantwortliche Person und Zuständigkeiten benennen'],
         ['T', 'Strahlenschutzbereiche und Schutzausrüstung bereitstellen'],
         ['O', 'Prüfungen und Dokumentation gemäß StrlSchV festlegen']] },
-      { id: 'roe2', t: 'Kann sich während einer Aufnahme eine unbeteiligte Person im Raum aufhalten?', r: 'Unbeabsichtigte Exposition Dritter', m: [
+      { id: 'roe2', t: 'Kann sich während einer Aufnahme eine unbeteiligte Person im Raum aufhalten?', r: 'Unbeabsichtigte Exposition Dritter', e: 'Personen, die nicht an der Aufnahme beteiligt sind, können sich während der Strahlenexposition im Raum aufhalten und unnötig belastet werden.', m: [
         ['T', 'Zugang während der Aufnahme sperren oder absichern'],
         ['O', 'Verhalten bei Aufnahmen unterweisen']] }
     ] },
     { id: 'gef', name: 'Gefahrstoffe', basis: 'GefStoffV § 6 · TRGS 400', qs: [
-      { id: 'gef1', t: 'Werden Gefahrstoffe verwendet, z. B. Desinfektions-, Reinigungs- oder Pflegemittel mit Gefahrenkennzeichnung?', r: 'Gefährdung durch Gefahrstoffe', m: [
+      { id: 'gef1', t: 'Werden Gefahrstoffe verwendet, z. B. Desinfektions-, Reinigungs- oder Pflegemittel mit Gefahrenkennzeichnung?', r: 'Gefährdung durch Gefahrstoffe', e: 'Gefahrstoffe können bei Hautkontakt, Einatmen oder Verschlucken Reizungen oder Vergiftungen verursachen. Die Gefährdung hängt von Stoff, Menge und Umgang ab.', m: [
         ['S', 'Gefahrstoffe mit geringerem Gefährdungspotenzial auswählen, soweit möglich'],
         ['O', 'Gefahrstoffverzeichnis mit Sicherheitsdatenblättern führen'],
         ['P', 'Schutzausrüstung laut Betriebsanweisung bereitstellen'],
         ['O', 'Betriebsanweisungen erstellen und Beschäftigte unterweisen']] },
-      { id: 'gef2', t: 'Werden Gefahrstoffe umgefüllt oder gemischt?', r: 'Gefährdung beim Umfüllen und Mischen', m: [
+      { id: 'gef2', t: 'Werden Gefahrstoffe umgefüllt oder gemischt?', r: 'Gefährdung beim Umfüllen und Mischen', e: 'Beim Umfüllen und Mischen können Spritzer, Dämpfe und Verwechslungen auftreten, weil Behälter wechseln und sich Konzentrationen ändern.', m: [
         ['T', 'Umfüllen mit geeigneten Behältern und Hilfsmitteln'],
         ['O', 'Kennzeichnung der Behälter sicherstellen']] }
     ] },
     { id: 'arb', name: 'Arbeitsplatz & Ergonomie', basis: 'ArbStättV · Bildschirmarbeit · ArbSchG § 5', qs: [
-      { id: 'arb1', t: 'Wird überwiegend am Bildschirm gearbeitet?', r: 'Belastung bei Bildschirmarbeit', m: [
+      { id: 'arb1', t: 'Wird überwiegend am Bildschirm gearbeitet?', r: 'Belastung bei Bildschirmarbeit', e: 'Langes Arbeiten am Bildschirm kann Augen, Nacken und Schultern belasten. Ergonomie und regelmäßige Pausen wirken dem entgegen.', m: [
         ['T', 'Arbeitsplatz ergonomisch einrichten'],
         ['O', 'Pausen organisieren und Angebot arbeitsmedizinischer Vorsorge prüfen']] },
-      { id: 'arb2', t: 'Werden regelmäßig Lasten gehoben oder getragen, z. B. Behälter, Geräte oder Materialkisten?', r: 'Belastung durch Heben und Tragen', m: [
+      { id: 'arb2', t: 'Werden regelmäßig Lasten gehoben oder getragen, z. B. Behälter, Geräte oder Materialkisten?', r: 'Belastung durch Heben und Tragen', e: 'Häufiges Heben und Tragen schwerer Lasten kann zu Rückenbeschwerden führen, vor allem bei ungünstiger Körperhaltung oder hohem Gewicht.', m: [
         ['T', 'Hebehilfen oder Transportwagen bereitstellen'],
         ['O', 'Lasten nach Gewicht und Tätigkeit begrenzen'],
         ['P', 'Unterweisung zu rückengerechtem Heben']] },
-      { id: 'arb3', t: 'Gibt es Stolper-, Rutsch- oder Engstellen auf Verkehrswegen?', r: 'Sturz- und Rutschgefahr auf Verkehrswegen', m: [
+      { id: 'arb3', t: 'Gibt es Stolper-, Rutsch- oder Engstellen auf Verkehrswegen?', r: 'Sturz- und Rutschgefahr auf Verkehrswegen', e: 'Unebene Böden, Kabel, Engstellen oder Nässe auf Verkehrswegen erhöhen das Risiko von Stürzen und Ausrutschen.', m: [
         ['T', 'Verkehrswege freihalten und ausreichend beleuchten'],
         ['O', 'Mängel regelmäßig begehen und dokumentieren']] }
     ] },
     { id: 'mus', name: 'Schwangere & Stillende', basis: 'MuSchG § 10 · ArbSchG § 5', qs: [
-      { id: 'mus1', t: 'Sind schwangere oder stillende Mitarbeitende beschäftigt?', r: 'Besondere Gefährdung schwangerer und stillender Beschäftigter', m: [
+      { id: 'mus1', t: 'Sind schwangere oder stillende Mitarbeitende beschäftigt?', r: 'Besondere Gefährdung schwangerer und stillender Beschäftigter', e: 'Für schwangere und stillende Beschäftigte gelten besondere Schutzpflichten. Gefährdungen durch Tätigkeiten, Stoffe oder Strahlung müssen individuell beurteilt werden.', m: [
         ['O', 'Gefährdungsbeurteilung nach MuSchG § 10 für die betroffene Person durchführen'],
         ['O', 'Schutzmaßnahmen festlegen und an die Tätigkeiten anpassen'],
         ['O', 'Mitteilung der Schwangerschaft ermöglichen und Ergebnisse dokumentieren']] }
     ] },
     { id: 'brd', name: 'Brandschutz & Notfall', basis: 'ASR A2.2 · DGUV Vorschrift 1 · ArbSchG § 5', qs: [
-      { id: 'brd1', t: 'Gibt es Brandlasten oder Fluchtwege, die eingeschränkt sein können?', r: 'Brandgefahr und eingeschränkte Fluchtwege', m: [
+      { id: 'brd1', t: 'Gibt es Brandlasten oder Fluchtwege, die eingeschränkt sein können?', r: 'Brandgefahr und eingeschränkte Fluchtwege', e: 'Brandlasten und versperrte Fluchtwege erhöhen im Brandfall das Risiko für Personen und verzögern die Räumung.', m: [
         ['T', 'Fluchtwege freihalten und kennzeichnen'],
         ['T', 'Brandschutzeinrichtungen bereitstellen und prüfen lassen'],
         ['O', 'Brandschutzordnung erstellen und Mitarbeitende unterweisen']] },
-      { id: 'brd2', t: 'Sind die Abläufe bei Notfällen wie Kollaps oder Verletzung nicht schriftlich festgelegt?', r: 'Unzureichende Notfallvorbereitung', m: [
+      { id: 'brd2', t: 'Sind die Abläufe bei Notfällen wie Kollaps oder Verletzung nicht schriftlich festgelegt?', r: 'Unzureichende Notfallvorbereitung', e: 'Ohne festgelegte Abläufe verlieren Beschäftigte bei Notfällen Zeit und wissen nicht sicher, wer handeln muss.', m: [
         ['O', 'Notfallplan schriftlich festlegen und Verantwortliche benennen'],
         ['O', 'Erste-Hilfe-Ausstattung und Ersthelfer bereitstellen (DGUV Vorschrift 1)']] }
     ] }
@@ -197,8 +201,8 @@
       if (!st.sel[m.id]) return;
       m.qs.forEach(function (q) {
         var a = st.ans[q.id];
-        if (a === 'ja') out.push({ kind: 'risk', mod: m, title: q.r, m: q.m });
-        else if (a === 'unklar') out.push({ kind: 'clar', mod: m, title: 'Klärungsbedarf: ' + q.r, m: [['O', 'Sachverhalt vor Ort prüfen und Antwort in der Beurteilung dokumentieren']] });
+        if (a === 'ja') out.push({ kind: 'risk', mod: m, title: q.r, e: q.e, m: q.m });
+        else if (a === 'unklar') out.push({ kind: 'clar', mod: m, title: 'Klärungsbedarf: ' + q.r, e: 'Klären Sie vor Ort, ob diese Gefährdung zutrifft. Halten Sie das Ergebnis in der Beurteilung fest.', m: [['O', 'Sachverhalt vor Ort prüfen und Antwort in der Beurteilung dokumentieren']] });
       });
     });
     return out;
@@ -209,7 +213,7 @@
     if (!risks.length) lines.push('Keine Gefährdungen angegeben.');
     risks.forEach(function (r, i) {
       var mt = st.meta[i] || {};
-      lines.push((i + 1) + '. ' + r.title, '   Bereich: ' + r.mod.name + ' (' + r.mod.basis + ')');
+      lines.push((i + 1) + '. ' + r.title, '   Erläuterung: ' + r.e, '   Bereich: ' + r.mod.name + ' (' + r.mod.basis + ')');
       r.m.forEach(function (x) { lines.push('   - [' + TOP[x[0]] + '] ' + x[1]); });
       lines.push('   Verantwortlich: ' + (mt.who || 'offen') + ' · Überprüfen bis: ' + (mt.due || 'offen'), '');
     });
@@ -217,7 +221,7 @@
   }
 
   function init(root) {
-    var st = { step: 0, name: '', rooms: '', staff: '', sel: {}, ans: {}, meta: {} };
+    var st = { step: 0, name: '', rooms: '', staff: '', sel: {}, ans: {}, meta: {}, filter: 'alle' };
     var stepsEl = root.querySelector('[data-zdgb-steps]');
     var panel = root.querySelector('[data-zdgb-panel]');
     var focusKey = null;
@@ -276,26 +280,31 @@
       var head = '<div class="zdgb-panel"><span class="zd-eyebrow">Ergebnis</span>' +
         '<h3>' + (st.name ? esc(st.name) : 'Ihr Entwurf') + '</h3>' +
         '<div class="zdgb-kz">' +
-          '<div><span class="zdgb-kzw">' + nR + '</span><span class="zdgb-kzl">Gefährdungen</span></div>' +
-          '<div><span class="zdgb-kzw">' + nC + '</span><span class="zdgb-kzl">Klärungspunkte</span></div>' +
-          '<div><span class="zdgb-kzw">' + nM + '</span><span class="zdgb-kzl">Maßnahmen</span></div>' +
+          '<button type="button" data-filter="risk" data-key="f-risk" aria-pressed="' + (st.filter === 'risk') + '"><span class="zdgb-kzw">' + nR + '</span><span class="zdgb-kzl">Gefährdungen</span></button>' +
+          '<button type="button" data-filter="clar" data-key="f-clar" aria-pressed="' + (st.filter === 'clar') + '"><span class="zdgb-kzw">' + nC + '</span><span class="zdgb-kzl">Klärungspunkte</span></button>' +
+          '<button type="button" data-filter="massnahmen" data-key="f-mass" aria-pressed="' + (st.filter === 'massnahmen') + '"><span class="zdgb-kzw">' + nM + '</span><span class="zdgb-kzl">Maßnahmen</span></button>' +
         '</div>' +
+        '<p class="zd-klein zd-leise">' + (st.filter === 'alle' ? 'Eine Zahl antippen, um die Liste zu filtern. Erneut antippen zeigt wieder alles.' : 'Filter aktiv. Erneut auf die Zahl tippen, um alles anzuzeigen.') + '</p>' +
         '<p class="zd-hinweis zd-hinweis--info">Dies ist ein Entwurf auf Basis Ihrer Angaben. Prüfen und ergänzen Sie ihn vor der Übernahme. Er ersetzt keine Prüfung durch Fachpersonal.</p>';
       if (!risks.length) head += '<p class="zd-hinweis zd-hinweis--warnung">Es wurde keine Gefährdung angegeben. Prüfen Sie Ihre Antworten, bevor Sie den Entwurf übernehmen.</p>';
       head += '</div>';
 
+      function sichtbar(r) { return st.filter === 'alle' || st.filter === 'massnahmen' || (st.filter === 'risk' && r.kind === 'risk') || (st.filter === 'clar' && r.kind === 'clar'); }
       var cards = risks.map(function (r, i) {
-        return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + '">' +
+        if (!sichtbar(r)) return '';
+        return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + (st.filter === 'massnahmen' ? ' zdgb-compact' : '') + '">' +
           '<span class="zd-badge ' + (r.kind === 'clar' ? 'zd-badge--gelb' : 'zd-badge--tuerkis') + '">' + (r.kind === 'clar' ? 'Klärung' : 'Gefährdung') + ' · ' + esc(r.mod.name) + '</span>' +
           '<h3>' + esc(r.title) + '</h3>' +
-          '<p class="zd-klein zd-leise">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
+          '<p class="zd-klein zdgb-erl"><strong>' + (r.kind === 'clar' ? 'Was zu klären ist: ' : 'Worum es geht: ') + '</strong>' + esc(r.e) + '</p>' +
+          '<p class="zd-klein zd-leise zdgb-basis">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
           '<ul class="zdgb-meas">' + r.m.map(function (x) { return '<li><span class="zd-badge zd-badge--violett">' + TOP[x[0]] + '</span><span>' + esc(x[1]) + '</span></li>'; }).join('') + '</ul>' +
-          '<div class="zdgb-grid">' +
+          '<div class="zdgb-grid zdgb-meta">' +
             '<label class="zd-feld"><span class="zdgb-lbl">Verantwortlich</span><input class="zd-input" type="text" data-meta="' + i + '" data-k="who" value="' + esc((st.meta[i] || {}).who || '') + '" placeholder="Name oder Funktion"></label>' +
             '<label class="zd-feld"><span class="zdgb-lbl">Überprüfen bis</span><input class="zd-input" type="date" data-meta="' + i + '" data-k="due" value="' + esc((st.meta[i] || {}).due || '') + '"></label>' +
           '</div></article>';
       }).join('');
 
+      if (!risks.some(sichtbar)) cards = '<p class="zd-hinweis zd-hinweis--info">Keine Einträge in dieser Ansicht.</p>';
       var text = '<div class="zdgb-panel"><h3>Text zum Übernehmen</h3>' +
         '<pre class="zdgb-pre" data-zdgb-export>' + esc(buildText(st, risks)) + '</pre>' +
         '<div class="zdgb-actions">' +
@@ -322,7 +331,7 @@
       }
     }
 
-    function go(step, key) { st.step = step; focusKey = key || null; render(); }
+    function go(step, key) { st.step = step; if (step !== 3) st.filter = 'alle'; focusKey = key || null; render(); }
 
     root.addEventListener('click', function (e) {
       var b = e.target.closest('button');
@@ -331,6 +340,13 @@
       if (b.hasAttribute('data-q')) {
         var id = b.getAttribute('data-q'), v = b.getAttribute('data-v');
         if (st.ans[id] === v) delete st.ans[id]; else st.ans[id] = v;
+        focusKey = b.getAttribute('data-key');
+        render();
+        return;
+      }
+      if (b.hasAttribute('data-filter')) {
+        var f = b.getAttribute('data-filter');
+        st.filter = st.filter === f ? 'alle' : f;
         focusKey = b.getAttribute('data-key');
         render();
         return;

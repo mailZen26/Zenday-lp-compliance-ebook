@@ -78,7 +78,10 @@
 .zdgb .zdgb-kz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--zd-s-3); }
 .zdgb .zdgb-kz .zdgb-kzw { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 700; color: var(--zd-anthrazit); line-height: 1; font-variant-numeric: tabular-nums; }
 .zdgb .zdgb-kz .zdgb-kzl { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
-.zdgb .zdgb-kz > div { padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
+.zdgb .zdgb-kz > button { font: inherit; color: var(--zd-anthrazit); text-align: left; cursor: pointer; border: 1.5px solid var(--zd-linie); min-height: 64px; padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
+.zdgb .zdgb-kz > button[aria-pressed="true"] { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+.zdgb .zdgb-kz > button:hover { border-color: var(--zd-anthrazit); }
+.zdgb .zdgb-compact .zdgb-erl, .zdgb .zdgb-compact .zdgb-basis, .zdgb .zdgb-compact .zdgb-meta { display: none; }
 .zdgb .zdgb-risk { border-left: 4px solid var(--zd-tuerkis); }
 .zdgb .zdgb-erl { max-width: none; }
 .zdgb .zdgb-risk--klar { border-left-color: var(--zd-gelb); }
@@ -218,7 +221,7 @@
   }
 
   function init(root) {
-    var st = { step: 0, name: '', rooms: '', staff: '', sel: {}, ans: {}, meta: {} };
+    var st = { step: 0, name: '', rooms: '', staff: '', sel: {}, ans: {}, meta: {}, filter: 'alle' };
     var stepsEl = root.querySelector('[data-zdgb-steps]');
     var panel = root.querySelector('[data-zdgb-panel]');
     var focusKey = null;
@@ -277,27 +280,31 @@
       var head = '<div class="zdgb-panel"><span class="zd-eyebrow">Ergebnis</span>' +
         '<h3>' + (st.name ? esc(st.name) : 'Ihr Entwurf') + '</h3>' +
         '<div class="zdgb-kz">' +
-          '<div><span class="zdgb-kzw">' + nR + '</span><span class="zdgb-kzl">Gefährdungen</span></div>' +
-          '<div><span class="zdgb-kzw">' + nC + '</span><span class="zdgb-kzl">Klärungspunkte</span></div>' +
-          '<div><span class="zdgb-kzw">' + nM + '</span><span class="zdgb-kzl">Maßnahmen</span></div>' +
+          '<button type="button" data-filter="risk" data-key="f-risk" aria-pressed="' + (st.filter === 'risk') + '"><span class="zdgb-kzw">' + nR + '</span><span class="zdgb-kzl">Gefährdungen</span></button>' +
+          '<button type="button" data-filter="clar" data-key="f-clar" aria-pressed="' + (st.filter === 'clar') + '"><span class="zdgb-kzw">' + nC + '</span><span class="zdgb-kzl">Klärungspunkte</span></button>' +
+          '<button type="button" data-filter="massnahmen" data-key="f-mass" aria-pressed="' + (st.filter === 'massnahmen') + '"><span class="zdgb-kzw">' + nM + '</span><span class="zdgb-kzl">Maßnahmen</span></button>' +
         '</div>' +
+        '<p class="zd-klein zd-leise">' + (st.filter === 'alle' ? 'Eine Zahl antippen, um die Liste zu filtern. Erneut antippen zeigt wieder alles.' : 'Filter aktiv. Erneut auf die Zahl tippen, um alles anzuzeigen.') + '</p>' +
         '<p class="zd-hinweis zd-hinweis--info">Dies ist ein Entwurf auf Basis Ihrer Angaben. Prüfen und ergänzen Sie ihn vor der Übernahme. Er ersetzt keine Prüfung durch Fachpersonal.</p>';
       if (!risks.length) head += '<p class="zd-hinweis zd-hinweis--warnung">Es wurde keine Gefährdung angegeben. Prüfen Sie Ihre Antworten, bevor Sie den Entwurf übernehmen.</p>';
       head += '</div>';
 
+      function sichtbar(r) { return st.filter === 'alle' || st.filter === 'massnahmen' || (st.filter === 'risk' && r.kind === 'risk') || (st.filter === 'clar' && r.kind === 'clar'); }
       var cards = risks.map(function (r, i) {
-        return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + '">' +
+        if (!sichtbar(r)) return '';
+        return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + (st.filter === 'massnahmen' ? ' zdgb-compact' : '') + '">' +
           '<span class="zd-badge ' + (r.kind === 'clar' ? 'zd-badge--gelb' : 'zd-badge--tuerkis') + '">' + (r.kind === 'clar' ? 'Klärung' : 'Gefährdung') + ' · ' + esc(r.mod.name) + '</span>' +
           '<h3>' + esc(r.title) + '</h3>' +
           '<p class="zd-klein zdgb-erl"><strong>' + (r.kind === 'clar' ? 'Was zu klären ist: ' : 'Worum es geht: ') + '</strong>' + esc(r.e) + '</p>' +
-          '<p class="zd-klein zd-leise">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
+          '<p class="zd-klein zd-leise zdgb-basis">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
           '<ul class="zdgb-meas">' + r.m.map(function (x) { return '<li><span class="zd-badge zd-badge--violett">' + TOP[x[0]] + '</span><span>' + esc(x[1]) + '</span></li>'; }).join('') + '</ul>' +
-          '<div class="zdgb-grid">' +
+          '<div class="zdgb-grid zdgb-meta">' +
             '<label class="zd-feld"><span class="zdgb-lbl">Verantwortlich</span><input class="zd-input" type="text" data-meta="' + i + '" data-k="who" value="' + esc((st.meta[i] || {}).who || '') + '" placeholder="Name oder Funktion"></label>' +
             '<label class="zd-feld"><span class="zdgb-lbl">Überprüfen bis</span><input class="zd-input" type="date" data-meta="' + i + '" data-k="due" value="' + esc((st.meta[i] || {}).due || '') + '"></label>' +
           '</div></article>';
       }).join('');
 
+      if (!risks.some(sichtbar)) cards = '<p class="zd-hinweis zd-hinweis--info">Keine Einträge in dieser Ansicht.</p>';
       var text = '<div class="zdgb-panel"><h3>Text zum Übernehmen</h3>' +
         '<pre class="zdgb-pre" data-zdgb-export>' + esc(buildText(st, risks)) + '</pre>' +
         '<div class="zdgb-actions">' +
@@ -324,7 +331,7 @@
       }
     }
 
-    function go(step, key) { st.step = step; focusKey = key || null; render(); }
+    function go(step, key) { st.step = step; if (step !== 3) st.filter = 'alle'; focusKey = key || null; render(); }
 
     root.addEventListener('click', function (e) {
       var b = e.target.closest('button');
@@ -333,6 +340,13 @@
       if (b.hasAttribute('data-q')) {
         var id = b.getAttribute('data-q'), v = b.getAttribute('data-v');
         if (st.ans[id] === v) delete st.ans[id]; else st.ans[id] = v;
+        focusKey = b.getAttribute('data-key');
+        render();
+        return;
+      }
+      if (b.hasAttribute('data-filter')) {
+        var f = b.getAttribute('data-filter');
+        st.filter = st.filter === f ? 'alle' : f;
         focusKey = b.getAttribute('data-key');
         render();
         return;

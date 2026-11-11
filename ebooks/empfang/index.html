@@ -1,354 +1,303 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Empfang in der Zahnarztpraxis – 24 Checklisten | zenday</title>
-<meta name="description" content="24 Checklisten für den Empfang Ihrer Zahnarztpraxis: Praxisstart, Termine, Telefon, ePA, EBZ, Datenschutz und 4-Wochen-Einarbeitungsplan. Kostenlos als PDF.">
-<link rel="canonical" href="https://www.zen-day.ai/ebooks/empfang/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="24 Checklisten, damit Ihr Empfang ohne Rückfragen läuft">
-<meta property="og:description" content="Alle Abläufe am Empfang zum Abhaken – inklusive ePA, EBZ und 4-Wochen-Einarbeitungsplan. Kostenlos als PDF.">
-<meta property="og:image" content="https://www.zen-day.ai/ebooks/empfang/assets/cover.jpg">
-<meta property="og:url" content="https://www.zen-day.ai/ebooks/empfang/">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#2B2F38; --ink-85:rgba(43,47,56,.85); --ink-60:rgba(43,47,56,.62);
-    --bg:#F7F8FB; --card:#FFFFFF; --line:#E6E8EF;
-    --yellow:#FFD23F; --coral:#FF7A59; --magenta:#F0508C; --violet:#9B5CF6; --blue:#3B82F6; --teal:#4FD8D0;
-    --grad:linear-gradient(100deg,var(--yellow) 0%,var(--magenta) 38%,var(--violet) 70%,var(--blue) 100%);
-    --r:24px;
-  }
-  *{box-sizing:border-box}
-  img{max-width:100%;height:auto}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink-85);font:400 17px/1.6 'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{color:var(--ink);line-height:1.15;font-weight:700;margin:0}
-  h1{font-size:clamp(32px,6vw,52px);letter-spacing:-.02em}
-  h2{font-size:clamp(26px,4vw,36px);letter-spacing:-.01em;margin-bottom:20px}
-  h3{font-size:19px}
-  p{margin:0 0 14px}
-  strong{color:var(--ink);font-weight:700}
-  a{color:var(--blue)}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-  .narrow{max-width:760px}
-  section{padding:64px 0}
-  .eyebrow{display:inline-block;font-weight:600;font-size:14px;letter-spacing:.02em;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-bottom:18px}
-
-  /* Header */
-  header{padding:20px 0}
-  .logo{font-size:26px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
-  .logo b{font-weight:700}.logo span{font-weight:300}
-
-  /* Hero */
-  .hero{position:relative;padding:24px 0 64px;overflow:hidden}
-  .hero::before{content:"";position:absolute;width:900px;height:420px;right:-300px;top:-120px;border-radius:50%;background:var(--grad);opacity:.14;transform:rotate(-14deg);filter:blur(10px);pointer-events:none}
-  .hero-grid{position:relative;display:grid;gap:36px;align-items:start}
-  .sub{font-size:19px;margin:18px 0 26px;max-width:36em}
-  .cover{display:block;width:100%;border-radius:18px;box-shadow:0 18px 40px -18px rgba(43,47,56,.35);border:1px solid var(--line)}
-  .cover-wrap{position:relative;max-width:540px}
-  .badge{position:absolute;left:-6px;bottom:-14px;background:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;color:var(--ink);box-shadow:0 8px 20px -10px rgba(43,47,56,.4)}
-  .badge i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--teal);margin-right:8px;vertical-align:1px}
-
-  /* Form */
-  .form-card{background:var(--card);border-radius:var(--r);padding:28px 22px;box-shadow:0 24px 50px -28px rgba(43,47,56,.35);border:1px solid var(--line);scroll-margin-top:20px}
-  .form-card h2{font-size:22px;margin-bottom:6px}
-  .form-card .lead{font-size:15px;color:var(--ink-60);margin-bottom:18px}
-  label{display:block;font-weight:600;font-size:14px;color:var(--ink);margin:14px 0 6px}
-  input[type=text],input[type=email],input[type=tel],select{width:100%;font:inherit;font-size:17px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;outline:none;transition:border-color .15s}
-  input:focus,select:focus{border-color:var(--blue)}
-  .check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px;line-height:1.45;color:var(--ink-85);margin-top:16px}
-  .check input{width:20px;height:20px;margin:1px 0 0;flex:none;accent-color:var(--violet)}
-  .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
-  .btn{display:block;width:100%;text-align:center;border:0;cursor:pointer;font:700 19px/1.2 'DM Sans',sans-serif;color:var(--ink);background:var(--grad);border-radius:999px;padding:17px 24px;text-decoration:none;transition:transform .15s,box-shadow .15s;box-shadow:0 10px 24px -12px rgba(155,92,246,.7)}
-  .btn:hover{transform:translateY(-1px);box-shadow:0 14px 28px -12px rgba(155,92,246,.8)}
-  .btn:disabled{opacity:.6;cursor:wait;transform:none}
-  .btn-inline{display:inline-block;width:auto;padding:16px 34px}
-  form .btn{margin-top:20px}
-  .micro{font-size:13px;color:var(--ink-60);margin:12px 0 0;text-align:center}
-  .err{background:#FFF1EC;border:1px solid var(--coral);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:14px;margin-top:14px}
-
-  /* Trust */
-  .trust{padding:0}
-  .trust ul{list-style:none;margin:0;padding:22px 0;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .trust li{font-weight:600;color:var(--ink);font-size:16px;display:flex;align-items:center;gap:10px}
-  .trust svg{flex:none}
-
-  /* Cards */
-  .cards{display:grid;gap:16px;margin:8px 0 28px}
-  .card{background:var(--card);border-radius:var(--r);padding:22px;border:1px solid var(--line)}
-  .situ{display:flex;gap:14px;align-items:flex-start}
-  .situ .ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#F3EEFF}
-  .situ p{margin:0}
-  .reframe{font-size:20px;line-height:1.5;color:var(--ink);border-left:4px solid;border-image:var(--grad) 1;padding:4px 0 4px 18px;margin:28px 0 0}
-
-  .calc{background:var(--card);border-radius:var(--r);padding:26px 22px;border:1px solid var(--line)}
-  .calc-row{display:flex;gap:14px;align-items:baseline;padding:12px 0;border-bottom:1px dashed var(--line)}
-  .calc-row:last-child{border-bottom:0}
-  .calc-op{flex:none;width:22px;font-weight:700;color:var(--violet);font-size:20px}
-  .calc-note{font-size:14px;color:var(--ink-60);margin:14px 0 0}
-
-  .benefits{display:grid;gap:16px}
-  .benefit{display:flex;gap:14px}
-  .num{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--ink);background:linear-gradient(135deg,#FFE58A,#FFB3CD)}
-  .benefit p{margin:4px 0 0}
-  .previews{display:grid;gap:16px;margin-top:32px}
-  .previews figure{margin:0}
-  .previews img{width:100%;display:block;border-radius:16px;border:1px solid var(--line)}
-  .previews figcaption{font-size:14px;color:var(--ink-60);margin-top:8px}
-
-  .why{background:var(--card);border-radius:var(--r);padding:28px 22px;border:1px solid var(--line);position:relative;overflow:hidden}
-  .why::after{content:"";position:absolute;right:-80px;bottom:-90px;width:260px;height:150px;border-radius:50%;background:var(--grad);opacity:.16;transform:rotate(-14deg)}
-  .why .date{display:inline-block;font-weight:700;color:var(--ink);background:#FFF6D6;border-radius:999px;padding:4px 12px;font-size:15px;margin-bottom:12px}
-  .src{font-size:13px;color:var(--ink-60);margin:8px 0 0}
-
-  .cta-band{text-align:center;padding:8px 0 0}
-
-  .sender{display:flex;gap:18px;align-items:center}
-  .avatar{flex:none;width:76px;height:76px;border-radius:50%;object-fit:cover;background:var(--grad);display:grid;place-items:center;font-weight:700;color:var(--ink);font-size:22px;border:3px solid #fff;box-shadow:0 6px 16px -8px rgba(43,47,56,.4)}
-  .sender p{margin:0}
-  .sender .name{font-weight:700;color:var(--ink)}
-  .sender .role{font-size:15px;color:var(--ink-60);margin-bottom:6px}
-
-  details{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:0 20px;margin-bottom:12px}
-  summary{cursor:pointer;list-style:none;font-weight:700;color:var(--ink);padding:18px 28px 18px 0;position:relative}
-  summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";position:absolute;right:0;top:14px;font-size:24px;font-weight:400;color:var(--violet)}
-  details[open] summary::after{content:"–"}
-  details p{padding-bottom:16px;margin:0}
-
-  footer{padding:36px 0 110px;font-size:14px;color:var(--ink-60);border-top:1px solid var(--line);margin-top:24px}
-  footer .row{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
-  footer a{color:var(--ink-60)}
-
-  .sticky{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(247,248,251,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:20;transform:translateY(110%);transition:transform .25s}
-  .sticky.show{transform:none}
-
-  @media (min-width:900px){
-    section{padding:88px 0}
-    .hero{padding:28px 0 88px}
-    .hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}
-    .form-card{padding:34px 32px;position:sticky;top:24px}
-    .cards{grid-template-columns:repeat(3,1fr)}
-    .benefits{grid-template-columns:1fr 1fr;gap:22px 36px}
-    .previews{grid-template-columns:1fr 1fr}
-    .why{padding:40px}
-    .sticky{display:none}
-    footer{padding-bottom:36px}
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Empfang in der Zahnarztpraxis – 24 Checklisten | zenday</title>
+  <meta name="description" content="24 Checklisten für den Empfang Ihrer Zahnarztpraxis: Praxisstart, Termine, Telefon, ePA, EBZ, Datenschutz und 4-Wochen-Einarbeitungsplan. Kostenlos als PDF.">
+  <link rel="canonical" href="https://www.zen-day.ai/ebooks/empfang/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="24 Checklisten, damit Ihr Empfang ohne Rückfragen läuft">
+  <meta property="og:description" content="Alle Abläufe am Empfang zum Abhaken – inklusive ePA, EBZ und 4-Wochen-Einarbeitungsplan. Kostenlos als PDF.">
+  <meta property="og:image" content="https://www.zen-day.ai/ebooks/empfang/assets/cover.jpg">
+  <meta property="og:url" content="https://www.zen-day.ai/ebooks/empfang/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+  <style>
+    /* Seitenspezifisch: nur var(--zd-…) */
+    .zd-hinweis[hidden] { display: none; }
+    .lp-cover-wrap { position: relative; max-width: 540px; padding-bottom: var(--zd-s-4); }
+    .lp-cover { width: 100%; border-radius: var(--zd-radius-s); border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten-l); }
+    .lp-cover-wrap .zd-badge { position: absolute; left: var(--zd-s-3); bottom: 0; box-shadow: var(--zd-schatten); }
+    .lp-hinweis-klein { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+    .lp-vertrauen .zd-reihe { gap: var(--zd-s-3) var(--zd-s-7); }
+    .lp-vertrauen strong { display: inline-flex; align-items: center; gap: var(--zd-s-3); }
+    .lp-vertrauen .zd-icon { width: 40px; height: 40px; border-radius: var(--zd-radius-s); }
+    .lp-situ { display: flex; gap: var(--zd-s-4); align-items: flex-start; }
+    .lp-situ .zd-icon { flex: none; width: 40px; height: 40px; border-radius: var(--zd-radius-s); }
+    .lp-situ p { margin: 0; }
+    .lp-reframe { font-size: var(--zd-fs-l); line-height: 1.5; color: var(--zd-anthrazit); border-left: 4px solid; border-image: var(--zd-verlauf) 1; padding: var(--zd-s-1) 0 var(--zd-s-1) var(--zd-s-5); max-width: none; }
+    .lp-rechnung { padding: 0; }
+    .lp-rechnung > div { display: flex; gap: var(--zd-s-4); align-items: baseline; padding: var(--zd-s-3) 0; border-bottom: 1px dashed var(--zd-linie-stark); }
+    .lp-rechnung > div:last-child { border-bottom: 0; }
+    .lp-rechnung b { flex: none; width: 1.25rem; color: var(--zd-violett); font-size: var(--zd-fs-l); }
+    .lp-vorschau { margin: 0; }
+    .lp-vorschau img { width: 100%; border-radius: var(--zd-radius-s); border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten); }
+    .lp-vorschau figcaption { margin-top: var(--zd-s-3); font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+    .lp-quelle { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+    .lp-absender { display: flex; gap: var(--zd-s-5); align-items: center; }
+    .lp-absender img { flex: none; width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid var(--zd-weiss); box-shadow: var(--zd-schatten); }
+    .lp-absender p { margin: 0; }
+    @media (max-width: 479px) { .lp-absender { flex-direction: column; align-items: flex-start; } }
+    .zd-kennzahl__label, figcaption { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
+  </style>
 </head>
-<body>
+<body class="zd-mit-cta-leiste">
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
 
-<header>
-  <div class="wrap">
-    <span class="logo" aria-label="zenday"><b>zen</b><span>day</span></span>
-  </div>
-</header>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="/" aria-label="zenday Startseite"><b>zen</b><span>day</span></a>
+    </div>
+  </header>
 
-<main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">Für Praxisinhaber/innen von Zahnarztpraxen</span>
-        <h1>24 Checklisten, damit Ihr Empfang ohne Rückfragen läuft</h1>
-        <p class="sub">Vom Praxisstart bis zum Tagesabschluss: alle Abläufe am Empfang zum Abhaken – inklusive <strong>ePA, EBZ und 4-Wochen-Einarbeitungsplan</strong>. 2026 überarbeitet, kostenlos als PDF.</p>
-        <div class="cover-wrap">
-          <img class="cover" src="/ebooks/empfang/assets/cover.jpg" width="1200" height="675" alt="Titelseite des E-Books „Empfang in der Zahnarztpraxis – Checklisten für ideale Tagesabläufe“">
-          <span class="badge"><i></i>PDF · 24 Checklisten</span>
+  <main id="inhalt">
+
+    <!-- 1 · Hero mit Formular -->
+    <section class="zd-hero zd-hero--ellipse">
+      <div class="zd-container">
+        <div class="zd-split zd-split--text-breit">
+          <div class="zd-stack">
+            <span class="zd-eyebrow">Für Praxisinhaber/innen von Zahnarztpraxen</span>
+            <h1>24 Checklisten, damit Ihr Empfang <span class="zd-text-verlauf">ohne Rückfragen</span> läuft</h1>
+            <p class="zd-lead">Vom Praxisstart bis zum Tagesabschluss: alle Abläufe am Empfang zum Abhaken – inklusive <strong>ePA, EBZ und 4-Wochen-Einarbeitungsplan</strong>. 2026 überarbeitet, kostenlos als PDF.</p>
+            <div class="lp-cover-wrap">
+              <img class="lp-cover" src="/ebooks/empfang/assets/cover.jpg" width="1200" height="675" alt="Titelseite des E-Books „Empfang in der Zahnarztpraxis – Checklisten für ideale Tagesabläufe“">
+              <span class="zd-badge zd-badge--punkt zd-badge--tuerkis">PDF · 24 Checklisten</span>
+            </div>
+          </div>
+
+          <div class="zd-formular-box" id="formular">
+            <h2>Checklisten kostenlos erhalten</h2>
+            <p class="zd-leise">Tragen Sie sich ein – der Download startet auf der nächsten Seite.</p>
+
+            <form class="zd-formular" id="lead-form" novalidate>
+              <div class="zd-feld">
+                <label for="vorname">Vorname<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="vorname" name="vorname" type="text" autocomplete="given-name" required>
+              </div>
+              <div class="zd-feld">
+                <label for="email">E-Mail<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              </div>
+              <div class="zd-feld">
+                <label for="telefon">Telefon<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <input class="zd-input" id="telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
+              </div>
+              <div class="zd-feld">
+                <label for="rolle">Ihre Rolle in der Praxis<span class="zd-pflicht" aria-hidden="true">*</span></label>
+                <select class="zd-select" id="rolle" name="rolle" required>
+                  <option value="" disabled selected>Bitte wählen</option>
+                  <option>Praxisinhaber/in</option>
+                  <option>Praxismanager/in</option>
+                  <option>QM-Beauftragte/r</option>
+                  <option>Empfang/Assistenz</option>
+                  <option>Andere</option>
+                </select>
+              </div>
+
+              <label class="zd-check">
+                <input type="checkbox" name="consent" value="ja">
+                <span>Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</span>
+              </label>
+
+              <!-- Honeypot gegen Spam -->
+              <div aria-hidden="true">
+                <label class="zd-sr-only" for="website">Website</label>
+                <input class="zd-sr-only" id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="ebook" value="empfang">
+              <input type="hidden" name="persona" value="A-Inhaber-Teilzeit">
+              <input type="hidden" name="quelle" value="landingpage-optin">
+              <input type="hidden" name="anzeige" value="empfang">
+              <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
+
+              <button class="zd-btn zd-btn--primaer zd-btn--voll" type="submit">Checklisten kostenlos erhalten</button>
+              <p class="lp-hinweis-klein zd-mitte">Kein Abo. Mit dem Absenden gelten unsere <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzhinweise</a>.</p>
+              <div class="zd-hinweis zd-hinweis--warnung" id="form-error" role="alert" hidden><span>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:support@zen-day.de">support@zen-day.de</a>.</span></div>
+            </form>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="form-card" id="formular">
-        <h2>Checklisten kostenlos erhalten</h2>
-        <p class="lead">Tragen Sie sich ein – der Download startet auf der nächsten Seite.</p>
-        <form id="lead-form" novalidate>
-          <label for="vorname">Vorname</label>
-          <input id="vorname" name="vorname" type="text" autocomplete="given-name" required>
-
-          <label for="email">E-Mail</label>
-          <input id="email" name="email" type="email" autocomplete="email" required>
-
-          <label for="telefon">Telefon</label>
-          <input id="telefon" name="telefon" type="tel" autocomplete="tel" required>
-
-          <label for="rolle">Ihre Rolle in der Praxis</label>
-          <select id="rolle" name="rolle" required>
-            <option value="" disabled selected>Bitte wählen</option>
-            <option>Praxisinhaber/in</option>
-            <option>Praxismanager/in</option>
-            <option>QM-Beauftragte/r</option>
-            <option>Empfang/Assistenz</option>
-            <option>Andere</option>
-          </select>
-
-          <label class="check"><input type="checkbox" name="consent" value="ja"> Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</label>
-
-          <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-          <input type="hidden" name="ebook" value="empfang">
-          <input type="hidden" name="persona" value="A-Inhaber-Teilzeit">
-          <input type="hidden" name="quelle" value="landingpage-optin">
-          <input type="hidden" name="anzeige" value="empfang">
-          <input type="hidden" name="utm_source"><input type="hidden" name="utm_medium"><input type="hidden" name="utm_campaign"><input type="hidden" name="utm_content">
-
-          <button class="btn" type="submit">Checklisten kostenlos erhalten</button>
-          <p class="micro">Kein Abo. Mit dem Absenden gelten unsere <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzhinweise</a>.</p>
-          <div class="err" id="form-error" role="alert" hidden>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an <a href="mailto:support@zen-day.de">support@zen-day.de</a>.</div>
-        </form>
+    <!-- 2 · Vertrauen -->
+    <section class="zd-sektion zd-sektion--weiss lp-vertrauen zd-mt-0" aria-label="Vertrauen" style="padding-block: var(--zd-s-6);">
+      <div class="zd-container">
+        <div class="zd-reihe zd-reihe--mitte">
+          <strong><span class="zd-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>Über 200 Praxisstandorte</strong>
+          <strong><span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/></svg></span>Mehr als 2.000 Nutzer</strong>
+          <strong><span class="zd-icon zd-icon--koralle"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>Entstanden mit einer Kundenpraxis</strong>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TRUST -->
-  <section class="trust" aria-label="Vertrauen">
-    <div class="wrap">
-      <ul>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>Über 200 Praxisstandorte</li>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.5 3 5.2"/></svg>Mehr als 2.000 Nutzer</li>
-        <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F0508C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>Entstanden mit einer Kundenpraxis</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- IST DAS FÜR SIE -->
-  <section>
-    <div class="wrap">
-      <h2>Ist das für Sie?</h2>
-      <div class="cards">
-        <div class="card situ"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><p>Ihr Empfang ist in <strong>Teilzeit</strong> besetzt – und jede Kollegin macht es etwas anders.</p></div>
-        <div class="card situ"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l1 4H7z"/><path d="M5 7h14v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M9 12h6M9 16h4"/></svg></span><p>Fällt jemand aus, weiß die <strong>Vertretung</strong> nicht, welche HKP offen sind oder wer zurückgerufen werden muss.</p></div>
-        <div class="card situ"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M10 9.5a2 2 0 1 1 2.5 1.9c-.3.1-.5.4-.5.8V13M12 16h.01"/></svg></span><p>Sie werden <strong>mehrmals am Tag</strong> gefragt, was zu tun ist – statt zu behandeln.</p></div>
+    <!-- 3 · Ist das für Sie? -->
+    <section class="zd-sektion">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <h2>Ist das für Sie?</h2>
+        </div>
+        <div class="zd-grid zd-grid--3">
+          <div class="zd-karte lp-situ"><span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><p>Ihr Empfang ist in <strong>Teilzeit</strong> besetzt – und jede Kollegin macht es etwas anders.</p></div>
+          <div class="zd-karte lp-situ"><span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><path d="M8 3h8l1 4H7z"/><path d="M5 7h14v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M9 12h6M9 16h4"/></svg></span><p>Fällt jemand aus, weiß die <strong>Vertretung</strong> nicht, welche HKP offen sind oder wer zurückgerufen werden muss.</p></div>
+          <div class="zd-karte lp-situ"><span class="zd-icon zd-icon--violett"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M10 9.5a2 2 0 1 1 2.5 1.9c-.3.1-.5.4-.5.8V13M12 16h.01"/></svg></span><p>Sie werden <strong>mehrmals am Tag</strong> gefragt, was zu tun ist – statt zu behandeln.</p></div>
+        </div>
+        <p class="lp-reframe zd-mt-8">Wenn Sie sich wiedererkennen: Das liegt nicht an Ihrem Team. <strong>Es fehlt ein fester Ablauf, der nicht im Kopf einer Einzelnen steckt.</strong></p>
       </div>
-      <p class="reframe">Wenn Sie sich wiedererkennen: Das liegt nicht an Ihrem Team. <strong>Es fehlt ein fester Ablauf, der nicht im Kopf einer Einzelnen steckt.</strong></p>
-    </div>
-  </section>
+    </section>
 
-  <!-- KOSTEN -->
-  <section style="padding-top:0">
-    <div class="wrap narrow">
-      <h2>Was Ihnen das kostet</h2>
-      <div class="calc">
-        <div class="calc-row"><span class="calc-op"></span><span><strong>Nicht erschienene Termine</strong> pro Monat × Wert einer Behandlungsstunde</span></div>
-        <div class="calc-row"><span class="calc-op">+</span><span><strong>Rückfragen</strong> pro Tag × Minuten × Arbeitstage</span></div>
-        <div class="calc-row"><span class="calc-op">+</span><span><strong>Wochen</strong>, bis eine neue Empfangskraft selbstständig arbeitet</span></div>
-        <p class="calc-note">Setzen Sie Ihre eigenen Werte ein. Das E-Book enthält 5 Kennzahlen, mit denen Sie das Monat für Monat messen.</p>
+    <!-- 4 · Kosten -->
+    <section class="zd-sektion" style="padding-top: 0;">
+      <div class="zd-container zd-container--schmal">
+        <h2 class="zd-mb-6">Was Ihnen das kostet</h2>
+        <div class="zd-karte zd-karte--gross">
+          <div class="lp-rechnung">
+            <div><b></b><span><strong>Nicht erschienene Termine</strong> pro Monat × Wert einer Behandlungsstunde</span></div>
+            <div><b>+</b><span><strong>Rückfragen</strong> pro Tag × Minuten × Arbeitstage</span></div>
+            <div><b>+</b><span><strong>Wochen</strong>, bis eine neue Empfangskraft selbstständig arbeitet</span></div>
+          </div>
+          <p class="zd-klein zd-leise">Setzen Sie Ihre eigenen Werte ein. Das E-Book enthält 5 Kennzahlen, mit denen Sie das Monat für Monat messen.</p>
+        </div>
+        <div class="zd-mitte zd-mt-8"><a class="zd-btn zd-btn--primaer zd-btn--gross" href="#formular">Checklisten kostenlos erhalten</a></div>
       </div>
-      <div class="cta-band" style="margin-top:32px"><a class="btn btn-inline" href="#formular">Checklisten kostenlos erhalten</a></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WAS SIE ERHALTEN -->
-  <section style="background:#fff">
-    <div class="wrap">
-      <h2>Was Sie erhalten</h2>
-      <div class="benefits">
-        <div class="benefit"><span class="num">1</span><div><h3>Tagesrhythmus</h3><p>Praxisstart, Vortags-Check, Tagesabschluss – jeder Schritt in Reihenfolge.</p></div></div>
-        <div class="benefit"><span class="num">2</span><div><h3>Volle Terminbücher</h3><p>48-Stunden-Erinnerung, Recall-Rhythmus, Warteliste und Anruf bei Nichterscheinen.</p></div></div>
-        <div class="benefit"><span class="num">3</span><div><h3>Telefonleitfaden</h3><p>Vom Melden bis zum Rückruf – inklusive Schmerzpatienten.</p></div></div>
-        <div class="benefit"><span class="num">4</span><div><h3>TI im Griff</h3><p>Was bei EBZ, eGK, ePA und KIM täglich und wöchentlich zu prüfen ist.</p></div></div>
-        <div class="benefit"><span class="num">5</span><div><h3>Daueraufgaben</h3><p>Datenschutz, Hygiene, Notfall, Kasse, Beschwerden, Vertretung.</p></div></div>
-        <div class="benefit"><span class="num">6</span><div><h3>Steuern &amp; einarbeiten</h3><p>5 Kennzahlen für den Empfang und ein 4-Wochen-Plan für neue Kolleginnen.</p></div></div>
+    <!-- 5 · Was Sie erhalten -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf">
+          <h2>Was Sie erhalten</h2>
+        </div>
+        <ol class="zd-schritte" role="list">
+          <li class="zd-schritt"><div><h3>Tagesrhythmus</h3><p>Praxisstart, Vortags-Check, Tagesabschluss – jeder Schritt in Reihenfolge.</p></div></li>
+          <li class="zd-schritt"><div><h3>Volle Terminbücher</h3><p>48-Stunden-Erinnerung, Recall-Rhythmus, Warteliste und Anruf bei Nichterscheinen.</p></div></li>
+          <li class="zd-schritt"><div><h3>Telefonleitfaden</h3><p>Vom Melden bis zum Rückruf – inklusive Schmerzpatienten.</p></div></li>
+          <li class="zd-schritt"><div><h3>TI im Griff</h3><p>Was bei EBZ, eGK, ePA und KIM täglich und wöchentlich zu prüfen ist.</p></div></li>
+          <li class="zd-schritt"><div><h3>Daueraufgaben</h3><p>Datenschutz, Hygiene, Notfall, Kasse, Beschwerden, Vertretung.</p></div></li>
+          <li class="zd-schritt"><div><h3>Steuern &amp; einarbeiten</h3><p>5 Kennzahlen für den Empfang und ein 4-Wochen-Plan für neue Kolleginnen.</p></div></li>
+        </ol>
+        <div class="zd-grid zd-grid--2 zd-mt-8">
+          <figure class="lp-vorschau"><img src="/ebooks/empfang/assets/preview-praxisstart.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Jeden Morgen: Praxisstart“"><figcaption>Beispielseite: Praxisstart</figcaption></figure>
+          <figure class="lp-vorschau"><img src="/ebooks/empfang/assets/preview-neupatienten.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Neupatienten“"><figcaption>Beispielseite: Neupatienten</figcaption></figure>
+        </div>
       </div>
-      <div class="previews">
-        <figure><img src="/ebooks/empfang/assets/preview-praxisstart.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Jeden Morgen: Praxisstart“"><figcaption>Beispielseite: Praxisstart</figcaption></figure>
-        <figure><img src="/ebooks/empfang/assets/preview-neupatienten.jpg" width="1200" height="675" loading="lazy" alt="Beispielseite: Checkliste „Neupatienten“"><figcaption>Beispielseite: Neupatienten</figcaption></figure>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WARUM JETZT -->
-  <section>
-    <div class="wrap narrow">
-      <div class="why">
+    <!-- 6 · Warum jetzt -->
+    <section class="zd-sektion zd-sektion--zart">
+      <div class="zd-container zd-container--schmal zd-stack">
         <h2>Warum jetzt</h2>
-        <span class="date">Seit 1. Oktober 2025</span>
-        <p>müssen Zahnarztpraxen die <strong>ePA</strong> mit Behandlungsdaten befüllen – das Einstellen darf ans Team delegiert werden. Der Leitfaden zeigt, wo das in den Empfangsablauf gehört.</p>
-        <p class="src">Quelle: zm, ePA – Fragen und Antworten (2025)</p>
+        <span class="zd-badge zd-badge--gelb">Seit 1. Oktober 2025</span>
+        <p class="zd-lead">müssen Zahnarztpraxen die <strong>ePA</strong> mit Behandlungsdaten befüllen – das Einstellen darf ans Team delegiert werden. Der Leitfaden zeigt, wo das in den Empfangsablauf gehört.</p>
+        <p class="lp-quelle">Quelle: zm, ePA – Fragen und Antworten (2025)</p>
+        <div class="zd-mt-4"><a class="zd-btn zd-btn--primaer zd-btn--gross" href="#formular">Checklisten kostenlos erhalten</a></div>
       </div>
-      <div class="cta-band" style="margin-top:32px"><a class="btn btn-inline" href="#formular">Checklisten kostenlos erhalten</a></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ABSENDER -->
-  <section style="padding-top:0">
-    <div class="wrap narrow">
-      <div class="card sender">
-        <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" class="avatar" width="76" height="76" loading="lazy">
-        <div>
-          <p class="name">Tilmann Förster</p>
-          <p class="role">Gründer von zenday</p>
-          <p>Der Leitfaden entstand gemeinsam mit einer Kundenpraxis, die ihre Abläufe schon vor der Eröffnung durchgeplant hat – und wurde 2026 vollständig überarbeitet.</p>
+    <!-- 7 · Absender -->
+    <section class="zd-sektion">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-karte lp-absender">
+          <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster" width="76" height="76" loading="lazy">
+          <div class="zd-stack zd-stack--eng">
+            <p><strong>Tilmann Förster</strong></p>
+            <p class="zd-klein zd-leise">Gründer von zenday</p>
+            <p>Der Leitfaden entstand gemeinsam mit einer Kundenpraxis, die ihre Abläufe schon vor der Eröffnung durchgeplant hat – und wurde 2026 vollständig überarbeitet.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ -->
-  <section style="padding-top:0">
-    <div class="wrap narrow">
-      <h2>Häufige Fragen</h2>
-      <details><summary>Kostet das etwas?</summary><p>Nein. Das PDF ist kostenlos.</p></details>
-      <details><summary>Passt das zu unserer Praxissoftware?</summary><p>Die Begriffe sind allgemein gehalten. Sie ergänzen, wo die Funktion in Ihrer PVS liegt.</p></details>
-      <details><summary>Muss ich zenday nutzen?</summary><p>Nein. Die Checklisten funktionieren eigenständig. In zenday sind sie als Vorlagen hinterlegt – für neue Kunden kostenlos.</p></details>
-      <details><summary>Was passiert mit meinen Daten?</summary><p>Wir nutzen sie für den Versand des E-Books. Tipps per E-Mail nur mit Ihrer Einwilligung. Details in den <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzhinweisen</a>.</p></details>
-      <div class="cta-band" style="margin-top:32px"><a class="btn btn-inline" href="#formular">Checklisten kostenlos erhalten</a></div>
-    </div>
-  </section>
-</main>
+    <!-- 8 · FAQ -->
+    <section class="zd-sektion zd-sektion--weiss">
+      <div class="zd-container zd-container--schmal">
+        <div class="zd-sektion-kopf">
+          <h2>Häufige Fragen</h2>
+        </div>
+        <div class="zd-faq">
+          <details><summary>Kostet das etwas?</summary><p>Nein. Das PDF ist kostenlos.</p></details>
+          <details><summary>Passt das zu unserer Praxissoftware?</summary><p>Die Begriffe sind allgemein gehalten. Sie ergänzen, wo die Funktion in Ihrer PVS liegt.</p></details>
+          <details><summary>Muss ich zenday nutzen?</summary><p>Nein. Die Checklisten funktionieren eigenständig. In zenday sind sie als Vorlagen hinterlegt – für neue Kunden kostenlos.</p></details>
+          <details><summary>Was passiert mit meinen Daten?</summary><p>Wir nutzen sie für den Versand des E-Books. Tipps per E-Mail nur mit Ihrer Einwilligung. Details in den <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzhinweisen</a>.</p></details>
+        </div>
+        <div class="zd-mitte zd-mt-8"><a class="zd-btn zd-btn--primaer zd-btn--gross" href="#formular">Checklisten kostenlos erhalten</a></div>
+      </div>
+    </section>
+  </main>
 
-<footer>
-  <div class="wrap row">
-    <span>© 2026 Ventria GmbH · zenday</span>
-    <span><a href="https://www.zen-day.ai/impressum">Impressum</a> &nbsp;·&nbsp; <a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></span>
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <div class="zd-grid zd-grid--3">
+        <div class="zd-stack zd-stack--eng">
+          <a class="zd-wortmarke" href="/"><b>zen</b><span>day</span></a>
+          <p>Qualitätsmanagement für Zahnarztpraxen.</p>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Kontakt</strong>
+          <a href="mailto:support@zen-day.de">support@zen-day.de</a>
+          <a href="https://calendly.com/digitalesqm/demo-praesentation">Demo-Termin buchen</a>
+        </div>
+        <div class="zd-stack zd-stack--eng">
+          <strong>Ventria GmbH</strong>
+          <span>Malkastenstraße 8, 40211 Düsseldorf</span>
+        </div>
+      </div>
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH · zenday</span>
+        <ul class="zd-footer__links">
+          <li><a href="https://www.zen-day.ai/impressum">Impressum</a></li>
+          <li><a href="https://www.zen-day.ai/datenschutz">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <div class="zd-cta-leiste">
+    <a class="zd-btn zd-btn--primaer" href="#formular">Checklisten kostenlos erhalten</a>
   </div>
-</footer>
 
-<div class="sticky" id="sticky"><a class="btn" href="#formular">Checklisten kostenlos erhalten</a></div>
-
-<script>
-// Zapier-Workflow „zenday-landingpage-leads“ → Google Sheet „FB Leads“
-const FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
-const DANKE_URL = '/ebooks/empfang/danke/';
-const form = document.getElementById('lead-form');
-const params = new URLSearchParams(location.search);
-['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
-  const el = form.querySelector(`[name="${k}"]`);
-  if (el) el.value = params.get(k) || '';
-});
-form.addEventListener('submit', async (ev) => {
-  ev.preventDefault();
-  const btn = form.querySelector('button[type=submit]');
-  const err = document.getElementById('form-error');
-  err.hidden = true;
-  if (!form.reportValidity()) return;
-  btn.disabled = true;
-  const data = Object.fromEntries(new FormData(form));
-  if (data.website) { location.href = DANKE_URL; return; } // Honeypot
-  data.consent = form.querySelector('[name=consent]').checked ? 'ja' : 'nein';
-  data.zeitstempel = new Date().toISOString();
-  try {
-    // no-cors: Zapier erhält die Daten, der Browser blockiert keine Antwort.
-    // Ein Fehler wird nur bei echtem Netzwerkproblem (offline) ausgelöst.
-    await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, body: new URLSearchParams(data) });
-    try { if (window.fbq) fbq('track', 'Lead'); } catch (e) {}
-    location.href = DANKE_URL;
-  } catch (e) {
-    err.hidden = false;
-    btn.disabled = false;
-  }
-});
-// Sticky-CTA auf Mobil: einblenden, sobald das Formular aus dem Blick ist
-const sticky = document.getElementById('sticky');
-const card = document.getElementById('formular');
-if ('IntersectionObserver' in window) {
-  new IntersectionObserver(([e]) => sticky.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0))
-    .observe(card);
-}
-</script>
+  <script src="/zenday.js?v=0.3" defer></script>
+  <script>
+  // Zapier-Workflow „zenday-landingpage-leads“ → Google Sheet „FB Leads“
+  const FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
+  const DANKE_URL = '/ebooks/empfang/danke/';
+  const form = document.getElementById('lead-form');
+  const params = new URLSearchParams(location.search);
+  ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
+    const el = form.querySelector(`[name="${k}"]`);
+    if (el) el.value = params.get(k) || '';
+  });
+  form.addEventListener('input', (e) => {
+    if (e.target.getAttribute('aria-invalid') === 'true' && e.target.checkValidity()) e.target.setAttribute('aria-invalid', 'false');
+  });
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const btn = form.querySelector('button[type=submit]');
+    const err = document.getElementById('form-error');
+    err.hidden = true;
+    form.querySelectorAll('[required]').forEach(f => f.setAttribute('aria-invalid', f.checkValidity() ? 'false' : 'true'));
+    if (!form.reportValidity()) return;
+    btn.disabled = true;
+    const data = Object.fromEntries(new FormData(form));
+    if (data.website) { location.href = DANKE_URL; return; } // Honeypot
+    data.consent = form.querySelector('[name=consent]').checked ? 'ja' : 'nein';
+    data.zeitstempel = new Date().toISOString();
+    try {
+      // no-cors: Zapier erhält die Daten, der Browser blockiert keine Antwort.
+      // Ein Fehler wird nur bei echtem Netzwerkproblem (offline) ausgelöst.
+      await fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, body: new URLSearchParams(data) });
+      try { if (window.fbq) fbq('track', 'Lead'); } catch (e) {}
+      location.href = DANKE_URL;
+    } catch (e) {
+      err.hidden = false;
+      btn.disabled = false;
+    }
+  });
+  </script>
 </body>
 </html>

@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gefährdungsbeurteilung Mini-App · zenday Learning Lab</title>
+  <meta name="description" content="Kostenlose Mini-App: Beantworten Sie ein paar Fragen zu Ihrer Zahnarztpraxis und erhalten Sie einen Entwurf für Gefährdungen, Maßnahmen und Rechtsgrundlagen.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.zen-day.ai/learning-lab/mini-apps/gefaehrdungsbeurteilung/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3">
+</head>
+<body>
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="/learning-lab/"><b>zen</b><span>day</span></a>
+      <div class="zd-header__aktionen">
+        <a class="zd-btn zd-btn--sekundaer zd-btn--klein" href="/learning-lab/">Learning Lab</a>
+      </div>
+    </div>
+  </header>
+  <main id="inhalt">
+<!-- zenday Mini-App: Gefährdungsbeurteilung (Einbettungs-Fragment)
+     Einbinden auf der Startseite (zen-day.ai) am Ende des <main>:
+       <link rel="stylesheet" href="/zenday.css?v=0.3">   (im <head>, falls nicht schon vorhanden)
+       <script src="/zenday.js?v=0.3" defer></script>      (im <body>, falls nicht schon vorhanden)
+     Dieses Fragment enthält nur Markup, scoped CSS (Präfix .zdgb) und Skript.
+     Keine globalen Variablen, keine Netzwerkaufrufe, keine Speicherung: Die Eingaben bleiben im Browser.
+     Mehrfach einbettbar (jede Instanz hat ihren eigenen Zustand). Nur Tokens aus zenday.css. -->
+<style>
+.zdgb .zdgb-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--zd-s-2); list-style: none; padding: 0; margin: 0 0 var(--zd-s-6); }
+@media (min-width: 640px) { .zdgb .zdgb-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.zdgb .zdgb-steps li + li { margin-top: 0; }
+.zdgb .zdgb-steps button {
+  width: 100%; min-height: 48px; padding: var(--zd-s-2) var(--zd-s-3);
+  border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s);
+  background: var(--zd-grund); color: var(--zd-text-leise);
+  font-size: var(--zd-fs-xs); font-weight: 600; line-height: 1.3; text-align: left;
+}
+.zdgb .zdgb-steps button > span { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--zd-weiss); color: var(--zd-anthrazit); margin-right: 0.35em; font-size: 0.85em; }
+.zdgb .zdgb-steps button[aria-current="step"] { background: var(--zd-blau-hell); border-color: var(--zd-blau); color: var(--zd-anthrazit); }
+.zdgb .zdgb-steps button[data-done="true"] { color: var(--zd-anthrazit); }
+.zdgb .zdgb-panel { display: flex; flex-direction: column; gap: var(--zd-s-4); }
+.zdgb .zdgb-panel > h3 { margin: 0; }
+.zdgb .zdgb-lbl { font-size: var(--zd-fs-s); font-weight: 600; color: var(--zd-anthrazit); }
+.zdgb .zdgb-grid { display: grid; gap: var(--zd-s-4); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) { .zdgb .zdgb-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
+.zdgb .zdgb-grid > * { min-width: 0; }
+.zdgb .zd-feld { min-width: 0; }
+.zdgb .zdgb-opts { display: grid; gap: var(--zd-s-3); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .zdgb .zdgb-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.zdgb .zdgb-opt {
+  display: flex; gap: var(--zd-s-3); align-items: flex-start; min-width: 0;
+  padding: var(--zd-s-4); min-height: 56px;
+  border: 1.5px solid var(--zd-linie-stark); border-radius: var(--zd-radius-s);
+  background: var(--zd-weiss); cursor: pointer;
+}
+.zdgb .zdgb-opt:has(input:checked) { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+.zdgb .zdgb-opt input { flex: none; width: 22px; height: 22px; margin-top: 2px; accent-color: var(--zd-blau-tief); }
+.zdgb .zdgb-opt strong { display: block; color: var(--zd-anthrazit); font-weight: 600; }
+.zdgb .zdgb-opt small { display: block; color: var(--zd-text-leise); font-size: var(--zd-fs-xs); }
+.zdgb .zdgb-q { display: grid; gap: var(--zd-s-3); padding-top: var(--zd-s-5); border-top: 1px solid var(--zd-linie); }
+.zdgb .zdgb-q:first-child { padding-top: 0; border-top: 0; }
+.zdgb .zdgb-q p { margin: 0; font-weight: 500; color: var(--zd-anthrazit); }
+.zdgb .zdgb-seg { display: flex; flex-wrap: wrap; gap: var(--zd-s-2); }
+.zdgb .zdgb-seg button {
+  min-height: 44px; padding: 0 var(--zd-s-4);
+  border: 1.5px solid var(--zd-linie-stark); border-radius: var(--zd-radius-pill);
+  background: var(--zd-weiss); color: var(--zd-anthrazit);
+  font-size: var(--zd-fs-s); font-weight: 600;
+}
+.zdgb .zdgb-seg button[aria-pressed="true"] { background: var(--zd-anthrazit); border-color: var(--zd-anthrazit); color: var(--zd-weiss); }
+.zdgb .zdgb-seg button[data-v="unklar"][aria-pressed="true"] { background: var(--zd-gelb-hell); border-color: var(--zd-gelb); color: var(--zd-anthrazit); }
+.zdgb .zdgb-nav { display: flex; flex-wrap: wrap; gap: var(--zd-s-3); justify-content: space-between; align-items: center; margin-top: var(--zd-s-4); }
+.zdgb .zdgb-kz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--zd-s-3); }
+.zdgb .zdgb-kz .zdgb-kzw { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 700; color: var(--zd-anthrazit); line-height: 1; font-variant-numeric: tabular-nums; }
+.zdgb .zdgb-kz .zdgb-kzl { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+.zdgb .zdgb-kz > div { padding: var(--zd-s-3); border-radius: var(--zd-radius-s); background: var(--zd-grund); display: flex; flex-direction: column; gap: var(--zd-s-1); min-width: 0; }
+.zdgb .zdgb-risk { border-left: 4px solid var(--zd-tuerkis); }
+.zdgb .zdgb-risk--klar { border-left-color: var(--zd-gelb); }
+.zdgb .zdgb-meas { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--zd-s-2); }
+.zdgb .zdgb-meas li { display: flex; gap: var(--zd-s-3); align-items: flex-start; font-size: var(--zd-fs-s); min-width: 0; margin-top: 0; }
+.zdgb .zdgb-meas li + li { margin-top: 0; }
+.zdgb .zdgb-meas .zd-badge { flex: none; min-width: 7.25rem; justify-content: center; }
+.zdgb .zdgb-pre { margin: 0; padding: var(--zd-s-4); max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-word; background: var(--zd-grund); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); color: var(--zd-anthrazit); font: var(--zd-fs-xs)/1.6 ui-monospace, Menlo, Consolas, monospace; }
+.zdgb .zdgb-actions { display: flex; flex-wrap: wrap; gap: var(--zd-s-3); }
+@media (max-width: 479px) { .zdgb .zdgb-actions > .zd-btn { width: 100%; } }
+</style>
+
+<section class="zd-sektion zd-sektion--weiss zdgb" aria-labelledby="zdgb-titel">
+  <div class="zd-container zd-stack">
+    <div class="zd-sektion-kopf">
+      <span class="zd-eyebrow">Kostenlose Mini-App</span>
+      <h2 id="zdgb-titel">Gefährdungsbeurteilung in wenigen Minuten</h2>
+      <p class="zd-lead">Beantworten Sie ein paar Fragen zu Ihrer Praxis. Sie erhalten einen Entwurf mit Gefährdungen, Maßnahmen und Rechtsgrundlagen, den Sie übernehmen und ergänzen können.</p>
+    </div>
+
+    <div class="zd-karte zd-karte--gross" data-zdgb>
+      <noscript><p class="zd-hinweis zd-hinweis--info">Für diese Mini-App wird JavaScript benötigt.</p></noscript>
+      <ol class="zdgb-steps" data-zdgb-steps></ol>
+      <div data-zdgb-panel></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var TOP = { S: 'Substitution', T: 'Technisch', O: 'Organisatorisch', P: 'Persönlich' };
+  var STEPS = ['Praxisprofil', 'Bereiche', 'Fragen', 'Ergebnis'];
+  var CALENDLY = 'https://calendly.com/digitalesqm/demo-praesentation';
+
+  // Inhalte: Gefährdungsbereiche mit Fragen, Rechtsgrundlagen und Maßnahmen (Entwurf, vor Veröffentlichung fachlich zu prüfen)
+  var MODULES = [
+    { id: 'beh', name: 'Behandlung am Patienten', basis: 'BioStoffV · TRBA 250 · ArbSchG § 5', qs: [
+      { id: 'beh1', t: 'Kommt es bei der Behandlung zu Kontakt mit Blut, Speichel oder anderen Körperflüssigkeiten?', r: 'Infektion durch Körperflüssigkeiten', m: [
+        ['T', 'Sicherheitsinstrumente mit Schutzmechanismus einsetzen, soweit verfügbar'],
+        ['O', 'Umgang mit spitzen und scharfen Gegenständen festlegen, einschließlich Entsorgung'],
+        ['P', 'Schutzhandschuhe und Schutzbrille bereitstellen und deren Nutzung regeln'],
+        ['O', 'Arbeitsmedizinische Vorsorge nach ArbMedVV prüfen']] },
+      { id: 'beh2', t: 'Werden Instrumente oder Materialien von Hand gereinigt, bevor sie aufbereitet werden?', r: 'Verletzungs- und Infektionsgefahr bei manueller Reinigung', m: [
+        ['T', 'Reinigung nach Möglichkeit maschinell durchführen'],
+        ['P', 'Geeignete Schutzhandschuhe verwenden'],
+        ['O', 'Reinigungsschritte schriftlich festlegen']] },
+      { id: 'beh3', t: 'Werden Behandlungseinheiten und Flächen nach jedem Patienten desinfiziert?', r: 'Kontamination von Flächen und Behandlungseinheiten', m: [
+        ['O', 'Desinfektionsplan mit Mitteln, Einwirkzeiten und Zuständigkeiten festlegen'],
+        ['P', 'Händedesinfektion und Hygieneregeln unterweisen']] }
+    ] },
+    { id: 'sterl', name: 'Aufbereitung von Medizinprodukten', basis: 'MPBetreibV · RKI/BfArM-Empfehlung · TRBA 250', qs: [
+      { id: 'st1', t: 'Werden Medizinprodukte in der Praxis selbst aufbereitet?', r: 'Gefährdung bei der Aufbereitung von Medizinprodukten', m: [
+        ['O', 'Aufbereitungsschritte und Verantwortlichkeiten schriftlich festlegen'],
+        ['T', 'Geeignete, geprüfte Geräte und Verfahren einsetzen'],
+        ['O', 'Nachweise und Chargendokumentation führen']] },
+      { id: 'st2', t: 'Werden aufbereitete Instrumente vor der Verwendung zwischengelagert?', r: 'Rekontamination gelagerter Instrumente', m: [
+        ['O', 'Lagerungsbedingungen und Verpackung festlegen'],
+        ['O', 'Lagerdauer und Kontrolle der Verpackung regeln']] }
+    ] },
+    { id: 'roe', name: 'Röntgen', basis: 'StrlSchG · StrlSchV · ArbSchG § 5', qs: [
+      { id: 'roe1', t: 'Wird in der Praxis Röntgenstrahlung eingesetzt?', r: 'Strahlenexposition von Personal und Patienten', m: [
+        ['O', 'Strahlenschutzverantwortliche Person und Zuständigkeiten benennen'],
+        ['T', 'Strahlenschutzbereiche und Schutzausrüstung bereitstellen'],
+        ['O', 'Prüfungen und Dokumentation gemäß StrlSchV festlegen']] },
+      { id: 'roe2', t: 'Kann sich während einer Aufnahme eine unbeteiligte Person im Raum aufhalten?', r: 'Unbeabsichtigte Exposition Dritter', m: [
+        ['T', 'Zugang während der Aufnahme sperren oder absichern'],
+        ['O', 'Verhalten bei Aufnahmen unterweisen']] }
+    ] },
+    { id: 'gef', name: 'Gefahrstoffe', basis: 'GefStoffV § 6 · TRGS 400', qs: [
+      { id: 'gef1', t: 'Werden Gefahrstoffe verwendet, z. B. Desinfektions-, Reinigungs- oder Pflegemittel mit Gefahrenkennzeichnung?', r: 'Gefährdung durch Gefahrstoffe', m: [
+        ['S', 'Gefahrstoffe mit geringerem Gefährdungspotenzial auswählen, soweit möglich'],
+        ['O', 'Gefahrstoffverzeichnis mit Sicherheitsdatenblättern führen'],
+        ['P', 'Schutzausrüstung laut Betriebsanweisung bereitstellen'],
+        ['O', 'Betriebsanweisungen erstellen und Beschäftigte unterweisen']] },
+      { id: 'gef2', t: 'Werden Gefahrstoffe umgefüllt oder gemischt?', r: 'Gefährdung beim Umfüllen und Mischen', m: [
+        ['T', 'Umfüllen mit geeigneten Behältern und Hilfsmitteln'],
+        ['O', 'Kennzeichnung der Behälter sicherstellen']] }
+    ] },
+    { id: 'arb', name: 'Arbeitsplatz & Ergonomie', basis: 'ArbStättV · Bildschirmarbeit · ArbSchG § 5', qs: [
+      { id: 'arb1', t: 'Wird überwiegend am Bildschirm gearbeitet?', r: 'Belastung bei Bildschirmarbeit', m: [
+        ['T', 'Arbeitsplatz ergonomisch einrichten'],
+        ['O', 'Pausen organisieren und Angebot arbeitsmedizinischer Vorsorge prüfen']] },
+      { id: 'arb2', t: 'Werden regelmäßig Lasten gehoben oder getragen, z. B. Behälter, Geräte oder Materialkisten?', r: 'Belastung durch Heben und Tragen', m: [
+        ['T', 'Hebehilfen oder Transportwagen bereitstellen'],
+        ['O', 'Lasten nach Gewicht und Tätigkeit begrenzen'],
+        ['P', 'Unterweisung zu rückengerechtem Heben']] },
+      { id: 'arb3', t: 'Gibt es Stolper-, Rutsch- oder Engstellen auf Verkehrswegen?', r: 'Sturz- und Rutschgefahr auf Verkehrswegen', m: [
+        ['T', 'Verkehrswege freihalten und ausreichend beleuchten'],
+        ['O', 'Mängel regelmäßig begehen und dokumentieren']] }
+    ] },
+    { id: 'mus', name: 'Schwangere & Stillende', basis: 'MuSchG § 10 · ArbSchG § 5', qs: [
+      { id: 'mus1', t: 'Sind schwangere oder stillende Mitarbeitende beschäftigt?', r: 'Besondere Gefährdung schwangerer und stillender Beschäftigter', m: [
+        ['O', 'Gefährdungsbeurteilung nach MuSchG § 10 für die betroffene Person durchführen'],
+        ['O', 'Schutzmaßnahmen festlegen und an die Tätigkeiten anpassen'],
+        ['O', 'Mitteilung der Schwangerschaft ermöglichen und Ergebnisse dokumentieren']] }
+    ] },
+    { id: 'brd', name: 'Brandschutz & Notfall', basis: 'ASR A2.2 · DGUV Vorschrift 1 · ArbSchG § 5', qs: [
+      { id: 'brd1', t: 'Gibt es Brandlasten oder Fluchtwege, die eingeschränkt sein können?', r: 'Brandgefahr und eingeschränkte Fluchtwege', m: [
+        ['T', 'Fluchtwege freihalten und kennzeichnen'],
+        ['T', 'Brandschutzeinrichtungen bereitstellen und prüfen lassen'],
+        ['O', 'Brandschutzordnung erstellen und Mitarbeitende unterweisen']] },
+      { id: 'brd2', t: 'Sind die Abläufe bei Notfällen wie Kollaps oder Verletzung nicht schriftlich festgelegt?', r: 'Unzureichende Notfallvorbereitung', m: [
+        ['O', 'Notfallplan schriftlich festlegen und Verantwortliche benennen'],
+        ['O', 'Erste-Hilfe-Ausstattung und Ersthelfer bereitstellen (DGUV Vorschrift 1)']] }
+    ] }
+  ];
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function collect(st) {
+    var out = [];
+    MODULES.forEach(function (m) {
+      if (!st.sel[m.id]) return;
+      m.qs.forEach(function (q) {
+        var a = st.ans[q.id];
+        if (a === 'ja') out.push({ kind: 'risk', mod: m, title: q.r, m: q.m });
+        else if (a === 'unklar') out.push({ kind: 'clar', mod: m, title: 'Klärungsbedarf: ' + q.r, m: [['O', 'Sachverhalt vor Ort prüfen und Antwort in der Beurteilung dokumentieren']] });
+      });
+    });
+    return out;
+  }
+
+  function buildText(st, risks) {
+    var lines = ['GEFÄHRDUNGSBEURTEILUNG' + (st.name ? ' – ' + st.name : ''), ''];
+    if (!risks.length) lines.push('Keine Gefährdungen angegeben.');
+    risks.forEach(function (r, i) {
+      var mt = st.meta[i] || {};
+      lines.push((i + 1) + '. ' + r.title, '   Bereich: ' + r.mod.name + ' (' + r.mod.basis + ')');
+      r.m.forEach(function (x) { lines.push('   - [' + TOP[x[0]] + '] ' + x[1]); });
+      lines.push('   Verantwortlich: ' + (mt.who || 'offen') + ' · Überprüfen bis: ' + (mt.due || 'offen'), '');
+    });
+    return lines.join('\n');
+  }
+
+  function init(root) {
+    var st = { step: 0, name: '', rooms: '', staff: '', sel: {}, ans: {}, meta: {} };
+    var stepsEl = root.querySelector('[data-zdgb-steps]');
+    var panel = root.querySelector('[data-zdgb-panel]');
+    var focusKey = null;
+
+    function selectedCount() { return Object.keys(st.sel).filter(function (k) { return st.sel[k]; }).length; }
+
+    function viewProfile() {
+      return '<div class="zdgb-panel"><h3>Praxisprofil</h3>' +
+        '<p class="zd-klein zd-leise">Die Angaben stehen im Kopf Ihrer Beurteilung. Alle Felder sind optional.</p>' +
+        '<div class="zdgb-grid">' +
+          '<label class="zd-feld"><span class="zdgb-lbl">Praxisname</span><input class="zd-input" type="text" data-field="name" value="' + esc(st.name) + '" placeholder="z. B. Zahnarztpraxis Musterstadt"></label>' +
+          '<label class="zd-feld"><span class="zdgb-lbl">Behandlungsräume</span><input class="zd-input" type="number" min="0" data-field="rooms" value="' + esc(st.rooms) + '"></label>' +
+          '<label class="zd-feld"><span class="zdgb-lbl">Beschäftigte</span><input class="zd-input" type="number" min="0" data-field="staff" value="' + esc(st.staff) + '"></label>' +
+        '</div>' +
+        '<div class="zdgb-nav"><span></span><button class="zd-btn zd-btn--primaer zd-btn--klein" type="button" data-act="next" data-key="next">Weiter</button></div></div>';
+    }
+
+    function viewSelect() {
+      return '<div class="zdgb-panel"><h3>Tätigkeitsbereiche</h3>' +
+        '<p class="zd-klein zd-leise">Wählen Sie alle Bereiche, die in Ihrer Praxis vorkommen. Nur diese werden abgefragt.</p>' +
+        '<div class="zdgb-opts">' + MODULES.map(function (m) {
+          return '<label class="zdgb-opt"><input type="checkbox" data-mod="' + m.id + '"' + (st.sel[m.id] ? ' checked' : '') + '><span><strong>' + esc(m.name) + '</strong><small>' + esc(m.basis) + '</small></span></label>';
+        }).join('') + '</div>' +
+        '<div class="zdgb-nav"><button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-act="back" data-key="back">Zurück</button>' +
+        '<button class="zd-btn zd-btn--primaer zd-btn--klein" type="button" data-act="next" data-key="next">Weiter</button></div></div>';
+    }
+
+    function viewQuestions() {
+      var mods = MODULES.filter(function (m) { return st.sel[m.id]; });
+      if (!mods.length) {
+        return '<div class="zdgb-panel"><p class="zd-hinweis zd-hinweis--info">Sie haben noch keinen Bereich gewählt.</p>' +
+          '<div class="zdgb-nav"><button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-act="back" data-key="back">Zurück</button></div></div>';
+      }
+      var total = 0, done = 0;
+      mods.forEach(function (m) { m.qs.forEach(function (q) { total++; if (st.ans[q.id]) done++; }); });
+      return '<div class="zdgb-panel"><p class="zd-klein zd-leise">Beantwortet: ' + done + ' von ' + total + '. „Ja“ heißt: Die Gefährdung trifft auf Ihre Praxis zu. „Unklar“ markiert einen Punkt zur Klärung vor Ort.</p>' +
+        mods.map(function (m) {
+          return '<div class="zdgb-panel"><h3>' + esc(m.name) + '</h3><p class="zd-klein zd-leise">' + esc(m.basis) + '</p>' +
+            m.qs.map(function (q) {
+              return '<div class="zdgb-q"><p>' + esc(q.t) + '</p><div class="zdgb-seg" role="group" aria-label="' + esc(q.t) + '">' +
+                ['ja', 'nein', 'unklar'].map(function (v) {
+                  var lbl = v.charAt(0).toUpperCase() + v.slice(1);
+                  return '<button type="button" data-q="' + q.id + '" data-v="' + v + '" data-key="q' + q.id + v + '" aria-pressed="' + (st.ans[q.id] === v) + '">' + lbl + '</button>';
+                }).join('') + '</div></div>';
+            }).join('') + '</div>';
+        }).join('') +
+        '<div class="zdgb-nav"><button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-act="back" data-key="back">Zurück</button>' +
+        '<button class="zd-btn zd-btn--primaer zd-btn--klein" type="button" data-act="next" data-key="next">Ergebnis erstellen</button></div></div>';
+    }
+
+    function viewResult() {
+      var risks = collect(st);
+      var nR = risks.filter(function (r) { return r.kind === 'risk'; }).length;
+      var nC = risks.length - nR;
+      var nM = risks.reduce(function (n, r) { return n + r.m.length; }, 0);
+      var head = '<div class="zdgb-panel"><span class="zd-eyebrow">Ergebnis</span>' +
+        '<h3>' + (st.name ? esc(st.name) : 'Ihr Entwurf') + '</h3>' +
+        '<div class="zdgb-kz">' +
+          '<div><span class="zdgb-kzw">' + nR + '</span><span class="zdgb-kzl">Gefährdungen</span></div>' +
+          '<div><span class="zdgb-kzw">' + nC + '</span><span class="zdgb-kzl">Klärungspunkte</span></div>' +
+          '<div><span class="zdgb-kzw">' + nM + '</span><span class="zdgb-kzl">Maßnahmen</span></div>' +
+        '</div>' +
+        '<p class="zd-hinweis zd-hinweis--info">Dies ist ein Entwurf auf Basis Ihrer Angaben. Prüfen und ergänzen Sie ihn vor der Übernahme. Er ersetzt keine Prüfung durch Fachpersonal.</p>';
+      if (!risks.length) head += '<p class="zd-hinweis zd-hinweis--warnung">Es wurde keine Gefährdung angegeben. Prüfen Sie Ihre Antworten, bevor Sie den Entwurf übernehmen.</p>';
+      head += '</div>';
+
+      var cards = risks.map(function (r, i) {
+        return '<article class="zd-karte zdgb-risk' + (r.kind === 'clar' ? ' zdgb-risk--klar' : '') + '">' +
+          '<span class="zd-badge ' + (r.kind === 'clar' ? 'zd-badge--gelb' : 'zd-badge--tuerkis') + '">' + (r.kind === 'clar' ? 'Klärung' : 'Gefährdung') + ' · ' + esc(r.mod.name) + '</span>' +
+          '<h3>' + esc(r.title) + '</h3>' +
+          '<p class="zd-klein zd-leise">Rechtsgrundlage: ' + esc(r.mod.basis) + '</p>' +
+          '<ul class="zdgb-meas">' + r.m.map(function (x) { return '<li><span class="zd-badge zd-badge--violett">' + TOP[x[0]] + '</span><span>' + esc(x[1]) + '</span></li>'; }).join('') + '</ul>' +
+          '<div class="zdgb-grid">' +
+            '<label class="zd-feld"><span class="zdgb-lbl">Verantwortlich</span><input class="zd-input" type="text" data-meta="' + i + '" data-k="who" value="' + esc((st.meta[i] || {}).who || '') + '" placeholder="Name oder Funktion"></label>' +
+            '<label class="zd-feld"><span class="zdgb-lbl">Überprüfen bis</span><input class="zd-input" type="date" data-meta="' + i + '" data-k="due" value="' + esc((st.meta[i] || {}).due || '') + '"></label>' +
+          '</div></article>';
+      }).join('');
+
+      var text = '<div class="zdgb-panel"><h3>Text zum Übernehmen</h3>' +
+        '<pre class="zdgb-pre" data-zdgb-export>' + esc(buildText(st, risks)) + '</pre>' +
+        '<div class="zdgb-actions">' +
+          '<button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-act="copy" data-key="copy">Text kopieren</button>' +
+          '<a class="zd-btn zd-btn--primaer zd-btn--klein" href="' + CALENDLY + '" target="_blank" rel="noopener">Demo mit zenday buchen</a>' +
+        '</div>' +
+        '<div class="zdgb-nav"><button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-act="back" data-key="back">Zurück zu den Fragen</button></div></div>';
+
+      return head + cards + text;
+    }
+
+    var views = [viewProfile, viewSelect, viewQuestions, viewResult];
+
+    function render() {
+      stepsEl.innerHTML = STEPS.map(function (s, i) {
+        return '<li><button type="button" data-step="' + i + '" data-key="step' + i + '"' +
+          (i === st.step ? ' aria-current="step"' : '') + (i < st.step ? ' data-done="true"' : '') + '><span>' + (i + 1) + '</span>' + s + '</button></li>';
+      }).join('');
+      panel.innerHTML = views[st.step]();
+      if (focusKey) {
+        var el = root.querySelector('[data-key="' + focusKey + '"]');
+        if (el) el.focus({ preventScroll: true });
+        focusKey = null;
+      }
+    }
+
+    function go(step, key) { st.step = step; focusKey = key || null; render(); }
+
+    root.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b || !root.contains(b)) return;
+      if (b.hasAttribute('data-step')) { go(+b.getAttribute('data-step'), b.getAttribute('data-key')); return; }
+      if (b.hasAttribute('data-q')) {
+        var id = b.getAttribute('data-q'), v = b.getAttribute('data-v');
+        if (st.ans[id] === v) delete st.ans[id]; else st.ans[id] = v;
+        focusKey = b.getAttribute('data-key');
+        render();
+        return;
+      }
+      var act = b.getAttribute('data-act');
+      if (act === 'next') go(Math.min(3, st.step + 1), 'step' + Math.min(3, st.step + 1));
+      else if (act === 'back') go(Math.max(0, st.step - 1), 'step' + Math.max(0, st.step - 1));
+      else if (act === 'copy') {
+        var pre = root.querySelector('[data-zdgb-export]');
+        var txt = pre ? pre.textContent : '';
+        var done = function () { b.textContent = 'Kopiert'; };
+        try {
+          navigator.clipboard.writeText(txt).then(done, function () { selectPre(pre); b.textContent = 'Markiert, bitte kopieren'; });
+        } catch (err) { selectPre(pre); b.textContent = 'Markiert, bitte kopieren'; }
+      }
+    });
+
+    function selectPre(pre) {
+      if (!pre) return;
+      var r = document.createRange(); r.selectNodeContents(pre);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+
+    root.addEventListener('input', function (e) {
+      var t = e.target;
+      if (t.hasAttribute('data-field')) {
+        st[t.getAttribute('data-field')] = t.value;
+        if (t.getAttribute('data-field') === 'name') {
+          // Kopf nicht neu rendern, damit das Feld den Fokus behält
+        }
+      } else if (t.hasAttribute('data-meta')) {
+        var i = t.getAttribute('data-meta'), k = t.getAttribute('data-k');
+        st.meta[i] = st.meta[i] || {};
+        st.meta[i][k] = t.value;
+      } else {
+        return;
+      }
+      if (st.step === 3) {
+        var pre = root.querySelector('[data-zdgb-export]');
+        if (pre) pre.textContent = buildText(st, collect(st));
+      }
+    });
+
+    root.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.hasAttribute('data-mod')) {
+        st.sel[t.getAttribute('data-mod')] = t.checked;
+      }
+    });
+
+    render();
+  }
+
+  var roots = document.querySelectorAll('[data-zdgb]');
+  for (var i = 0; i < roots.length; i++) init(roots[i]);
+})();
+</script>
+  </main>
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH</span>
+        <ul class="zd-footer__links">
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script src="/zenday.js?v=0.3" defer></script>
+</body>
+</html>

@@ -1,7 +1,34 @@
 {
   "redirects": [
-    { "source": "/ebook-compliance", "destination": "/ebooks/compliance/", "permanent": true },
-    { "source": "/ebook-compliance/", "destination": "/ebooks/compliance/", "permanent": true },
-    { "source": "/ebooks/empfang/danke.html", "destination": "/ebooks/empfang/danke/", "permanent": true }
+    {
+      "source": "/ebook-compliance",
+      "destination": "/ebooks/compliance/",
+      "permanent": true
+    },
+    {
+      "source": "/ebook-compliance/",
+      "destination": "/ebooks/compliance/",
+      "permanent": true
+    },
+    {
+      "source": "/ebooks/empfang/danke.html",
+      "destination": "/ebooks/empfang/danke/",
+      "permanent": true
+    },
+    {
+      "source": "/mini-apps/begehungs-check",
+      "destination": "/learning-lab/mini-apps/begehungs-check/",
+      "permanent": true
+    },
+    {
+      "source": "/mini-apps/begehungs-check/",
+      "destination": "/learning-lab/mini-apps/begehungs-check/",
+      "permanent": true
+    },
+    {
+      "source": "/begehungs-check",
+      "destination": "/learning-lab/mini-apps/begehungs-check/",
+      "permanent": true
+    }
   ]
 }

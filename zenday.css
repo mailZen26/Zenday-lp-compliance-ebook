@@ -1,6 +1,6 @@
 /* ==========================================================================
    zenday.css — Basis-Stylesheet für zenday-Webseiten und Landingpages
-   Version: 0.3 (Prototyp) · Stand: 2026-11-10
+   Version: 0.3.1 (Prototyp) · Stand: 2026-11-12
    Breakpoints (mobile first):
      Handy   < 640 px   eine Spalte, Menü als Klappmenü
      Tablet  ≥ 640 px   zwei Spalten, Menü weiter als Klappmenü
@@ -8,6 +8,7 @@
    Geräte: Die Seite passt sich allein an die Bildschirmgröße an (keine
      Geräteerkennung). Getestet von 320 px (kleinste Handys) bis 2560 px,
      hoch und quer, mit Touch und Maus.
+   Änderungen 0.3.1: Verlaufs-Buttons mit sauber runden Enden
    Änderungen 0.3: Silbentrennung für lange deutsche Wörter, Rasterspalten
      ohne Überlauf, Handy quer (kompakter Header, keine CTA-Leiste),
      Hover-Effekte nur bei Maus, Notch-Ränder (safe-area)
@@ -277,6 +278,8 @@ hr { border: 0; height: 1px; background: var(--zd-linie); margin: var(--zd-s-6) 
 /* Hauptbutton: einer pro Ansicht */
 .zd-btn--primaer {
   background: var(--zd-verlauf-button);
+  background-origin: border-box;   /* Verlauf läuft unter dem transparenten Rand durch, keine Kanten */
+  background-repeat: no-repeat;
   color: var(--zd-anthrazit);
   box-shadow: 0 6px 18px rgba(155, 92, 246, 0.22);
 }

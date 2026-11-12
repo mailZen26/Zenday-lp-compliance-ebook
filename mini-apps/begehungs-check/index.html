@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Begehungs-Check für Zahnarztpraxen | zenday</title>
+<meta name="description" content="Begehung angekündigt? In 5 Minuten wissen Sie, wo Ihre Zahnarztpraxis steht: Ampel für Hygiene, Medizinprodukte, Röntgen, Arbeitsschutz und Datenschutz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/zenday.css?v=0.3.1">
+<style>
+  /* Begehungs-Check Landingpage: Challenger-Bogen, der Check läuft auf derselben Seite (Landing ↔ App-Modus) */
+  :root { color-scheme: light; }
+  .zd-header { top: env(safe-area-inset-top, 0px); }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--zd-grund); }
+
+  /* ---------- Landing ---------- */
+  .lp-hero h1 { max-width: 15ch; }
+  .lp-beispiel { position: relative; }
+  .lp-beispiel__kopf { display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-3); flex-wrap: wrap; }
+  .lp-beispiel__kopf strong { font-size: var(--zd-fs-m); }
+  .lp-zeilen { list-style: none; padding: 0; display: grid; gap: var(--zd-s-2); }
+  .lp-zeilen li { margin: 0; display: grid; grid-template-columns: auto 1fr auto; gap: var(--zd-s-3); align-items: center; padding: var(--zd-s-3) 0; border-top: 1px solid var(--zd-linie); font-size: var(--zd-fs-s); }
+  .lp-zeilen li:first-child { border-top: 0; }
+  .lp-zeilen b { color: var(--zd-anthrazit); }
+  .lp-punkt { width: 12px; height: 12px; border-radius: 50%; }
+  .lp-punkt[data-status="rot"] { background: var(--zd-koralle); }
+  .lp-punkt[data-status="gelb"] { background: var(--zd-gelb); }
+  .lp-punkt[data-status="gruen"] { background: var(--zd-tuerkis); }
+  .lp-zeilen .zd-leise { white-space: nowrap; }
+
+  .lp-reframe { font-size: var(--zd-fs-h3); line-height: 1.35; color: var(--zd-anthrazit); font-weight: 600; max-width: 30ch; text-wrap: balance; }
+  .lp-befunde { list-style: none; padding: 0; display: grid; gap: var(--zd-s-3); }
+  .lp-befunde li { margin: 0; display: grid; grid-template-columns: 4px 1fr; gap: var(--zd-s-4); background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: var(--zd-s-4) var(--zd-s-5); }
+  .lp-befunde li::before { content: ""; border-radius: var(--zd-radius-pill); background: var(--zd-koralle); }
+  .lp-befunde span { display: block; font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+
+  /* Rechner */
+  .lp-rechner { display: grid; gap: var(--zd-s-5); }
+  .lp-rechner__felder { display: grid; gap: var(--zd-s-4); grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .lp-rechner__felder { grid-template-columns: repeat(3, 1fr); } }
+  .lp-rechner .zd-input { font-variant-numeric: tabular-nums; }
+  .lp-rechner__ergebnis { display: grid; grid-template-columns: 1fr 1fr; gap: var(--zd-s-3); }
+  .lp-rechner__ergebnis > div { background: var(--zd-grund); border-radius: var(--zd-radius-s); padding: var(--zd-s-4); }
+  .lp-rechner .zd-kennzahl__wert { font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); font-variant-numeric: tabular-nums; }
+
+  /* Alter Weg → neuer Weg */
+  .lp-wege { display: grid; gap: var(--zd-s-4); }
+  .lp-weg { display: grid; gap: var(--zd-s-3); background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); padding: var(--zd-s-5); }
+  @media (min-width: 720px) { .lp-weg { grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--zd-s-5); } }
+  .lp-weg p { font-size: var(--zd-fs-s); }
+  .lp-weg__label { display: block; font-size: var(--zd-fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--zd-s-1); }
+  .lp-weg__alt .lp-weg__label { color: var(--zd-text-leise); }
+  .lp-weg__neu .lp-weg__label { color: var(--zd-violett); }
+  .lp-weg__pfeil { color: var(--zd-violett); font-size: 1.5rem; line-height: 1; }
+  @media (max-width: 719px) { .lp-weg__pfeil { transform: rotate(90deg); justify-self: start; } }
+
+  /* Bereiche */
+  .bc-bereiche { list-style: none; padding: 0; display: grid; gap: 0; background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); overflow: hidden; }
+  .bc-bereiche li { margin: 0; display: grid; grid-template-columns: 48px 1fr auto; gap: var(--zd-s-4); align-items: center; padding: var(--zd-s-4) var(--zd-s-5); }
+  .bc-bereiche li + li { border-top: 1px solid var(--zd-linie); }
+  .bc-bereiche strong { display: block; }
+  .bc-bereiche .zd-klein { color: var(--zd-text-leise); }
+  .bc-anzahl { font-size: var(--zd-fs-s); font-weight: 600; color: var(--zd-text-leise); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---------- App ---------- */
+  .bc-app { padding-block: var(--zd-s-7) var(--zd-s-8); }
+  .bc-fortschritt { height: 6px; border-radius: var(--zd-radius-pill); background: var(--zd-linie); overflow: hidden; }
+  .bc-fortschritt span { display: block; height: 100%; width: 0; background: var(--zd-verlauf); border-radius: inherit; transition: width var(--zd-dauer) var(--zd-kurve); }
+  .bc-meta { display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-3); flex-wrap: wrap; font-size: var(--zd-fs-s); color: var(--zd-text-leise); font-variant-numeric: tabular-nums; }
+  .bc-frage { font-size: var(--zd-fs-h3); outline: none; }
+  .bc-antworten { display: grid; gap: var(--zd-s-3); }
+  @media (min-width: 640px) { .bc-antworten { grid-template-columns: 1fr 1fr; } }
+  .bc-antwort {
+    display: flex; align-items: center; gap: var(--zd-s-3);
+    min-height: 60px; padding: var(--zd-s-3) var(--zd-s-5);
+    background: var(--zd-weiss); border: 1.5px solid var(--zd-linie-stark); border-radius: var(--zd-radius-s);
+    text-align: left; font-weight: 600; color: var(--zd-anthrazit);
+    transition: border-color var(--zd-dauer), background var(--zd-dauer);
+  }
+  .bc-antwort:hover { border-color: var(--zd-anthrazit); }
+  .bc-antwort[aria-pressed="true"] { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+  .bc-antwort kbd { flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--zd-grund); font: inherit; font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+  .bc-antwort[aria-pressed="true"] kbd { background: var(--zd-blau); color: var(--zd-weiss); }
+  @media (hover: none) { .bc-antwort kbd { display: none; } }
+  .bc-warum { background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: 0 var(--zd-s-5); }
+  .bc-warum summary { min-height: 52px; display: flex; align-items: center; cursor: pointer; font-weight: 600; font-size: var(--zd-fs-s); color: var(--zd-anthrazit); }
+  .bc-warum > div { padding-bottom: var(--zd-s-5); display: grid; gap: var(--zd-s-2); font-size: var(--zd-fs-s); }
+  .bc-grundlage { color: var(--zd-text-leise); }
+
+  .bc-ampel-liste { list-style: none; padding: 0; display: grid; gap: var(--zd-s-3); }
+  .bc-ampel-liste li { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--zd-s-4); align-items: center; background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); padding: var(--zd-s-4) var(--zd-s-5); }
+  .bc-lampe { display: grid; gap: 4px; padding: 6px; border-radius: var(--zd-radius-pill); background: var(--zd-anthrazit); }
+  .bc-lampe i { display: block; width: 14px; height: 14px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+  .bc-lampe[data-status="rot"] i:nth-child(1) { background: var(--zd-koralle); box-shadow: 0 0 10px var(--zd-koralle); }
+  .bc-lampe[data-status="gelb"] i:nth-child(2) { background: var(--zd-gelb); box-shadow: 0 0 10px var(--zd-gelb); }
+  .bc-lampe[data-status="gruen"] i:nth-child(3) { background: var(--zd-tuerkis); box-shadow: 0 0 10px var(--zd-tuerkis); }
+  .bc-ampel-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: var(--zd-s-2) var(--zd-s-3); flex-wrap: wrap; }
+  .bc-ampel-kopf strong { font-size: var(--zd-fs-m); }
+  .bc-ampel-liste .zd-klein { color: var(--zd-text-leise); font-variant-numeric: tabular-nums; }
+  .bc-balken { margin-top: var(--zd-s-2); height: 6px; border-radius: var(--zd-radius-pill); background: var(--zd-linie); overflow: hidden; }
+  .bc-balken span { display: block; height: 100%; border-radius: inherit; }
+  .bc-balken[data-status="rot"] span { background: var(--zd-koralle); }
+  .bc-balken[data-status="gelb"] span { background: var(--zd-gelb); }
+  .bc-balken[data-status="gruen"] span { background: var(--zd-tuerkis); }
+  .bc-kennzahlen { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--zd-s-3); }
+  .bc-kennzahlen > div { background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: var(--zd-s-4); }
+  .bc-kennzahlen .zd-kennzahl__wert { font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem); font-variant-numeric: tabular-nums; }
+  .bc-luecken { display: grid; gap: var(--zd-s-5); }
+  .bc-luecke { border-left: 3px solid var(--zd-linie-stark); padding-left: var(--zd-s-4); display: grid; gap: var(--zd-s-1); }
+  .bc-luecke[data-schwere="luecke"] { border-left-color: var(--zd-koralle); }
+  .bc-luecke[data-schwere="nachbessern"] { border-left-color: var(--zd-gelb); }
+  .bc-luecke p { font-size: var(--zd-fs-s); }
+  .bc-loesung { color: var(--zd-anthrazit); }
+  .bc-loesung b { color: var(--zd-violett); }
+  .bc-aktionen { display: flex; flex-wrap: wrap; gap: var(--zd-s-2) var(--zd-s-5); }
+  .bc-hinweis-rechtlich { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+  .zd-hinweis[hidden], .zd-cta-leiste[hidden] { display: none !important; }
+</style>
+</head>
+<body class="zd-mit-cta-leiste">
+
+<a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="zd-header">
+  <div class="zd-container zd-header__innen">
+    <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+    <div class="zd-header__aktionen">
+      <button type="button" class="zd-btn zd-btn--dunkel zd-btn--klein js-start">Check starten</button>
+    </div>
+  </div>
+</header>
+
+<main id="inhalt">
+
+<!-- ======================= LANDING ======================= -->
+<div id="ansicht-start">
+
+  <!-- 1 HERO -->
+  <section class="zd-hero zd-hero--ellipse lp-hero">
+    <div class="zd-container">
+      <div class="zd-split zd-split--text-breit">
+        <div class="zd-stack">
+          <span class="zd-badge zd-badge--violett zd-badge--punkt">Kostenloser Begehungs-Check für Zahnarztpraxen</span>
+          <h1>Begehung angekündigt? In 5 Minuten wissen Sie, wo Sie <span class="zd-text-verlauf">stehen</span>.</h1>
+          <p class="zd-lead">19 Fragen zu <b>Hygiene, Medizinprodukten, Röntgen, Arbeitsschutz und Datenschutz</b>. Sie sehen sofort eine Ampel pro Bereich – ohne Anmeldung. Den Lückenreport mit Rechtsgrundlagen erhalten Sie auf Wunsch per E-Mail.</p>
+          <div class="zd-reihe zd-reihe--stapeln">
+            <button type="button" id="btn-start" class="zd-btn zd-btn--primaer zd-btn--gross js-start">Check jetzt starten</button>
+            <button type="button" id="btn-fortsetzen" class="zd-btn zd-btn--sekundaer zd-btn--gross" hidden>Fortsetzen</button>
+          </div>
+          <div class="zd-vertrauen">
+            <span>Ca. 5 Minuten</span>
+            <span>Ampel ohne Anmeldung</span>
+            <span>Aus über 25 begleiteten Begehungen</span>
+          </div>
+        </div>
+
+        <div class="zd-karte zd-karte--gross lp-beispiel zd-stack" aria-label="Beispielergebnis">
+          <div class="lp-beispiel__kopf">
+            <strong>So sieht Ihr Ergebnis aus</strong>
+            <span class="zd-badge">Beispiel</span>
+          </div>
+          <ul class="lp-zeilen">
+            <li><span class="lp-punkt" data-status="gelb"></span><b>Hygiene</b><span class="zd-leise">Nachbessern</span></li>
+            <li><span class="lp-punkt" data-status="gruen"></span><b>Medizinprodukte</b><span class="zd-leise">Begehungsbereit</span></li>
+            <li><span class="lp-punkt" data-status="rot"></span><b>Röntgen</b><span class="zd-leise">Handlungsbedarf</span></li>
+            <li><span class="lp-punkt" data-status="gelb"></span><b>Arbeitsschutz</b><span class="zd-leise">Nachbessern</span></li>
+            <li><span class="lp-punkt" data-status="rot"></span><b>Datenschutz</b><span class="zd-leise">Handlungsbedarf</span></li>
+          </ul>
+          <p class="zd-klein zd-leise">Im Lückenreport: jede offene Stelle mit Rechtsgrundlage, Priorität und nächstem Schritt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 REFRAME -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container">
+      <div class="zd-split">
+        <div class="zd-stack">
+          <span class="zd-eyebrow">Was bei Begehungen wirklich auffällt</span>
+          <p class="lp-reframe">Die meisten Praxen haben ein QM. Was bei der Begehung fehlt, ist der <span class="zd-text-verlauf">Nachweis</span>.</p>
+          <p>Der Hygieneplan steht im Ordner. Aber die Fachkunde ist abgelaufen, die Unterweisung hat keine Unterschrift, und die nächste Validierung hatte niemand auf dem Zettel. <b>Das Problem ist nicht fehlendes QM – sondern fehlendes Nachhalten.</b></p>
+        </div>
+        <ul class="lp-befunde" aria-label="Typische Befunde">
+          <li><div><b>Aktualisierung der Fachkunde im Strahlenschutz verpasst</b><span>Fällig alle 5 Jahre · §§ 48, 49 StrlSchV</span></div></li>
+          <li><div><b>Jährliche Unterweisung ohne Nachweis</b><span>Arbeitsschutz und Strahlenschutz · § 12 ArbSchG, § 63 StrlSchV</span></div></li>
+          <li><div><b>Validierung des Sterilisators nicht auffindbar</b><span>Aufbereitung · § 8 MPBetreibV</span></div></li>
+          <li><div><b>Verarbeitungsverzeichnis auf altem Stand</b><span>Nach Software- oder Dienstleisterwechsel · Art. 30 DSGVO</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 RATIONAL: Rechner -->
+  <section class="zd-sektion">
+    <div class="zd-container zd-container--schmal">
+      <div class="zd-sektion-kopf">
+        <span class="zd-eyebrow">Rechnen Sie selbst</span>
+        <h2>Was kostet Sie die Suche nach Nachweisen?</h2>
+        <p>Vor einer Begehung sucht das Team zusammen, was übers Jahr nicht nachgehalten wurde. Tragen Sie Ihre eigenen Werte ein.</p>
+      </div>
+      <div class="zd-karte zd-karte--gross lp-rechner">
+        <div class="lp-rechner__felder">
+          <div class="zd-feld">
+            <label for="r-stunden">Stunden pro Person</label>
+            <input class="zd-input" id="r-stunden" type="number" min="0" step="1" value="12" inputmode="numeric">
+          </div>
+          <div class="zd-feld">
+            <label for="r-personen">Beteiligte Personen</label>
+            <input class="zd-input" id="r-personen" type="number" min="1" step="1" value="3" inputmode="numeric">
+          </div>
+          <div class="zd-feld">
+            <label for="r-satz">Stundensatz in €</label>
+            <input class="zd-input" id="r-satz" type="number" min="0" step="5" value="45" inputmode="numeric">
+          </div>
+        </div>
+        <div class="lp-rechner__ergebnis" aria-live="polite">
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="r-h">36 h</span><span class="zd-kennzahl__label">Teamzeit pro Begehung</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="r-eur">1.620 €</span><span class="zd-kennzahl__label">Personalkosten, ohne Ausfall in der Behandlung</span></div>
+        </div>
+        <p class="zd-klein zd-leise">Voreingestellt sind Beispielwerte. Bitte durch Ihre eigenen Zahlen ersetzen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 EMOTIONAL -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container zd-container--schmal zd-stack zd-stack--weit">
+      <div class="zd-sektion-kopf zd-mb-6">
+        <span class="zd-eyebrow">Kennen Sie das?</span>
+        <h2>Wenn Sie es nicht nachhalten, macht es niemand.</h2>
+      </div>
+      <ul class="zd-checkliste">
+        <li>Der Begehungstermin steht – und Sie wissen nicht, wo die letzte Konstanzprüfung abgelegt ist.</li>
+        <li>Fristen für Validierung, STK und Elektroprüfung stehen in drei verschiedenen Listen.</li>
+        <li>Wenn Ihre Praxismanagerin 2 Wochen ausfällt, weiß niemand, was gerade fällig wird.</li>
+        <li>Sie gehen mit einem flauen Gefühl in die Begehung, obwohl Sie viel Zeit ins QM gesteckt haben.</li>
+      </ul>
+      <figure class="zd-zitat">
+        <blockquote>„Unser Team muss immer erinnert werden – an Aufgaben, Schulungen, Termine. Sonst vergessen die das.“</blockquote>
+        <figcaption>Das hören wir von Praxisinhabern immer wieder.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5 NEW WAY -->
+  <section class="zd-sektion">
+    <div class="zd-container">
+      <div class="zd-sektion-kopf">
+        <span class="zd-eyebrow">Was der Check Ihnen zeigt</span>
+        <h2>Vom Bauchgefühl zur klaren Reihenfolge</h2>
+        <p>Der Check fragt genau das ab, worauf Begehende in Zahnarztpraxen schauen. Sie erfahren, wo Sie stehen – und womit Sie anfangen.</p>
+      </div>
+      <div class="zd-split">
+        <div class="lp-wege">
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Alle Ordner vor der Begehung durchgehen und hoffen, dass nichts fehlt.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Ampel pro Bereich</b> zeigt in 5 Minuten, wo es hakt.</p></div>
+          </div>
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Alles gleich dringend, nichts wird fertig.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Priorität hoch</b> markiert, was bei Begehungen besonders zählt.</p></div>
+          </div>
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Vorschriften selbst zusammensuchen.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Rechtsgrundlage</b> und nächster Schritt stehen bei jeder Lücke.</p></div>
+          </div>
+        </div>
+        <div class="zd-stack">
+          <h3 class="zd-h4">5 Bereiche, 19 Fragen</h3>
+          <ul class="bc-bereiche" id="bereich-liste"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 BEWEIS + FAQ -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container">
+      <div class="zd-sektion-kopf zd-sektion-kopf--mitte">
+        <span class="zd-eyebrow">Von zenday</span>
+        <h2>Aus der Praxis für die Praxis</h2>
+        <p>zenday ist das digitale QM speziell für Zahnarztpraxen. Die Fragen im Check stammen aus den Begehungen, die wir mit Praxen vorbereitet haben.</p>
+      </div>
+      <div class="zd-grid zd-grid--4 zd-grid--kompakt">
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert">25+</span><span class="zd-kennzahl__label">Begehungen mit Praxen begleitet</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte nutzen zenday</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert">2.000+</span><span class="zd-kennzahl__label">Nutzerinnen und Nutzer</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert">3 Wochen</span><span class="zd-kennzahl__label">bis neue Praxen begehungsbereit sind, seit den Smart Fields</span></div>
+      </div>
+
+      <div class="zd-container--schmal zd-mt-8" style="margin-inline: auto; padding: 0;">
+        <h3 class="zd-mb-6">Fragen und Antworten</h3>
+        <div class="zd-faq">
+          <details><summary>Was kostet der Check?</summary><p>Nichts. Ampel und Lückenreport sind kostenlos.</p></details>
+          <details><summary>Muss ich mich anmelden?</summary><p>Nein. Die Ampel sehen Sie direkt nach der letzten Frage. Nur für den Lückenreport per E-Mail brauchen wir Ihre Kontaktdaten.</p></details>
+          <details><summary>Wie lange dauert das?</summary><p>Rund 5 Minuten. Sie können jederzeit pausieren, Ihre Antworten bleiben in Ihrem Browser gespeichert.</p></details>
+          <details><summary>Was mache ich, wenn ich eine Antwort nicht weiß?</summary><p>Wählen Sie „Weiß ich nicht“. Das zählt ehrlich als Lücke – denn was Sie nicht wissen, kann bei einer Begehung meist auch niemand belegen.</p></details>
+          <details><summary>Ist das eine Rechtsberatung?</summary><p>Nein. Der Check ist eine Selbsteinschätzung. Einzelne Anforderungen unterscheiden sich je nach Bundesland und Praxisgröße.</p></details>
+          <details><summary>Für wen ist der Check gedacht?</summary><p>Für Praxisinhaber, Praxismanagerinnen und QM-Beauftragte in Zahnarztpraxen – ob die Begehung schon angekündigt ist oder Sie dauerhaft vorbereitet sein wollen.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABSCHLUSS-CTA -->
+  <section class="zd-sektion zd-sektion--dunkel">
+    <div class="zd-container zd-container--schmal zd-mitte zd-stack">
+      <h2>Wie begehungsbereit ist Ihre Praxis?</h2>
+      <p>19 Fragen, 5 Minuten, eine klare Ampel. Danach wissen Sie, womit Sie anfangen.</p>
+      <div class="zd-reihe zd-reihe--mitte zd-reihe--stapeln"><button type="button" class="zd-btn zd-btn--primaer zd-btn--gross js-start">Check jetzt starten</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= APP ======================= -->
+<div class="bc-app" id="check">
+  <div class="zd-container zd-container--schmal">
+
+    <section id="ansicht-frage" class="zd-stack zd-stack--weit" hidden aria-live="polite">
+      <div class="zd-stack zd-stack--eng">
+        <div class="bc-meta">
+          <span class="zd-badge zd-badge--blau" id="frage-bereich">Hygiene</span>
+          <span id="frage-zaehler">Frage 1 von 19</span>
+        </div>
+        <div class="bc-fortschritt" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="19" aria-valuenow="0" id="fortschritt"><span id="fortschritt-balken"></span></div>
+      </div>
+      <h2 class="bc-frage" id="frage-text" tabindex="-1">…</h2>
+      <div class="bc-antworten" id="antworten" role="group" aria-labelledby="frage-text"></div>
+      <details class="bc-warum" id="frage-warum">
+        <summary>Warum wird das geprüft?</summary>
+        <div>
+          <p id="frage-hilfe"></p>
+          <p class="bc-grundlage">Grundlage: <span id="frage-grundlage"></span></p>
+        </div>
+      </details>
+      <div class="bc-aktionen">
+        <button type="button" class="zd-btn zd-btn--link" id="btn-zurueck">← Zurück</button>
+      </div>
+    </section>
+
+    <section id="ansicht-ergebnis" class="zd-stack zd-stack--weit" hidden>
+      <div class="zd-stack">
+        <span class="zd-eyebrow">Ihr Ergebnis</span>
+        <h2 id="ergebnis-titel" tabindex="-1">…</h2>
+        <p class="zd-lead" id="ergebnis-text"></p>
+      </div>
+      <div class="bc-kennzahlen">
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-erfuellt">0</span><span class="zd-kennzahl__label">von 19 vollständig erfüllt</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-luecken">0</span><span class="zd-kennzahl__label">Lücken und Baustellen</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-rot">0</span><span class="zd-kennzahl__label">Bereiche auf Rot</span></div>
+      </div>
+      <ul class="bc-ampel-liste" id="ampel-liste"></ul>
+
+      <div class="zd-formular-box" id="report-box">
+        <h3>Lückenreport per E-Mail erhalten</h3>
+        <p>Jede Lücke mit Rechtsgrundlage, Priorität und dem nächsten Schritt. So wissen Sie, womit Sie vor der nächsten Begehung anfangen.</p>
+        <form class="zd-formular" id="report-formular" novalidate>
+          <div class="zd-grid zd-grid--2">
+            <div class="zd-feld"><label for="f-vorname">Vorname<span class="zd-pflicht">*</span></label><input class="zd-input" id="f-vorname" name="vorname" autocomplete="given-name" required></div>
+            <div class="zd-feld"><label for="f-nachname">Nachname<span class="zd-pflicht">*</span></label><input class="zd-input" id="f-nachname" name="nachname" autocomplete="family-name" required></div>
+          </div>
+          <div class="zd-feld"><label for="f-praxis">Name der Praxis<span class="zd-pflicht">*</span></label><input class="zd-input" id="f-praxis" name="praxis" autocomplete="organization" required></div>
+          <div class="zd-feld">
+            <label for="f-rolle">Ihre Rolle</label>
+            <select class="zd-select" id="f-rolle" name="rolle">
+              <option value="Praxisinhaber:in">Praxisinhaber:in</option>
+              <option value="Praxismanager:in">Praxismanager:in</option>
+              <option value="QM-Beauftragte:r">QM-Beauftragte:r</option>
+              <option value="Sonstige">Andere Rolle</option>
+            </select>
+          </div>
+          <div class="zd-grid zd-grid--2">
+            <div class="zd-feld">
+              <label for="f-email">E-Mail<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+              <span class="zd-feld__fehler" id="f-email-fehler" hidden>Bitte geben Sie eine gültige E-Mail-Adresse ein.</span>
+            </div>
+            <div class="zd-feld">
+              <label for="f-telefon">Telefon<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="f-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" required>
+              <span class="zd-feld__hilfe">Für Rückfragen zu Ihrem Report.</span>
+            </div>
+          </div>
+          <div class="zd-sr-only" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+          <label class="zd-check">
+            <input type="checkbox" id="f-einwilligung" name="einwilligung" required>
+            <span>Ich möchte den Lückenreport per E-Mail erhalten und bin einverstanden, dass zenday mich dazu kontaktiert. Hinweise in der <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</span>
+          </label>
+          <p class="zd-hinweis zd-hinweis--warnung" id="formular-fehler" role="alert" hidden></p>
+          <button type="submit" class="zd-btn zd-btn--primaer zd-btn--voll" id="btn-senden">Report per E-Mail anfordern</button>
+        </form>
+      </div>
+
+      <div class="zd-stack zd-stack--weit" id="danke" hidden>
+        <p class="zd-hinweis zd-hinweis--erfolg" id="danke-hinweis" role="status"></p>
+        <div class="zd-karte zd-stack">
+          <h3 class="zd-h4">Ihre Lücken im Überblick</h3>
+          <div class="bc-luecken" id="luecken-liste"></div>
+        </div>
+        <div class="zd-karte zd-karte--akzent zd-stack">
+          <h3>Jede Lücke ist in zenday schon gelöst</h3>
+          <p>In 15 Minuten zeigen wir Ihnen an Ihrem Ergebnis, wie Dokumente, Fristen und Unterweisungen in zenday zusammenlaufen. Seit den Smart Fields sind neue Praxen nach 3 Wochen begehungsbereit.</p>
+          <div><a class="zd-btn zd-btn--primaer" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">15-Minuten-Demo buchen</a></div>
+        </div>
+      </div>
+
+      <div class="bc-aktionen">
+        <button type="button" class="zd-btn zd-btn--link" id="btn-aendern">Antworten ändern</button>
+        <button type="button" class="zd-btn zd-btn--link" id="btn-neu">Check neu starten</button>
+      </div>
+      <p class="bc-hinweis-rechtlich">Selbsteinschätzung, keine Rechtsberatung. Anforderungen können je Bundesland und Praxisgröße abweichen.</p>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer class="zd-footer">
+  <div class="zd-container">
+    <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+    <p class="zd-mt-4">Digitales QM speziell für Zahnarztpraxen. Ventria GmbH, Malkastenstraße 8, 40211 Düsseldorf.</p>
+    <div class="zd-footer__unten">
+      <span>© 2026 Ventria GmbH</span>
+      <ul class="zd-footer__links">
+        <li><a href="https://www.zen-day.ai/impressum" target="_blank" rel="noopener">Impressum</a></li>
+        <li><a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="zd-cta-leiste" id="cta-leiste"><button type="button" class="zd-btn zd-btn--primaer js-start">Check jetzt starten</button></div>
+
+<script src="/zenday.js?v=0.3.1" defer></script>
+<script>
+(function () {
+  /* ===================== KONFIGURATION ===================== */
+  // Zapier „Catch Hook“-URL eintragen. Leer = Vorschau ohne E-Mail-Versand.
+  var WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/5504389/CAjYzJVj0W6huP7Gl/';
+  var DEMO_URL = 'https://calendly.com/digitalesqm/demo-praesentation';
+
+  /* ===================== INHALT ===================== */
+  var ICONS = {
+    hyg: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+    mp: '<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2M12 10v6M9 13h6"/>',
+    rnt: '<circle cx="12" cy="12" r="2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>',
+    as: '<path d="M4 15a8 8 0 0 1 16 0"/><path d="M2 15h20v2H2zM12 7V4"/>',
+    ds: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3M12 15v2"/>'
+  };
+
+  var BEREICHE = [
+    { id: 'hyg', name: 'Hygiene', themen: 'Hygieneplan, Aufbereitung, Wasserhygiene', farbe: 'tuerkis' },
+    { id: 'mp', name: 'Medizinprodukte', themen: 'Bestandsverzeichnis, Medizinproduktebuch, Einweisungen', farbe: '' },
+    { id: 'rnt', name: 'Röntgen', themen: 'Fachkunde, Konstanzprüfung, Unterweisung', farbe: 'violett' },
+    { id: 'as', name: 'Arbeitsschutz', themen: 'Gefährdungsbeurteilung, Gefahrstoffe, Geräteprüfung', farbe: 'gelb' },
+    { id: 'ds', name: 'Datenschutz', themen: 'Verarbeitungsverzeichnis, AV-Verträge, Schulung', farbe: 'koralle' }
+  ];
+
+  var FRAGEN = [
+    { id: 'h1', b: 'hyg', kritisch: true,
+      frage: 'Haben Sie einen praxisspezifischen Hygieneplan, der aktuell ist und den Ihr Team nachweislich kennt?',
+      hilfe: 'Nach dem Hygieneplan fragen Begehende fast immer zuerst. Er muss zu Ihren Räumen und Abläufen passen und dem Team bekannt sein.',
+      grundlage: '§ 23 Abs. 5 IfSG, Hygieneverordnung Ihres Bundeslandes',
+      luecke: 'Praxisspezifischer Hygieneplan fehlt, ist veraltet oder dem Team nicht nachweislich bekannt.',
+      zenday: 'Hygieneplan als fertiges Fachdokument, Ihre Praxisdaten über Smart Fields eingesetzt, Kenntnisnahme per digitaler Unterschrift.' },
+    { id: 'h2', b: 'hyg', kritisch: true,
+      frage: 'Sind alle Medizinprodukte, die Sie aufbereiten, nach Risiko eingestuft und gibt es dazu schriftliche Arbeitsanweisungen?',
+      hilfe: 'Jedes aufbereitete Instrument braucht eine Einstufung (unkritisch, semikritisch A/B, kritisch A/B) und ein dazu passendes, schriftlich festgelegtes Verfahren.',
+      grundlage: '§ 8 MPBetreibV, KRINKO-/BfArM-Empfehlung zur Aufbereitung von Medizinprodukten',
+      luecke: 'Risikoeinstufung der Medizinprodukte oder Arbeitsanweisungen zur Aufbereitung fehlen.',
+      zenday: 'Arbeitsanweisungen zur Aufbereitung für jede Risikoklasse, geprüft und an Ihre Abläufe anpassbar.' },
+    { id: 'h3', b: 'hyg', kritisch: true,
+      frage: 'Sind Thermodesinfektor und Sterilisator validiert, und liegen die Berichte der letzten Leistungsbeurteilung vor?',
+      hilfe: 'Aufbereitung gilt nur mit validierten Verfahren als ordnungsgemäß. Begehende lassen sich die Validierungsberichte zeigen und prüfen die Fristen.',
+      grundlage: '§ 8 MPBetreibV, KRINKO-/BfArM-Empfehlung, Herstellerangaben',
+      luecke: 'Validierung oder erneute Leistungsbeurteilung der Aufbereitungsgeräte ist nicht nachweisbar.',
+      zenday: 'Geräteeinträge mit hinterlegten Prüffristen. zenday erinnert rechtzeitig an die nächste Validierung.' },
+    { id: 'h4', b: 'hyg', kritisch: false,
+      frage: 'Werden die wasserführenden Systeme Ihrer Behandlungseinheiten regelmäßig gespült und mikrobiologisch untersucht?',
+      hilfe: 'Gefragt werden Spülprotokolle und die Ergebnisse der Wasserproben aus den Behandlungseinheiten.',
+      grundlage: 'RKI-Empfehlung „Infektionsprävention in der Zahnheilkunde“, Herstellerangaben',
+      luecke: 'Spülprotokolle oder mikrobiologische Wasserproben der Behandlungseinheiten fehlen.',
+      zenday: 'Wiederkehrende Aufgaben: Spülungen täglich abhaken, Probenahme mit Frist und Verantwortlicher.' },
+
+    { id: 'm1', b: 'mp', kritisch: true,
+      frage: 'Führen Sie ein vollständiges Bestandsverzeichnis aller aktiven, nicht implantierbaren Medizinprodukte?',
+      hilfe: 'Das Bestandsverzeichnis ist die Grundlage jeder Geräteprüfung. Fehlt ein Gerät, fehlen meist auch seine Fristen.',
+      grundlage: '§ 13 MPBetreibV',
+      luecke: 'Bestandsverzeichnis der aktiven Medizinprodukte fehlt oder ist unvollständig.',
+      zenday: 'Geräteeinträge als zentrales Bestandsverzeichnis. Der Smart Fill Service legt Ihre Geräte beim Onboarding für Sie an.' },
+    { id: 'm2', b: 'mp', kritisch: false,
+      frage: 'Gibt es für Geräte nach Anlage 1 und 2 MPBetreibV ein Medizinproduktebuch, und sind sicherheits- und messtechnische Kontrollen im Blick?',
+      hilfe: 'Für bestimmte aktive Geräte schreibt die MPBetreibV ein Medizinproduktebuch sowie STK und MTK in festen Abständen vor.',
+      grundlage: '§§ 11, 12, 14 MPBetreibV',
+      luecke: 'Medizinproduktebuch oder Fristen für sicherheits- und messtechnische Kontrollen nicht lückenlos.',
+      zenday: 'Prüffristen pro Gerät hinterlegt, Aufgaben mit Erinnerung an die verantwortliche Person.' },
+    { id: 'm3', b: 'mp', kritisch: false,
+      frage: 'Ist dokumentiert, dass jede Person, die ein Medizinprodukt anwendet, in dieses Gerät eingewiesen wurde?',
+      hilfe: 'Begehende fragen oft gezielt einzelne Mitarbeitende, ob und wann sie eingewiesen wurden.',
+      grundlage: '§ 4 Abs. 3 und § 10 MPBetreibV',
+      luecke: 'Einweisungen in Medizinprodukte sind nicht für alle Anwenderinnen und Anwender dokumentiert.',
+      zenday: 'Einweisungen als Unterweisung verteilen, jede Person bestätigt mit digitaler Unterschrift.' },
+
+    { id: 'r1', b: 'rnt', kritisch: true,
+      frage: 'Haben alle, die röntgen, eine aktuelle Fachkunde oder aktuelle Kenntnisse im Strahlenschutz?',
+      hilfe: 'Fachkunde und Kenntnisse müssen mindestens alle 5 Jahre aktualisiert werden. Abgelaufene Nachweise sind ein häufiger Befund.',
+      grundlage: '§§ 48, 49 StrlSchV',
+      luecke: 'Aktualisierung von Fachkunde oder Kenntnissen im Strahlenschutz nicht für alle Personen nachgewiesen.',
+      zenday: 'Aktualisierungsfristen pro Person im Blick, zenday erinnert vor Ablauf.' },
+    { id: 'r2', b: 'rnt', kritisch: true,
+      frage: 'Werden Konstanzprüfungen in den vorgeschriebenen Abständen durchgeführt und dokumentiert, und liegt die Sachverständigenprüfung vor?',
+      hilfe: 'Konstanzprüfungen laufen in festen Intervallen, die Sachverständigenprüfung alle 5 Jahre. Beides muss lückenlos nachweisbar sein.',
+      grundlage: '§§ 88, 116 StrlSchV, DIN 6868-5',
+      luecke: 'Konstanzprüfungen oder Sachverständigenprüfung der Röntgengeräte nicht lückenlos dokumentiert.',
+      zenday: 'Konstanzprüfung als wiederkehrende Aufgabe mit Prüfliste, Sachverständigenprüfung mit Frist am Geräteeintrag.' },
+    { id: 'r3', b: 'rnt', kritisch: false,
+      frage: 'Wird Ihr Team mindestens einmal jährlich im Strahlenschutz unterwiesen, und ist das schriftlich festgehalten?',
+      hilfe: 'Die Unterweisung ist jährlich Pflicht und muss mit Inhalt, Datum und Unterschrift dokumentiert sein.',
+      grundlage: '§ 63 StrlSchV',
+      luecke: 'Jährliche Strahlenschutzunterweisung fehlt oder ist nicht dokumentiert.',
+      zenday: 'Unterweisung jährlich automatisch verteilt, Nachweis per digitaler Unterschrift.' },
+    { id: 'r4', b: 'rnt', kritisch: false,
+      frage: 'Gibt es eine Strahlenschutzanweisung, und sind die Strahlenschutzbeauftragten schriftlich bestellt?',
+      hilfe: 'Strahlenschutzanweisung und schriftliche Bestellung gehören zu den Unterlagen, die bei jeder Röntgenprüfung vorliegen sollten.',
+      grundlage: '§ 45 StrlSchV, § 70 StrlSchG',
+      luecke: 'Strahlenschutzanweisung oder schriftliche Bestellung der Strahlenschutzbeauftragten fehlt.',
+      zenday: 'Strahlenschutzanweisung als Fachdokument, Verantwortliche über Smart Fields eingetragen.' },
+
+    { id: 'a1', b: 'as', kritisch: true,
+      frage: 'Liegt eine Gefährdungsbeurteilung für alle Tätigkeiten und Arbeitsplätze vor, einschließlich psychischer Belastung?',
+      hilfe: 'Die Gefährdungsbeurteilung ist die Basis des Arbeitsschutzes. Die psychische Belastung fehlt in vielen Praxen noch.',
+      grundlage: '§§ 5, 6 ArbSchG',
+      luecke: 'Gefährdungsbeurteilung unvollständig oder ohne psychische Belastung.',
+      zenday: 'Gefährdungsbeurteilungen als Vorlagen je Arbeitsbereich, Maßnahmen als Aufgaben zugewiesen.' },
+    { id: 'a2', b: 'as', kritisch: false,
+      frage: 'Unterweisen Sie Ihr Team mindestens einmal jährlich im Arbeitsschutz und dokumentieren Sie das?',
+      hilfe: 'Neue Mitarbeitende werden vor Arbeitsbeginn unterwiesen, alle anderen mindestens jährlich.',
+      grundlage: '§ 12 ArbSchG, § 4 DGUV Vorschrift 1',
+      luecke: 'Jährliche Arbeitsschutzunterweisung fehlt oder ist nicht dokumentiert.',
+      zenday: 'Unterweisungen mit Fälligkeit verteilen, Nachweis per digitaler Unterschrift für jede Person.' },
+    { id: 'a3', b: 'as', kritisch: false,
+      frage: 'Gibt es ein aktuelles Gefahrstoffverzeichnis und für jeden Gefahrstoff eine Betriebsanweisung?',
+      hilfe: 'Desinfektionsmittel, Abformmaterialien und Laborchemie zählen dazu. Verzeichnis und Betriebsanweisungen werden gern stichprobenartig geprüft.',
+      grundlage: '§ 6 Abs. 12 und § 14 GefStoffV',
+      luecke: 'Gefahrstoffverzeichnis oder Betriebsanweisungen fehlen oder sind nicht aktuell.',
+      zenday: 'Gefahrstoffverzeichnis als Zusatzmodul in zenday, mit Betriebsanweisungen und Unterweisung.' },
+    { id: 'a4', b: 'as', kritisch: false,
+      frage: 'Werden elektrische Geräte und Anlagen regelmäßig geprüft und die Ergebnisse dokumentiert?',
+      hilfe: 'Ortsveränderliche und ortsfeste elektrische Betriebsmittel müssen in festgelegten Abständen geprüft werden.',
+      grundlage: 'DGUV Vorschrift 3, § 14 BetrSichV',
+      luecke: 'Prüfungen elektrischer Geräte und Anlagen nicht lückenlos dokumentiert.',
+      zenday: 'Prüffristen für elektrische Geräte am Geräteeintrag, Aufgabe an die zuständige Person.' },
+
+    { id: 'd1', b: 'ds', kritisch: true,
+      frage: 'Haben Sie ein Verzeichnis von Verarbeitungstätigkeiten, das Ihre heutige Software und Ihre Dienstleister abbildet?',
+      hilfe: 'Das Verzeichnis zeigt, welche Daten wofür und von wem verarbeitet werden. Nach Software- oder Dienstleisterwechseln ist es oft veraltet.',
+      grundlage: 'Art. 30 DSGVO',
+      luecke: 'Verzeichnis von Verarbeitungstätigkeiten fehlt oder bildet den aktuellen Stand nicht ab.',
+      zenday: 'Datenschutzdokumente im Praxishandbuch, Überprüfung als wiederkehrende Aufgabe.' },
+    { id: 'd2', b: 'ds', kritisch: false,
+      frage: 'Sind alle Mitarbeitenden schriftlich zur Vertraulichkeit verpflichtet und im Datenschutz geschult?',
+      hilfe: 'In der Zahnarztpraxis kommt zur DSGVO die ärztliche Schweigepflicht hinzu. Beides sollte für jede Person belegt sein.',
+      grundlage: 'Art. 29, Art. 32 Abs. 4 DSGVO, § 203 StGB',
+      luecke: 'Verpflichtung auf Vertraulichkeit oder Datenschutzschulung nicht für alle Mitarbeitenden belegt.',
+      zenday: 'Verpflichtung und Schulung als Unterweisung, unterschrieben digital für das ganze Team.' },
+    { id: 'd3', b: 'ds', kritisch: false,
+      frage: 'Haben Sie mit allen Dienstleistern, die Patientendaten verarbeiten, einen Vertrag zur Auftragsverarbeitung?',
+      hilfe: 'Typisch sind IT-Betreuung, Abrechnungsstelle, Cloud- und Softwareanbieter.',
+      grundlage: 'Art. 28 DSGVO',
+      luecke: 'Verträge zur Auftragsverarbeitung fehlen für einen oder mehrere Dienstleister.',
+      zenday: 'Dienstleister und Vertragsstatus als Prüfliste, Nachfassen als Aufgabe mit Frist.' },
+    { id: 'd4', b: 'ds', kritisch: false,
+      frage: 'Erhalten Patientinnen und Patienten verständliche Datenschutzinformationen, und gibt es einen Ablauf für Datenpannen?',
+      hilfe: 'Datenpannen müssen in der Regel innerhalb von 72 Stunden gemeldet werden. Das Team sollte wissen, was dann zu tun ist.',
+      grundlage: 'Art. 13, 33, 34 DSGVO',
+      luecke: 'Datenschutzinformationen für Patienten oder ein Ablauf bei Datenpannen fehlen.',
+      zenday: 'Patienteninformation und Ablauf bei Datenpannen als Fachdokumente, dem Team per Unterweisung bekannt gemacht.' }
+  ];
+
+  var ANTWORTEN = [
+    { id: 'ja', label: 'Ja, vollständig', punkte: 2 },
+    { id: 'teilweise', label: 'Teilweise', punkte: 1 },
+    { id: 'nein', label: 'Nein', punkte: 0 },
+    { id: 'unsicher', label: 'Weiß ich nicht', punkte: 0 }
+  ];
+
+  var STATUS_TEXT = { gruen: 'Begehungsbereit', gelb: 'Nachbessern', rot: 'Handlungsbedarf' };
+
+  /* ===================== ZUSTAND ===================== */
+  var SPEICHER = 'zd-begehungs-check-v1';
+  var zustand = { antworten: {}, index: 0 };
+  var gesendet = false;
+
+  function laden() {
+    try { var s = JSON.parse(localStorage.getItem(SPEICHER) || 'null'); if (s && s.antworten) zustand = s; } catch (e) {}
+  }
+  function speichern() {
+    try { localStorage.setItem(SPEICHER, JSON.stringify(zustand)); } catch (e) {}
+  }
+  function bereich(id) { for (var i = 0; i < BEREICHE.length; i++) if (BEREICHE[i].id === id) return BEREICHE[i]; }
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ===================== ANSICHTEN ===================== */
+  var ANSICHTEN = ['start', 'frage', 'ergebnis'];
+  function zeige(name) {
+    ANSICHTEN.forEach(function (a) { $('ansicht-' + a).hidden = a !== name; });
+    var landing = name === 'start';
+    $('check').hidden = landing;
+    $('cta-leiste').hidden = !landing;
+    document.body.classList.toggle('zd-mit-cta-leiste', landing);
+    document.querySelectorAll('.zd-header .js-start').forEach(function (b) { b.hidden = !landing; });
+    window.scrollTo(0, 0);
+  }
+
+  function startListe() {
+    $('bereich-liste').innerHTML = BEREICHE.map(function (b) {
+      var n = FRAGEN.filter(function (f) { return f.b === b.id; }).length;
+      return '<li><span class="zd-icon' + (b.farbe ? ' zd-icon--' + b.farbe : '') + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[b.id] + '</svg></span>' +
+        '<div><strong>' + b.name + '</strong><span class="zd-klein">' + b.themen + '</span></div>' +
+        '<span class="bc-anzahl">' + n + ' Fragen</span></li>';
+    }).join('');
+    var beantwortet = Object.keys(zustand.antworten).length;
+    $('btn-fortsetzen').hidden = !(beantwortet > 0 && beantwortet < FRAGEN.length);
+  }
+
+  function frageZeigen(i) {
+    zustand.index = Math.max(0, Math.min(FRAGEN.length - 1, i));
+    var f = FRAGEN[zustand.index];
+    var b = bereich(f.b);
+    $('frage-bereich').textContent = b.name;
+    $('frage-zaehler').textContent = 'Frage ' + (zustand.index + 1) + ' von ' + FRAGEN.length;
+    $('fortschritt').setAttribute('aria-valuenow', String(zustand.index));
+    $('fortschritt-balken').style.width = (zustand.index / FRAGEN.length * 100) + '%';
+    $('frage-text').textContent = f.frage;
+    $('frage-hilfe').textContent = f.hilfe;
+    $('frage-grundlage').textContent = f.grundlage;
+    $('frage-warum').open = false;
+    var gewaehlt = zustand.antworten[f.id];
+    $('antworten').innerHTML = ANTWORTEN.map(function (a, n) {
+      return '<button type="button" class="bc-antwort" data-antwort="' + a.id + '" aria-pressed="' + (gewaehlt === a.id) + '"><kbd>' + (n + 1) + '</kbd>' + a.label + '</button>';
+    }).join('');
+    $('btn-zurueck').textContent = zustand.index === 0 ? '← Zur Übersicht' : '← Zurück';
+    zeige('frage');
+    $('frage-text').focus({ preventScroll: true });
+    speichern();
+  }
+
+  function beantworten(id) {
+    var f = FRAGEN[zustand.index];
+    zustand.antworten[f.id] = id;
+    speichern();
+    Array.prototype.forEach.call($('antworten').children, function (btn) { btn.setAttribute('aria-pressed', String(btn.getAttribute('data-antwort') === id)); });
+    setTimeout(function () {
+      var offen = naechsteOffene(zustand.index + 1);
+      if (offen === -1) ergebnisZeigen(); else frageZeigen(offen);
+    }, 180);
+  }
+
+  function naechsteOffene(ab) {
+    for (var i = ab; i < FRAGEN.length; i++) if (!zustand.antworten[FRAGEN[i].id]) return i;
+    for (var j = 0; j < ab && j < FRAGEN.length; j++) if (!zustand.antworten[FRAGEN[j].id]) return j;
+    return -1;
+  }
+
+  /* ===================== AUSWERTUNG ===================== */
+  function auswerten() {
+    var bereiche = BEREICHE.map(function (b) {
+      var fr = FRAGEN.filter(function (f) { return f.b === b.id; });
+      var punkte = 0, max = fr.length * 2, kritischOffen = false, offen = false, erfuellt = 0, luecken = [];
+      fr.forEach(function (f) {
+        var a = zustand.antworten[f.id] || 'unsicher';
+        var p = ANTWORTEN.filter(function (x) { return x.id === a; })[0].punkte;
+        punkte += p;
+        if (a === 'ja') { erfuellt++; return; }
+        if (a === 'nein' || a === 'unsicher') { offen = true; if (f.kritisch) kritischOffen = true; }
+        luecken.push({ frage: f, antwort: a, schwere: a === 'teilweise' ? 'nachbessern' : 'luecke' });
+      });
+      var quote = punkte / max;
+      var status = (kritischOffen || quote < 0.5) ? 'rot' : (quote >= 0.85 && !offen ? 'gruen' : 'gelb');
+      // Kritische Lücken zuerst, dann Lücken vor Baustellen
+      luecken.sort(function (x, y) {
+        return (y.frage.kritisch - x.frage.kritisch) || ((x.schwere === 'luecke' ? 0 : 1) - (y.schwere === 'luecke' ? 0 : 1));
+      });
+      return { bereich: b, punkte: punkte, max: max, quote: quote, status: status, erfuellt: erfuellt, anzahl: fr.length, luecken: luecken };
+    });
+    var erfuellt = 0, luecken = 0, rot = 0, kritisch = 0;
+    bereiche.forEach(function (x) {
+      erfuellt += x.erfuellt; luecken += x.luecken.length; if (x.status === 'rot') rot++;
+      x.luecken.forEach(function (l) { if (l.frage.kritisch && l.schwere === 'luecke') kritisch++; });
+    });
+    return { bereiche: bereiche, erfuellt: erfuellt, luecken: luecken, rot: rot, kritisch: kritisch };
+  }
+
+  function ergebnisZeigen() {
+    var e = auswerten();
+    $('kz-erfuellt').textContent = e.erfuellt;
+    $('kz-luecken').textContent = e.luecken;
+    $('kz-rot').textContent = e.rot;
+
+    var titel, text;
+    if (e.luecken === 0) {
+      titel = 'Ihre Praxis wirkt begehungsbereit.';
+      text = 'Alle 19 Punkte haben Sie als vollständig erfüllt eingeschätzt. Der Report zeigt, wie Sie diesen Stand mit wenig Aufwand halten.';
+    } else if (e.rot > 0) {
+      titel = e.luecken + ' offene Punkte, ' + e.rot + (e.rot === 1 ? ' Bereich' : ' Bereiche') + ' auf Rot.';
+      text = e.kritisch > 0
+        ? e.kritisch + (e.kritisch === 1 ? ' Punkt ist' : ' Punkte sind') + ' bei Begehungen besonders relevant. Diese sollten Sie zuerst angehen.'
+        : 'Mehrere Nachweise fehlen oder sind unsicher. Mit einer klaren Reihenfolge ist das gut aufzuholen.';
+    } else {
+      titel = 'Solide Basis, ' + e.luecken + ' Punkte zum Nachbessern.';
+      text = 'Keine kritische Lücke, aber einige Nachweise sind noch nicht vollständig. Genau dort hakt es bei Begehungen oft.';
+    }
+    $('ergebnis-titel').textContent = titel;
+    $('ergebnis-text').textContent = text;
+
+    $('ampel-liste').innerHTML = e.bereiche.map(function (x) {
+      var anz = x.luecken.length;
+      return '<li><span class="bc-lampe" data-status="' + x.status + '" role="img" aria-label="Ampel ' + STATUS_TEXT[x.status] + '"><i></i><i></i><i></i></span>' +
+        '<div><div class="bc-ampel-kopf"><strong>' + x.bereich.name + '</strong><span class="zd-badge zd-badge--' + ({ rot: 'koralle', gelb: 'gelb', gruen: 'tuerkis' })[x.status] + '">' + STATUS_TEXT[x.status] + '</span></div>' +
+        '<span class="zd-klein">' + x.erfuellt + ' von ' + x.anzahl + ' erfüllt' + (anz ? ' · ' + anz + (anz === 1 ? ' offener Punkt' : ' offene Punkte') : '') + '</span>' +
+        '<div class="bc-balken" data-status="' + x.status + '"><span style="width:' + Math.round(x.quote * 100) + '%"></span></div></div></li>';
+    }).join('');
+
+    $('report-box').hidden = gesendet;
+    $('danke').hidden = !gesendet;
+    if (gesendet) lueckenListe(e);
+    zeige('ergebnis');
+    $('ergebnis-titel').focus({ preventScroll: true });
+  }
+
+  function lueckenListe(e) {
+    var html = '';
+    e.bereiche.forEach(function (x) {
+      if (!x.luecken.length) return;
+      html += '<div class="zd-stack zd-stack--eng"><strong>' + x.bereich.name + '</strong>' + x.luecken.map(function (l) {
+        return '<div class="bc-luecke" data-schwere="' + l.schwere + '"><p><strong>' + esc(l.frage.luecke) + '</strong></p>' +
+          '<p class="zd-leise">' + esc(l.frage.grundlage) + (l.frage.kritisch && l.schwere === 'luecke' ? ' · Priorität hoch' : '') + '</p>' +
+          '<p class="bc-loesung"><b>In zenday:</b> ' + esc(l.frage.zenday) + '</p></div>';
+      }).join('') + '</div>';
+    });
+    $('luecken-liste').innerHTML = html || '<p>Keine offenen Punkte. Sehr gut.</p>';
+  }
+
+  /* ===================== REPORT FÜR DIE E-MAIL ===================== */
+  var FARBE = { rot: '#FF7A59', gelb: '#FFD23F', gruen: '#4FD8D0' };
+  function reportHtml(k, e) {
+    var s = 'font-family:Arial,Helvetica,sans-serif;color:#2B2F38;';
+    var h = '<div style="' + s + 'max-width:640px;margin:0 auto;font-size:15px;line-height:1.55">';
+    h += '<p>Guten Tag ' + esc(k.vorname) + ' ' + esc(k.nachname) + ',</p>';
+    h += '<p>hier ist der Lückenreport aus dem zenday Begehungs-Check für <b>' + esc(k.praxis) + '</b>. Sie haben ' + e.erfuellt + ' von ' + FRAGEN.length + ' Punkten als vollständig erfüllt eingeschätzt.</p>';
+    h += '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:16px 0">';
+    e.bereiche.forEach(function (x) {
+      h += '<tr><td style="padding:8px 0;border-bottom:1px solid #E6E8EE;width:20px"><span style="display:inline-block;width:12px;height:12px;border-radius:6px;background:' + FARBE[x.status] + '"></span></td>' +
+        '<td style="padding:8px;border-bottom:1px solid #E6E8EE"><b>' + x.bereich.name + '</b></td>' +
+        '<td style="padding:8px 0;border-bottom:1px solid #E6E8EE;text-align:right">' + STATUS_TEXT[x.status] + ' · ' + x.erfuellt + '/' + x.anzahl + '</td></tr>';
+    });
+    h += '</table>';
+    e.bereiche.forEach(function (x) {
+      if (!x.luecken.length) return;
+      h += '<h3 style="font-size:17px;margin:24px 0 8px">' + x.bereich.name + '</h3>';
+      x.luecken.forEach(function (l) {
+        var rand = l.schwere === 'luecke' ? '#FF7A59' : '#FFD23F';
+        h += '<div style="border-left:3px solid ' + rand + ';padding:4px 0 4px 12px;margin:0 0 14px">' +
+          '<b>' + esc(l.frage.luecke) + '</b><br>' +
+          '<span style="color:#6B6F78;font-size:13px">' + esc(l.frage.grundlage) + (l.frage.kritisch && l.schwere === 'luecke' ? ' · Priorität hoch' : '') + '</span><br>' +
+          '<span style="font-size:14px"><b style="color:#9B5CF6">In zenday:</b> ' + esc(l.frage.zenday) + '</span></div>';
+      });
+    });
+    if (!e.luecken) h += '<p>Es gibt keine offenen Punkte. Wir zeigen Ihnen gern, wie Sie diesen Stand mit zenday dauerhaft halten.</p>';
+    h += '<p style="margin-top:24px">Möchten Sie sehen, wie zenday diese Punkte in Ihrer Praxis schließt? In einer 15-minütigen Demo gehen wir Ihr Ergebnis gemeinsam durch:</p>';
+    h += '<p><a href="' + DEMO_URL + '" style="display:inline-block;background:#2B2F38;color:#ffffff;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:bold">Demo buchen</a></p>';
+    h += '<p style="color:#6B6F78;font-size:12px;margin-top:24px">Selbsteinschätzung, keine Rechtsberatung. Anforderungen können je Bundesland und Praxisgröße abweichen.<br>Ventria GmbH · Malkastenstraße 8 · 40211 Düsseldorf · support@zen-day.de</p>';
+    return h + '</div>';
+  }
+
+  function reportText(k, e) {
+    var t = 'zenday Begehungs-Check: ' + k.praxis + '\n' + e.erfuellt + ' von ' + FRAGEN.length + ' Punkten erfüllt\n\n';
+    e.bereiche.forEach(function (x) {
+      t += x.bereich.name + ': ' + STATUS_TEXT[x.status] + ' (' + x.erfuellt + '/' + x.anzahl + ')\n';
+      x.luecken.forEach(function (l) { t += '  - ' + l.frage.luecke + ' [' + l.frage.grundlage + ']\n'; });
+    });
+    return t + '\nDemo buchen: ' + DEMO_URL;
+  }
+
+  /* ===================== FORMULAR ===================== */
+  function wert(id) { return ($(id).value || '').trim(); }
+
+  function absenden(ev) {
+    ev.preventDefault();
+    var fehler = $('formular-fehler');
+    fehler.hidden = true;
+    if (wert('f-website')) return; // Honeypot
+
+    var pflicht = ['f-vorname', 'f-nachname', 'f-praxis', 'f-email', 'f-telefon'];
+    var ok = true;
+    pflicht.forEach(function (id) {
+      var leer = !wert(id);
+      $(id).setAttribute('aria-invalid', String(leer));
+      if (leer) ok = false;
+    });
+    var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(wert('f-email'));
+    $('f-email-fehler').hidden = mailOk || !wert('f-email');
+    if (!mailOk) { $('f-email').setAttribute('aria-invalid', 'true'); ok = false; }
+    if (!ok) { fehler.textContent = 'Bitte füllen Sie alle Pflichtfelder aus.'; fehler.hidden = false; return; }
+    if (!$('f-einwilligung').checked) { fehler.textContent = 'Bitte bestätigen Sie, dass Sie den Report per E-Mail erhalten möchten.'; fehler.hidden = false; return; }
+
+    var k = { vorname: wert('f-vorname'), nachname: wert('f-nachname'), praxis: wert('f-praxis'), rolle: $('f-rolle').value, email: wert('f-email'), telefon: wert('f-telefon') };
+    var e = auswerten();
+    var ampel = {}; e.bereiche.forEach(function (x) { ampel[x.bereich.id] = x.status; });
+    var daten = {
+      quelle: 'Begehungs-Check', anzeige: 'Begehungs-Check', datum: new Date().toISOString(),
+      vorname: k.vorname, nachname: k.nachname, name: k.vorname + ' ' + k.nachname, praxis: k.praxis, rolle: k.rolle,
+      email: k.email, telefon: k.telefon, einwilligung: true,
+      erfuellt: e.erfuellt, luecken_anzahl: e.luecken, bereiche_rot: e.rot, kritische_luecken: e.kritisch,
+      ampel_hygiene: ampel.hyg, ampel_medizinprodukte: ampel.mp, ampel_roentgen: ampel.rnt, ampel_arbeitsschutz: ampel.as, ampel_datenschutz: ampel.ds,
+      luecken: e.bereiche.reduce(function (acc, x) { return acc.concat(x.luecken.map(function (l) { return x.bereich.name + ': ' + l.frage.luecke; })); }, []).join('\n'),
+      antworten: zustand.antworten,
+      betreff: 'Ihr Lückenreport aus dem zenday Begehungs-Check',
+      report_html: reportHtml(k, e), report_text: reportText(k, e)
+    };
+
+    var btn = $('btn-senden');
+    btn.disabled = true; btn.textContent = 'Wird gesendet …';
+
+    var fertig = function (versendet) {
+      gesendet = true;
+      $('danke-hinweis').textContent = versendet
+        ? 'Danke, ' + k.vorname + '. Ihr Lückenreport ist unterwegs an ' + k.email + '. Hier sehen Sie ihn schon vorab.'
+        : 'Vorschau-Modus: Es wurde keine E-Mail versendet, weil noch kein Webhook hinterlegt ist. So sieht der Report aus.';
+      ergebnisZeigen();
+      $('danke').scrollIntoView({ block: 'start' });
+    };
+
+    if (!WEBHOOK_URL) { setTimeout(function () { fertig(false); }, 400); return; }
+    var formular = new URLSearchParams();
+    Object.keys(daten).forEach(function (k) {
+      var v = daten[k];
+      formular.append(k, typeof v === 'object' ? JSON.stringify(v) : String(v));
+    });
+    fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: formular })
+      .then(function () { fertig(true); })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = 'Report per E-Mail anfordern';
+        fehler.textContent = 'Das Senden hat nicht geklappt. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.';
+        fehler.hidden = false;
+      });
+  }
+
+  /* ===================== EREIGNISSE ===================== */
+  document.querySelectorAll('.js-start').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (Object.keys(zustand.antworten).length >= FRAGEN.length) { zustand = { antworten: {}, index: 0 }; }
+      frageZeigen(naechsteOffene(0) === -1 ? 0 : naechsteOffene(0));
+    });
+  });
+
+  /* Rechner: Kosten der Nachweissuche */
+  function rechnen() {
+    var zahl = function (id) { var v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; };
+    var h = zahl('r-stunden') * zahl('r-personen');
+    $('r-h').textContent = h.toLocaleString('de-DE') + ' h';
+    $('r-eur').textContent = Math.round(h * zahl('r-satz')).toLocaleString('de-DE') + ' €';
+  }
+  ['r-stunden', 'r-personen', 'r-satz'].forEach(function (id) { $(id).addEventListener('input', rechnen); });
+  $('btn-fortsetzen').addEventListener('click', function () { frageZeigen(naechsteOffene(0)); });
+  $('antworten').addEventListener('click', function (ev) {
+    var b = ev.target.closest('.bc-antwort'); if (b) beantworten(b.getAttribute('data-antwort'));
+  });
+  $('btn-zurueck').addEventListener('click', function () {
+    if (zustand.index === 0) { startListe(); zeige('start'); } else frageZeigen(zustand.index - 1);
+  });
+  $('btn-aendern').addEventListener('click', function () { frageZeigen(0); });
+  $('btn-neu').addEventListener('click', function () {
+    zustand = { antworten: {}, index: 0 }; gesendet = false; speichern();
+    $('report-formular').reset(); $('btn-senden').disabled = false; $('btn-senden').textContent = 'Report per E-Mail anfordern';
+    startListe(); zeige('start');
+  });
+  $('report-formular').addEventListener('submit', absenden);
+  document.addEventListener('keydown', function (ev) {
+    if ($('ansicht-frage').hidden || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(ev.target.tagName)) return;
+    var n = parseInt(ev.key, 10);
+    if (n >= 1 && n <= ANTWORTEN.length) beantworten(ANTWORTEN[n - 1].id);
+  });
+
+  /* ===================== START ===================== */
+  laden();
+  startListe();
+  rechnen();
+  zeige('start');
+  // #beispiel: füllt Beispielantworten und springt zum Ergebnis (zum Testen)
+  if (location.hash === '#beispiel') {
+    var muster = ['ja', 'teilweise', 'nein', 'ja', 'ja', 'teilweise', 'unsicher', 'ja', 'teilweise', 'ja', 'nein', 'teilweise', 'ja', 'nein', 'ja', 'unsicher', 'teilweise', 'nein', 'ja'];
+    zustand = { antworten: {}, index: 0 };
+    FRAGEN.forEach(function (f, i) { zustand.antworten[f.id] = muster[i]; });
+    ergebnisZeigen();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fristen-Generator für Zahnarztpraxen · zenday</title>
+  <meta name="description" content="In wenigen Minuten zum persönlichen Fristenplan Ihrer Zahnarztpraxis – mit Rechtsgrundlage zu jeder Frist.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.zen-day.ai/learning-lab/mini-apps/fristen-generator/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/zenday.css?v=0.3.1">
+  <style>
+    /* Seitenspezifisch: nur var(--zd-…) */
+    [hidden] { display: none !important; }
+    .fg-app { padding-block: var(--zd-s-7) var(--zd-s-8); }
+    .fg-kopf { display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-4); margin-bottom: var(--zd-s-3); font-size: var(--zd-fs-s); color: var(--zd-text-leise); }
+    .fg-balken { height: 8px; border-radius: var(--zd-radius-pill); background: var(--zd-linie); overflow: hidden; margin-bottom: var(--zd-s-6); }
+    .fg-balken span { display: block; height: 100%; width: 0; background: var(--zd-verlauf); border-radius: var(--zd-radius-pill); transition: width var(--zd-dauer) var(--zd-kurve); }
+    .fg-schritt[hidden] { display: none; }
+    .fg-frage { display: grid; gap: var(--zd-s-3); }
+    .fg-frage + .fg-frage { margin-top: var(--zd-s-6); }
+    .fg-frage legend { font-weight: 600; color: var(--zd-anthrazit); font-size: var(--zd-fs-m); margin-bottom: var(--zd-s-1); padding: 0; }
+    .fg-frage fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: var(--zd-s-3); min-width: 0; }
+    .fg-optionen { display: grid; gap: var(--zd-s-3); grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .fg-optionen--2 { grid-template-columns: repeat(2, 1fr); } }
+    .fg-option { position: relative; display: flex; gap: var(--zd-s-3); align-items: flex-start; padding: var(--zd-s-4); min-height: 56px; background: var(--zd-weiss); border: 1.5px solid var(--zd-linie-stark); border-radius: var(--zd-radius-s); cursor: pointer; transition: border-color var(--zd-dauer), box-shadow var(--zd-dauer), background var(--zd-dauer); }
+    .fg-option:hover { border-color: var(--zd-text-leise); }
+    .fg-option input { appearance: none; flex: none; width: 22px; height: 22px; margin-top: 1px; border: 1.5px solid var(--zd-linie-stark); background: var(--zd-weiss); display: grid; place-items: center; }
+    .fg-option input[type="checkbox"] { border-radius: 6px; }
+    .fg-option input[type="radio"] { border-radius: 50%; }
+    .fg-option input::after { content: ""; width: 10px; height: 10px; border-radius: inherit; background: var(--zd-weiss); opacity: 0; }
+    .fg-option input:checked { background: var(--zd-blau); border-color: var(--zd-blau); }
+    .fg-option input:checked::after { opacity: 1; }
+    .fg-option:has(input:checked) { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+    .fg-option:has(input:focus-visible) { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18); }
+    .fg-option b { display: block; font-weight: 600; color: var(--zd-anthrazit); }
+    .fg-option small { display: block; font-size: var(--zd-fs-xs); color: var(--zd-text-leise); line-height: 1.45; margin-top: 2px; }
+    .fg-zahl { max-width: 180px; }
+    .fg-nav { display: flex; justify-content: space-between; gap: var(--zd-s-3); margin-top: var(--zd-s-7); flex-wrap: wrap; }
+    .fg-warum { margin-top: var(--zd-s-5); }
+
+    /* Ergebnis */
+    .fg-gruppe { margin-top: var(--zd-s-7); }
+    .fg-gruppe > h3 { display: flex; align-items: center; gap: var(--zd-s-3); margin-bottom: var(--zd-s-4); }
+    .fg-liste { display: grid; gap: var(--zd-s-3); list-style: none; padding: 0; }
+    .fg-liste li + li { margin-top: 0; }
+    .fg-frist { display: grid; gap: var(--zd-s-4); padding: var(--zd-s-5); background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); box-shadow: var(--zd-schatten-s); }
+    @media (min-width: 960px) { .fg-frist { grid-template-columns: 1fr 300px; align-items: start; } }
+    .fg-frist h4 { font-size: var(--zd-fs-m); }
+    .fg-frist__meta { display: flex; flex-wrap: wrap; gap: var(--zd-s-2); margin-top: var(--zd-s-2); }
+    .fg-frist__basis { font-size: var(--zd-fs-s); margin-top: var(--zd-s-3); }
+    .fg-frist__hinweis { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); margin-top: var(--zd-s-2); }
+    .fg-frist__termin { display: grid; gap: var(--zd-s-2); padding: var(--zd-s-4); background: var(--zd-grund); border-radius: var(--zd-radius-s); }
+    .fg-frist__termin label { font-size: var(--zd-fs-xs); font-weight: 600; color: var(--zd-anthrazit); }
+    .fg-frist__termin .zd-input, .fg-frist__termin .zd-select { min-height: 44px; padding: 0.5rem 0.75rem; }
+    .fg-faellig { font-size: var(--zd-fs-s); color: var(--zd-anthrazit); }
+    .fg-faellig strong { display: block; font-size: var(--zd-fs-l); }
+    .fg-themen { font-size: var(--zd-fs-s); margin-top: var(--zd-s-2); }
+    .fg-themen li + li { margin-top: var(--zd-s-1); }
+
+    .fg-monate { display: grid; gap: var(--zd-s-3); grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 720px) { .fg-monate { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 1024px) { .fg-monate { grid-template-columns: repeat(6, 1fr); } }
+    .fg-monat { background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: var(--zd-s-3); min-height: 120px; }
+    .fg-monat h4 { font-size: var(--zd-fs-s); margin-bottom: var(--zd-s-2); }
+    .fg-monat ul { list-style: none; padding: 0; font-size: var(--zd-fs-xs); line-height: 1.4; }
+    .fg-monat li + li { margin-top: var(--zd-s-1); }
+    .fg-monat li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--zd-violett); margin-right: 6px; vertical-align: middle; }
+    .fg-monat li.fg-ueber::before { background: var(--zd-koralle); }
+    .fg-monat__leer { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+
+    .fg-anlass { display: grid; gap: var(--zd-s-3); }
+    .fg-anlass .zd-karte h4 { font-size: var(--zd-fs-m); }
+    .fg-zenday { background: var(--zd-verlauf-zart); border-radius: var(--zd-radius-l); padding: clamp(1.5rem, 1rem + 2vw, 2.5rem); margin-top: var(--zd-s-8); }
+
+    @media print {
+      .fg-noprint, .zd-header, .zd-footer, .fg-zenday { display: none !important; }
+      .fg-frist { box-shadow: none; break-inside: avoid; }
+      .fg-frist__termin .zd-input, .fg-frist__termin .zd-select { border: 0; padding: 0; min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="zd-header">
+    <div class="zd-container zd-header__innen">
+      <a class="zd-wortmarke" href="/learning-lab/"><b>zen</b><span>day</span></a>
+      <div class="zd-header__aktionen">
+        <a class="zd-btn zd-btn--sekundaer zd-btn--klein" href="/learning-lab/">Learning Lab</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inhalt">
+    <!-- START -->
+    <section class="zd-hero zd-hero--ellipse" id="start">
+      <div class="zd-container">
+        <span class="zd-eyebrow">Kostenloses Werkzeug für Zahnarztpraxen</span>
+        <h1>Alle Prüf- und Schulungsfristen Ihrer Praxis. <span class="zd-text-verlauf">Auf einen Blick.</span></h1>
+        <p class="zd-lead">Beantworten Sie ein paar Fragen zu Ihrer Praxis. Sie erhalten einen persönlichen Fristenplan mit der Rechtsgrundlage zu jeder Frist und dem nächsten Fälligkeitsdatum.</p>
+        <div class="zd-reihe zd-reihe--stapeln">
+          <button class="zd-btn zd-btn--primaer zd-btn--gross" type="button" data-aktion="starten">Fristenplan erstellen</button>
+        </div>
+        <div class="zd-vertrauen">
+          <span>5 kurze Schritte, ca. 3 Minuten</span>
+          <span>Rechtsgrundlage zu jeder Frist</span>
+          <span>Export als Kalender oder PDF</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WIZARD -->
+    <section class="fg-app" id="assistent" hidden>
+      <div class="zd-container zd-container--schmal">
+        <div class="fg-kopf"><span id="fg-schritt-label">Schritt 1 von 5</span><span id="fg-schritt-name"></span></div>
+        <div class="fg-balken" aria-hidden="true"><span id="fg-balken"></span></div>
+
+        <form id="fg-form" novalidate>
+          <!-- Schritt 1 -->
+          <div class="fg-schritt" data-schritt="1" data-name="Praxis & Team">
+            <h2 class="zd-h3">Ihre Praxis</h2>
+            <p class="zd-leise zd-mt-4">Die Teamgröße bestimmt, wie viele Ersthelfer und Brandschutzhelfer Sie brauchen und ob weitere Beauftragte nötig sind.</p>
+            <div class="fg-frage zd-mt-6">
+              <div class="zd-feld">
+                <label for="praxis">Name der Praxis <span class="zd-leise">(optional)</span></label>
+                <input class="zd-input" id="praxis" name="praxis" autocomplete="organization" placeholder="z. B. Zahnarztpraxis Dr. Muster">
+              </div>
+            </div>
+            <div class="fg-frage">
+              <div class="zd-feld">
+                <label for="team">Wie viele Personen arbeiten in Ihrer Praxis? <span class="zd-pflicht">*</span></label>
+                <input class="zd-input fg-zahl" id="team" name="team" type="number" min="1" max="500" inputmode="numeric" value="8">
+                <span class="zd-feld__hilfe">Alle Beschäftigten inklusive Zahnärzt:innen, Auszubildenden und Teilzeitkräften.</span>
+              </div>
+            </div>
+            <div class="fg-frage">
+              <fieldset>
+                <legend>Rechnen Sie mit gesetzlichen Krankenkassen ab?</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="radio" name="kasse" value="ja" checked><span><b>Ja, Vertragszahnarztpraxis</b><small>Fortbildungspflicht nach § 95d SGB V</small></span></label>
+                  <label class="fg-option"><input type="radio" name="kasse" value="nein"><span><b>Nein, reine Privatpraxis</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- Schritt 2 -->
+          <div class="fg-schritt" data-schritt="2" data-name="Röntgen" hidden>
+            <h2 class="zd-h3">Röntgen in Ihrer Praxis</h2>
+            <p class="zd-leise zd-mt-4">Wählen Sie alle Geräte aus, die Sie betreiben.</p>
+            <div class="fg-frage zd-mt-6">
+              <fieldset>
+                <legend class="zd-sr-only">Röntgengeräte</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="checkbox" name="roe" value="intraoral" checked><span><b>Intraorales Röntgen</b><small>Zahnfilm, digitaler Sensor oder Speicherfolie</small></span></label>
+                  <label class="fg-option"><input type="checkbox" name="roe" value="opg"><span><b>Panoramaschichtgerät (OPG)</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="roe" value="fr"><span><b>Fernröntgen (FRS)</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="roe" value="dvt"><span><b>Digitale Volumentomographie (DVT)</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="roe" value="keins"><span><b>Wir röntgen nicht</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- Schritt 3 -->
+          <div class="fg-schritt" data-schritt="3" data-name="Aufbereitung & Wasser" hidden>
+            <h2 class="zd-h3">Aufbereitung und Wasserhygiene</h2>
+            <p class="zd-leise zd-mt-4">Validierte Aufbereitungsprozesse sind Pflicht nach § 8 MPBetreibV. Welche Geräte setzen Sie ein?</p>
+            <div class="fg-frage zd-mt-6">
+              <fieldset>
+                <legend class="zd-sr-only">Aufbereitungsgeräte</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="checkbox" name="aufb" value="rdg" checked><span><b>Thermodesinfektor (RDG)</b><small>auch Spezialgeräte für Übertragungsinstrumente</small></span></label>
+                  <label class="fg-option"><input type="checkbox" name="aufb" value="steri" checked><span><b>Dampfsterilisator (Autoklav)</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="aufb" value="siegel" checked><span><b>Folienschweißgerät</b><small>Siegelprozess für Sterilgutverpackung</small></span></label>
+                  <label class="fg-option"><input type="checkbox" name="aufb" value="keine"><span><b>Nichts davon</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="fg-frage">
+              <div class="zd-feld">
+                <label for="einheiten">Wie viele Behandlungseinheiten haben Sie?</label>
+                <input class="zd-input fg-zahl" id="einheiten" name="einheiten" type="number" min="0" max="60" inputmode="numeric" value="3">
+                <span class="zd-feld__hilfe">Für die mikrobiologische Untersuchung des Wassers je Einheit.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schritt 4 -->
+          <div class="fg-schritt" data-schritt="4" data-name="Geräte & Technik" hidden>
+            <h2 class="zd-h3">Geräte und Technik</h2>
+            <p class="zd-leise zd-mt-4">Wählen Sie alles aus, was in Ihrer Praxis vorhanden ist.</p>
+            <div class="fg-frage zd-mt-6">
+              <fieldset>
+                <legend class="zd-sr-only">Geräte</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="amalgam" checked><span><b>Amalgamabscheider</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="kompressor" checked><span><b>Kompressor / Druckluftanlage</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="aed"><span><b>Defibrillator (AED)</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="laser"><span><b>Dentallaser Klasse 3R, 3B oder 4</b></span></label>
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="hf"><span><b>HF-Chirurgiegerät</b><small>Elektrotom</small></span></label>
+                  <label class="fg-option"><input type="checkbox" name="geraet" value="rr"><span><b>Blutdruckmessgerät</b><small>nichtinvasiv, z. B. für die Anamnese</small></span></label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <!-- Schritt 5 -->
+          <div class="fg-schritt" data-schritt="5" data-name="Arbeitsschutz" hidden>
+            <h2 class="zd-h3">Arbeitsschutz im Team</h2>
+            <p class="zd-leise zd-mt-4">Drei Fragen noch. Danach sehen Sie Ihren Fristenplan.</p>
+            <div class="fg-frage zd-mt-6">
+              <fieldset>
+                <legend>Beschäftigen Sie Personen unter 18 Jahren, z. B. Auszubildende?</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="radio" name="jugend" value="ja"><span><b>Ja</b></span></label>
+                  <label class="fg-option"><input type="radio" name="jugend" value="nein" checked><span><b>Nein</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="fg-frage">
+              <fieldset>
+                <legend>Tragen Mitarbeitende regelmäßig 4 Stunden oder mehr pro Tag flüssigkeitsdichte Handschuhe?</legend>
+                <div class="fg-optionen fg-optionen--2">
+                  <label class="fg-option"><input type="radio" name="feucht" value="ja" checked><span><b>Ja</b><small>Gilt als Feuchtarbeit</small></span></label>
+                  <label class="fg-option"><input type="radio" name="feucht" value="nein"><span><b>Nein</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="fg-frage">
+              <fieldset>
+                <legend>Wie ist die betriebsärztliche und sicherheitstechnische Betreuung organisiert?</legend>
+                <div class="fg-optionen">
+                  <label class="fg-option"><input type="radio" name="bus" value="kammer" checked><span><b>Unternehmer- bzw. Kammermodell</b><small>Die Praxisinhaberin oder der Praxisinhaber hat die BuS-Schulung besucht</small></span></label>
+                  <label class="fg-option"><input type="radio" name="bus" value="regel"><span><b>Externer Betriebsarzt und Fachkraft für Arbeitssicherheit</b></span></label>
+                  <label class="fg-option"><input type="radio" name="bus" value="unklar"><span><b>Weiß ich nicht</b></span></label>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="fg-nav">
+            <button class="zd-btn zd-btn--sekundaer" type="button" data-aktion="zurueck">Zurück</button>
+            <button class="zd-btn zd-btn--primaer" type="button" data-aktion="weiter" id="fg-weiter">Weiter</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ERGEBNIS -->
+    <section class="fg-app" id="ergebnis" hidden>
+      <div class="zd-container">
+        <div class="zd-stack">
+          <span class="zd-eyebrow">Ihr persönlicher Fristenplan</span>
+          <h2 id="fg-titel">Fristenplan</h2>
+          <p class="zd-lead">Tragen Sie bei jeder Frist ein, wann sie zuletzt erledigt wurde. Das nächste Fälligkeitsdatum rechnet der Plan sofort aus.</p>
+        </div>
+
+        <div class="zd-grid zd-grid--4 zd-grid--kompakt zd-mt-6" id="fg-kennzahlen"></div>
+
+        <div class="zd-reihe zd-mt-6 fg-noprint">
+          <button class="zd-btn zd-btn--sekundaer zd-btn--klein" type="button" data-aktion="csv">Fristenplan herunterladen (.csv)</button>
+          <button class="zd-btn zd-btn--sekundaer zd-btn--klein fg-nur-web" type="button" data-aktion="ics">Als Kalender exportieren (.ics)</button>
+          <button class="zd-btn zd-btn--sekundaer zd-btn--klein fg-nur-web" type="button" data-aktion="drucken">Drucken oder als PDF speichern</button>
+          <button class="zd-btn zd-btn--link" type="button" data-aktion="bearbeiten">Antworten ändern</button>
+        </div>
+
+        <div class="fg-gruppe" id="fg-zeitstrahl-box">
+          <h3>Die nächsten 12 Monate</h3>
+          <p class="zd-leise zd-klein zd-mb-6">Erscheint, sobald Sie Daten eingetragen haben. Monatliche Prüfungen sind nicht einzeln aufgeführt.</p>
+          <div class="fg-monate" id="fg-zeitstrahl"></div>
+        </div>
+
+        <div id="fg-gruppen"></div>
+
+        <div class="fg-gruppe">
+          <h3>Anlassbezogene Fristen</h3>
+          <p class="zd-leise zd-mb-6">Diese Fristen beginnen mit einem Ereignis. Sie sollten im Team bekannt sein.</p>
+          <div class="zd-grid zd-grid--2" id="fg-anlass"></div>
+        </div>
+
+        <div class="fg-gruppe" id="fg-einmalig-box" hidden>
+          <h3>Einmalige Pflichten wegen Ihrer Teamgröße</h3>
+          <div class="zd-grid zd-grid--2" id="fg-einmalig"></div>
+        </div>
+
+        <div class="zd-hinweis zd-hinweis--info zd-mt-8">
+          <span>Hinweis: Dieser Plan fasst bundesweite Vorgaben zusammen (Stand November 2026) und ersetzt keine Rechtsberatung. Herstellerangaben, Ihr Validierungsbericht, Landesrecht oder Ihre Gefährdungsbeurteilung können kürzere Fristen vorsehen. Dann gilt die kürzere Frist.</span>
+        </div>
+
+        <aside class="fg-zenday">
+          <div class="zd-split zd-split--text-breit">
+            <div class="zd-stack">
+              <span class="zd-badge zd-badge--violett zd-badge--punkt">So läuft es mit zenday</span>
+              <h2 class="zd-h3">Diesen Plan pflegt zenday für Sie. Jeden Tag.</h2>
+              <ul class="zd-checkliste">
+                <li>Jede Frist wird automatisch zur Aufgabe, mit der richtigen Person im Team.</li>
+                <li>Erinnerung rechtzeitig vorher, Nachfassen, wenn nichts passiert.</li>
+                <li>Nachweise und Prüfprotokolle liegen direkt an der Frist. Bereit für die Begehung.</li>
+                <li>Ändert sich eine Vorgabe, passt zenday den Plan an.</li>
+              </ul>
+            </div>
+            <div class="zd-stack zd-mitte">
+              <p>Sehen Sie in 15 Minuten, wie zenday Ihren Fristenplan übernimmt.</p>
+              <a class="zd-btn zd-btn--primaer zd-btn--gross" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">Demo buchen</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="zd-footer">
+    <div class="zd-container">
+      <a class="zd-wortmarke" href="/"><b>zen</b><span>day</span></a>
+      <p class="zd-mt-4">Qualitätsmanagement für Zahnarztpraxen. Ruhe im Kopf.</p>
+      <div class="zd-footer__unten">
+        <span>© 2026 Ventria GmbH</span>
+        <ul class="zd-footer__links">
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/zenday.js?v=0.3.1" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var SCHRITTE = 5;
+    var schritt = 1;
+    var antworten = {};
+    var erledigt = {};   // id -> 'YYYY-MM-DD'
+    var intervallWahl = {}; // id -> Monate
+    var SPEICHER = 'zenday-fristen-v1';
+
+    function laden() {
+      try { var s = JSON.parse(localStorage.getItem(SPEICHER) || '{}'); erledigt = s.erledigt || {}; intervallWahl = s.intervall || {}; } catch (e) {}
+    }
+    function speichern() {
+      try { localStorage.setItem(SPEICHER, JSON.stringify({ erledigt: erledigt, intervall: intervallWahl })); } catch (e) {}
+    }
+
+    var $ = function (s, r) { return (r || document).querySelector(s); };
+    var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+    /* ------------------------------------------------------------
+       Fristen-Katalog. Jede Frist: Bereich, Intervall in Monaten,
+       Rechtsgrundlage, Art (pflicht | norm | empfehlung), Bedingung.
+       ------------------------------------------------------------ */
+    var BEREICHE = {
+      roe: { titel: 'Röntgen und Strahlenschutz', icon: 'M4 6h16v12H4zM8 10h8M8 14h5', farbe: 'blau' },
+      hyg: { titel: 'Hygiene und Aufbereitung', icon: 'M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z', farbe: 'tuerkis' },
+      ger: { titel: 'Geräte und Technik', icon: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z', farbe: 'violett' },
+      per: { titel: 'Team und Arbeitsschutz', icon: 'M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M9.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 19v-1a4 4 0 0 0-3-3.9M15 4.1a3 3 0 0 1 0 5.8', farbe: 'gelb' }
+    };
+
+    function hatRoe(a) { return a.roe.length && a.roe.indexOf('keins') === -1; }
+    function hat(a, feld, wert) { return (a[feld] || []).indexOf(wert) !== -1; }
+
+    var KATALOG = [
+      // Röntgen
+      { id: 'roe-konstanz', b: 'roe', titel: 'Konstanzprüfung der Röntgeneinrichtungen', monate: 1,
+        basis: '§ 116 StrlSchV i. V. m. Qualitätssicherungs-Richtlinie (QS-RL, seit 28.08.2024): Konstanzprüfungen grundsätzlich monatlich.',
+        art: 'pflicht', wer: 'Praxisteam',
+        hinweis: function (a) { return 'Für jedes Gerät: ' + geraeteText(a) + '. Aufzeichnungen an die Zahnärztliche Stelle auf Anforderung.'; },
+        wenn: hatRoe },
+      { id: 'roe-sv', b: 'roe', titel: 'Wiederkehrende Sachverständigenprüfung', monate: 60,
+        basis: '§ 88 Abs. 4 StrlSchV: mindestens alle fünf Jahre durch eine behördlich bestimmte sachverständige Person.',
+        art: 'pflicht', wer: 'Sachverständige Person', hinweis: 'Je Röntgeneinrichtung eigenes Datum. Der Prüfbericht geht an die zuständige Behörde.', wenn: hatRoe },
+      { id: 'roe-fachkunde', b: 'roe', titel: 'Aktualisierung der Fachkunde im Strahlenschutz (Zahnärzt:innen)', monate: 60,
+        basis: '§ 48 StrlSchV: Aktualisierung mindestens alle fünf Jahre durch anerkannten Kurs.',
+        art: 'pflicht', wer: 'Jede Zahnärztin, jeder Zahnarzt', hinweis: 'Frist läuft personenbezogen ab dem Datum der letzten Aktualisierung.', wenn: hatRoe },
+      { id: 'roe-kenntnisse', b: 'roe', titel: 'Aktualisierung der Kenntnisse im Strahlenschutz (ZFA, ZMF, DH)', monate: 60,
+        basis: '§ 49 i. V. m. § 48 StrlSchV: Aktualisierung mindestens alle fünf Jahre.',
+        art: 'pflicht', wer: 'Röntgende Mitarbeitende', hinweis: 'Frist läuft personenbezogen.', wenn: hatRoe },
+      { id: 'roe-monitor', b: 'roe', titel: function (a) { return hat(a, 'roe', 'dvt') ? 'Messtechnische Prüfung der Befundmonitore (DVT, Raumklasse 6)' : 'Messtechnische Prüfung der Befundmonitore (2D, Raumklasse 5)'; },
+        monate: function (a) { return hat(a, 'roe', 'dvt') ? 12 : 60; },
+        basis: function (a) { return hat(a, 'roe', 'dvt') ? 'QS-RL 2024 i. V. m. DIN 6868-157: Monitore für DVT (Raumklasse 6) jährlich.' : 'QS-RL 2024 i. V. m. DIN 6868-157: Monitore bei reinem 2D-Betrieb (Raumklasse 5) im Abstand von fünf Jahren.'; },
+        art: 'norm', wer: 'Dentaldepot oder Medizintechnik', hinweis: 'Gilt für Monitore, die nach DIN 6868-157 abgenommen wurden. Wurde noch nach DIN 6868-57 abgenommen, gelten die bisherigen Prüfungen weiter.', wenn: hatRoe },
+
+      // Hygiene
+      { id: 'hyg-rdg', b: 'hyg', titel: 'Erneute Leistungsqualifikation Thermodesinfektor (RDG)', monate: 12,
+        basis: '§ 8 MPBetreibV (validierte Aufbereitung) i. V. m. DIN EN ISO 15883 und Leitlinie DGKH/DGSV/AKI: jährlich.',
+        art: 'norm', wer: 'Validierungsdienstleister', hinweis: 'Maßgeblich ist das Intervall in Ihrem Validierungsbericht. Vorher Wartung durchführen lassen.', wenn: function (a) { return hat(a, 'aufb', 'rdg'); } },
+      { id: 'hyg-steri', b: 'hyg', titel: 'Erneute Leistungsqualifikation Dampfsterilisator', monate: 12, optionen: [12, 24],
+        basis: '§ 8 MPBetreibV i. V. m. DIN 58946-7: erneute Beurteilung jährlich; bei nachgewiesen stabilem Prozess Verlängerung auf 24 Monate möglich.',
+        art: 'norm', wer: 'Validierungsdienstleister', hinweis: '24 Monate nur, wenn Ihr Validierungsbericht das ausdrücklich festlegt.', wenn: function (a) { return hat(a, 'aufb', 'steri'); } },
+      { id: 'hyg-siegel', b: 'hyg', titel: 'Leistungsbeurteilung des Siegelprozesses', monate: 12,
+        basis: '§ 8 MPBetreibV i. V. m. DIN EN ISO 11607-2 und DGSV-Leitlinie zur Validierung des Siegelprozesses: jährlich.',
+        art: 'norm', wer: 'Praxisteam (mit Prüfset)', hinweis: 'Kann mit dem Prüfset des Herstellers vom Team selbst durchgeführt werden.', wenn: function (a) { return hat(a, 'aufb', 'siegel'); } },
+      { id: 'hyg-wasser', b: 'hyg', titel: 'Mikrobiologische Untersuchung des Wassers der Dentaleinheiten', monate: 12,
+        basis: 'KRINKO-Empfehlung „Infektionsprävention in der Zahnheilkunde“ (2006): jährlich. Die Empfehlung wird vom RKI seit 2021 als frühere Empfehlung geführt; Gesundheitsämter ziehen sie weiter als Maßstab heran.',
+        art: 'empfehlung', wer: 'Labor', hinweis: function (a) { return (a.einheiten > 0 ? a.einheiten + ' Behandlungseinheit' + (a.einheiten == 1 ? '' : 'en') + ', je Einheit eine Probe. ' : '') + 'Richtwerte: Koloniezahl unter 100 KBE/ml, Legionellen unter 1 KBE/ml.'; },
+        wenn: function (a) { return a.einheiten > 0; } },
+
+      // Geräte
+      { id: 'ger-amalgam', b: 'ger', titel: 'Überprüfung des Amalgamabscheiders', monate: 60,
+        basis: 'AbwV Anhang 50 und Landesrecht: Überprüfung vor Inbetriebnahme und in Abständen von nicht länger als fünf Jahren.',
+        art: 'pflicht', wer: 'Sachverständige Person nach Landesrecht', hinweis: 'Wartung zusätzlich nach Herstellerangaben. Betriebstagebuch führen und aufbewahren.', wenn: function (a) { return hat(a, 'geraet', 'amalgam'); } },
+      { id: 'ger-stk', b: 'ger', titel: 'Sicherheitstechnische Kontrolle (STK) aktiver Medizinprodukte', monate: 24,
+        basis: '§ 11 MPBetreibV: nach Herstellerangaben, für Produkte nach Anlage 1 spätestens alle zwei Jahre.',
+        art: 'pflicht', wer: 'Medizintechnik',
+        hinweis: function (a) { var g = []; if (hat(a, 'geraet', 'aed')) g.push('AED'); if (hat(a, 'geraet', 'laser')) g.push('Laser'); if (hat(a, 'geraet', 'hf')) g.push('HF-Chirurgiegerät'); return 'Betrifft: ' + g.join(', ') + '. Gibt der Hersteller eine kürzere Frist vor, gilt diese. Eintrag ins Medizinproduktebuch.'; },
+        wenn: function (a) { return hat(a, 'geraet', 'aed') || hat(a, 'geraet', 'laser') || hat(a, 'geraet', 'hf'); } },
+      { id: 'ger-mtk', b: 'ger', titel: 'Messtechnische Kontrolle (MTK) Blutdruckmessgerät', monate: 24,
+        basis: '§ 14 MPBetreibV i. V. m. Anlage 2: nichtinvasive Blutdruckmessgeräte alle zwei Jahre.',
+        art: 'pflicht', wer: 'Eichamt oder Medizintechnik', hinweis: 'Gibt der Hersteller eine kürzere Frist vor, gilt diese.', wenn: function (a) { return hat(a, 'geraet', 'rr'); } },
+      { id: 'ger-lsb', b: 'ger', titel: 'Fortbildung Laserschutzbeauftragte:r', monate: 60,
+        basis: '§ 5 OStrV i. V. m. TROS Laserstrahlung: Fachkenntnisse durch Fortbildung mindestens alle fünf Jahre aktuell halten.',
+        art: 'pflicht', wer: 'Bestellte:r Laserschutzbeauftragte:r', hinweis: 'Die schriftliche Bestellung muss vor dem ersten Laserbetrieb vorliegen.', wenn: function (a) { return hat(a, 'geraet', 'laser'); } },
+      { id: 'ger-kompressor', b: 'ger', titel: 'Prüfung Kompressor und Druckluftbehälter', monate: 24, optionen: [12, 24, 60],
+        basis: 'BetrSichV §§ 3, 14: Prüffrist laut Gefährdungsbeurteilung. Ist der Behälter überwachungsbedürftig, gelten Höchstfristen nach Anhang 2 Abschnitt 4: äußere Prüfung 2, innere 5, Festigkeitsprüfung 10 Jahre.',
+        art: 'pflicht', wer: 'Zur Prüfung befähigte Person', hinweis: 'Ob der Behälter überwachungsbedürftig ist, hängt vom Produkt aus Druck und Volumen (PS·V) ab. Das steht auf dem Typenschild. Frist bitte an Ihre Gefährdungsbeurteilung anpassen.', wenn: function (a) { return hat(a, 'geraet', 'kompressor'); } },
+      { id: 'ger-ortsv', b: 'ger', titel: 'Prüfung ortsveränderlicher elektrischer Geräte', monate: 24, optionen: [6, 12, 24],
+        basis: 'DGUV Vorschrift 3, Durchführungsanweisung Tabelle 1B: Richtwert 6 Monate; bei einer Fehlerquote unter 2 % in büroähnlichen Bereichen bis höchstens 24 Monate.',
+        art: 'pflicht', wer: 'Elektrofachkraft', hinweis: 'Z. B. PC, Drucker, Wasserkocher, Verlängerungskabel. Medizinprodukte laufen über STK nach MPBetreibV.', wenn: function () { return true; } },
+      { id: 'ger-ortsf', b: 'ger', titel: 'Prüfung der elektrischen Anlage und ortsfesten Betriebsmittel', monate: 48,
+        basis: 'DGUV Vorschrift 3, Durchführungsanweisung Tabelle 1A: Richtwert 4 Jahre.',
+        art: 'pflicht', wer: 'Elektrofachkraft', hinweis: 'Für Räume besonderer Art kann die Elektrofachkraft kürzere Fristen festlegen.', wenn: function () { return true; } },
+      { id: 'ger-rcd', b: 'ger', titel: 'Funktionstest der Fehlerstrom-Schutzschalter (Prüftaste)', monate: 6,
+        basis: 'DGUV Vorschrift 3, Durchführungsanweisung Tabelle 1A: in stationären Anlagen alle 6 Monate durch Betätigen der Prüftaste.',
+        art: 'pflicht', wer: 'Praxisteam', hinweis: 'Kurze Aufgabe für das Team. Vorher Geräte am Stromkreis herunterfahren.', wenn: function () { return true; } },
+      { id: 'ger-loescher', b: 'ger', titel: 'Prüfung der Feuerlöscher', monate: 24,
+        basis: 'ASR A2.2 i. V. m. DIN 14406-4: mindestens alle zwei Jahre durch eine sachkundige Person.',
+        art: 'pflicht', wer: 'Sachkundige Person (Wartungsfirma)', hinweis: 'Mindestens ein Feuerlöscher je Geschoss.', wenn: function () { return true; } },
+
+      // Personal
+      { id: 'per-unterweisung', b: 'per', titel: 'Jährliche Pflichtunterweisungen im Team', monate: 12,
+        basis: function (a) { var s = '§ 12 ArbSchG, § 4 DGUV Vorschrift 1, § 14 GefStoffV, § 14 BioStoffV'; if (hatRoe(a)) s += ', § 63 StrlSchV'; if (hat(a, 'geraet', 'laser')) s += ', § 8 OStrV'; return s + ': vor Aufnahme der Tätigkeit und danach mindestens jährlich, dokumentiert.'; },
+        art: 'pflicht', wer: 'Praxisinhaber:in', themen: function (a) {
+          var t = ['Allgemeiner Arbeitsschutz und Verhalten im Notfall', 'Gefahrstoffe (Betriebsanweisungen)', 'Biostoffe und Infektionsschutz, Verhalten nach Stich- und Schnittverletzung', 'Brandschutz und Flucht- und Rettungswege'];
+          if (hatRoe(a)) t.push('Strahlenschutz (Aufzeichnung 5 Jahre aufbewahren)');
+          if (hat(a, 'geraet', 'laser')) t.push('Laserschutz');
+          return t; },
+        wenn: function () { return true; } },
+      { id: 'per-jugend-unterw', b: 'per', titel: 'Unterweisung Jugendlicher', monate: 6,
+        basis: '§ 29 JArbSchG: vor Beginn der Beschäftigung und danach mindestens halbjährlich.',
+        art: 'pflicht', wer: 'Praxisinhaber:in', wenn: function (a) { return a.jugend === 'ja'; } },
+      { id: 'per-jugend-nachunt', b: 'per', titel: 'Erste Nachuntersuchung Jugendlicher', monate: 12, ab: 'Beschäftigungsbeginn',
+        basis: '§ 33 JArbSchG: ein Jahr nach Aufnahme der ersten Beschäftigung muss die Bescheinigung über die erste Nachuntersuchung vorliegen.',
+        art: 'pflicht', wer: 'Ärztin oder Arzt', hinweis: 'Tragen Sie hier den Beschäftigungsbeginn ein. Die Jugendliche oder der Jugendliche soll rechtzeitig vorher erinnert werden.', wenn: function (a) { return a.jugend === 'ja'; } },
+      { id: 'per-vorsorge-inf', b: 'per', titel: 'Arbeitsmedizinische Pflichtvorsorge bei Infektionsgefährdung', monate: 36, optionen: [12, 36],
+        basis: 'ArbMedVV Anhang Teil 2 i. V. m. AMR 2.1: zweite Vorsorge spätestens nach 12 Monaten, danach spätestens alle 36 Monate. Eine Verlängerung ist unzulässig.',
+        art: 'pflicht', wer: 'Betriebsärztin oder Betriebsarzt', hinweis: 'Je Person führen. Wählen Sie 12 Monate, wenn als nächstes die zweite Vorsorge ansteht.', wenn: function () { return true; } },
+      { id: 'per-vorsorge-feucht', b: 'per', titel: 'Arbeitsmedizinische Pflichtvorsorge bei Feuchtarbeit', monate: 36, optionen: [6, 36],
+        basis: 'ArbMedVV Anhang Teil 1 i. V. m. AMR 2.1: zweite Vorsorge spätestens nach 6 Monaten, danach spätestens alle 36 Monate.',
+        art: 'pflicht', wer: 'Betriebsärztin oder Betriebsarzt', hinweis: 'Je Person führen. Wählen Sie 6 Monate, wenn als nächstes die zweite Vorsorge ansteht.', wenn: function (a) { return a.feucht === 'ja'; } },
+      { id: 'per-ersthelfer', b: 'per', titel: 'Fortbildung der Ersthelfer', monate: 24,
+        basis: function (a) { return '§ 26 DGUV Vorschrift 1: Fortbildung in der Regel alle zwei Jahre. ' + ersthelferText(a.team); },
+        art: 'pflicht', wer: 'Benannte Ersthelfer', hinweis: 'Für die Teilnahme an einem anerkannten Erste-Hilfe-Kurs (9 Unterrichtseinheiten).', wenn: function () { return true; } },
+      { id: 'per-brandschutz', b: 'per', titel: 'Fortbildung der Brandschutzhelfer', monate: 36, optionen: [36, 60],
+        basis: function (a) { return 'ASR A2.2: ausreichende Zahl, in der Regel 5 % der Beschäftigten. Für Ihr Team: mindestens ' + Math.max(1, Math.ceil(a.team * 0.05)) + '. Wiederholung empfohlen alle 3 bis 5 Jahre (DGUV Information 205-023).'; },
+        art: 'empfehlung', wer: 'Benannte Brandschutzhelfer', wenn: function () { return true; } },
+      { id: 'per-bus', b: 'per', titel: 'Fortbildung im BuS-Dienst (Unternehmer- bzw. Kammermodell)', monate: 60,
+        basis: 'DGUV Vorschrift 2, alternative bedarfsorientierte Betreuung: Fortbildungsmaßnahmen im Abstand von höchstens fünf Jahren nach Vorgabe von Kammer bzw. BGW.',
+        art: 'pflicht', wer: 'Praxisinhaber:in', hinweis: 'Ohne aktuelle Fortbildung entfällt die Berechtigung zum Unternehmermodell.', wenn: function (a) { return a.bus === 'kammer'; } },
+      { id: 'per-95d', b: 'per', titel: 'Fortbildungsnachweis Vertragszahnärzt:innen', monate: 60,
+        basis: '§ 95d SGB V: 125 Fortbildungspunkte in einem Zeitraum von fünf Jahren, Nachweis gegenüber der KZV.',
+        art: 'pflicht', wer: 'Jede Zahnärztin, jeder Zahnarzt', hinweis: 'Gilt auch für angestellte Zahnärzt:innen. Bei fehlendem Nachweis drohen Honorarkürzungen.', wenn: function (a) { return a.kasse === 'ja'; } }
+    ];
+
+    var ANLASS = [
+      { t: 'Neue Mitarbeiterin, neuer Mitarbeiter', d: 'Unterweisung vor Aufnahme der Tätigkeit (§ 12 ArbSchG). Pflichtvorsorge innerhalb von 3 Monaten vor Tätigkeitsbeginn (ArbMedVV, AMR 2.1).' },
+      { t: 'Mitteilung einer Schwangerschaft', d: 'Unverzüglich: Aufsichtsbehörde benachrichtigen (§ 27 MuSchG), Gefährdungsbeurteilung konkretisieren und Schutzmaßnahmen festlegen (§ 10 MuSchG).' },
+      { t: 'Arbeitsunfall', d: 'Unfallanzeige an die BGW innerhalb von 3 Tagen, wenn die Person mehr als 3 Tage arbeitsunfähig ist (§ 193 SGB VII). Stich- und Schnittverletzungen immer im Verbandbuch dokumentieren.' },
+      { t: 'Datenschutzverletzung', d: 'Meldung an die Aufsichtsbehörde möglichst binnen 72 Stunden nach Bekanntwerden, außer es besteht voraussichtlich kein Risiko (Art. 33 DSGVO).' },
+      { t: 'Vorkommnis mit einem Medizinprodukt', d: 'Schwerwiegende Vorkommnisse unverzüglich an das BfArM melden (MPDG i. V. m. MPAMIV).' }
+    ];
+
+    /* ------------------------------------------------------------ */
+    function geraeteText(a) {
+      var m = { intraoral: 'Intraoral', opg: 'OPG', fr: 'FRS', dvt: 'DVT' };
+      return a.roe.filter(function (r) { return m[r]; }).map(function (r) { return m[r]; }).join(', ');
+    }
+    function ersthelferText(n) {
+      if (n < 2) return '';
+      if (n <= 20) return 'Für Ihr Team (' + n + ' Personen): mindestens 1 Ersthelfer, empfehlenswert ist eine Vertretung.';
+      return 'Bei mehr als 20 anwesenden Beschäftigten richtet sich die Zahl nach dem Betriebsanteil (5 % bzw. 10 %), bitte mit der BGW abstimmen.';
+    }
+    function wert(x, a) { return typeof x === 'function' ? x(a) : x; }
+    function intervall(f, a) { return intervallWahl[f.id] || wert(f.monate, a); }
+    function intervallText(m) {
+      if (m === 1) return 'monatlich';
+      if (m === 6) return 'halbjährlich';
+      if (m === 12) return 'jährlich';
+      if (m % 12 === 0) return 'alle ' + (m / 12) + ' Jahre';
+      return 'alle ' + m + ' Monate';
+    }
+    var ART = { pflicht: ['Gesetzliche Pflicht', 'koralle'], norm: ['Norm / Leitlinie', 'blau'], empfehlung: ['Empfehlung', 'gelb'] };
+
+    function plusMonate(iso, m) {
+      var p = iso.split('-').map(Number);
+      var d = new Date(p[0], p[1] - 1 + m, 1);
+      var letzter = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+      d.setDate(Math.min(p[2], letzter));
+      return d;
+    }
+    function heute() { var d = new Date(); d.setHours(0, 0, 0, 0); return d; }
+    function datumText(d) { return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+    function isoHeute() { var d = heute(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+    function status(faellig) {
+      var tage = Math.round((faellig - heute()) / 864e5);
+      if (tage < 0) return { txt: 'Überfällig seit ' + (-tage) + ' Tag' + (tage === -1 ? '' : 'en'), cls: 'koralle', ueber: true };
+      if (tage <= 60) return { txt: 'Fällig in ' + tage + ' Tag' + (tage === 1 ? '' : 'en'), cls: 'gelb' };
+      return { txt: 'Im Plan', cls: 'tuerkis' };
+    }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+    /* Antworten einsammeln */
+    function sammeln() {
+      var f = $('#fg-form');
+      var multi = function (n) { return $$('input[name="' + n + '"]:checked', f).map(function (i) { return i.value; }); };
+      var radio = function (n) { var i = $('input[name="' + n + '"]:checked', f); return i ? i.value : ''; };
+      antworten = {
+        praxis: $('#praxis').value.trim(),
+        team: Math.max(1, parseInt($('#team').value, 10) || 1),
+        kasse: radio('kasse'),
+        roe: multi('roe'),
+        aufb: multi('aufb'),
+        einheiten: Math.max(0, parseInt($('#einheiten').value, 10) || 0),
+        geraet: multi('geraet'),
+        jugend: radio('jugend'),
+        feucht: radio('feucht'),
+        bus: radio('bus')
+      };
+      return antworten;
+    }
+
+    /* "Keins"/"Nichts davon" schließt andere Optionen aus */
+    function exklusiv(name, keinWert) {
+      $$('input[name="' + name + '"]').forEach(function (i) {
+        i.addEventListener('change', function () {
+          if (!i.checked) return;
+          $$('input[name="' + name + '"]').forEach(function (j) {
+            if (i.value === keinWert ? j !== i : j.value === keinWert) j.checked = false;
+          });
+        });
+      });
+    }
+    exklusiv('roe', 'keins');
+    exklusiv('aufb', 'keine');
+
+    /* Navigation */
+    function zeigeSchritt(n) {
+      schritt = n;
+      $$('.fg-schritt').forEach(function (s) { s.hidden = Number(s.dataset.schritt) !== n; });
+      var akt = $('.fg-schritt[data-schritt="' + n + '"]');
+      $('#fg-schritt-label').textContent = 'Schritt ' + n + ' von ' + SCHRITTE;
+      $('#fg-schritt-name').textContent = akt.dataset.name;
+      $('#fg-balken').style.width = (n / SCHRITTE * 100) + '%';
+      $('[data-aktion="zurueck"]').style.visibility = n === 1 ? 'hidden' : 'visible';
+      $('#fg-weiter').textContent = n === SCHRITTE ? 'Fristenplan anzeigen' : 'Weiter';
+      var h = akt.querySelector('h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+      window.scrollTo({ top: 0 });
+    }
+    function ansicht(id) {
+      ['start', 'assistent', 'ergebnis'].forEach(function (s) { $('#' + s).hidden = s !== id; });
+      window.scrollTo({ top: 0 });
+    }
+    function pruefen() {
+      if (schritt === 1) {
+        var t = $('#team'); var ok = parseInt(t.value, 10) >= 1;
+        t.setAttribute('aria-invalid', ok ? 'false' : 'true');
+        if (!ok) { t.focus(); return false; }
+      }
+      return true;
+    }
+
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-aktion]'); if (!b) return;
+      var a = b.dataset.aktion;
+      if (a === 'starten') { ansicht('assistent'); zeigeSchritt(1); }
+      if (a === 'weiter') { if (!pruefen()) return; if (schritt < SCHRITTE) zeigeSchritt(schritt + 1); else { sammeln(); rendern(); ansicht('ergebnis'); } }
+      if (a === 'zurueck' && schritt > 1) zeigeSchritt(schritt - 1);
+      if (a === 'bearbeiten') { ansicht('assistent'); zeigeSchritt(1); }
+      if (a === 'drucken') window.print();
+      if (a === 'ics') icsExport();
+      if (a === 'csv') csvExport();
+    });
+
+    /* Ergebnis */
+    function aktiveFristen() { return KATALOG.filter(function (f) { return f.wenn(antworten); }); }
+
+    function rendern() {
+      var a = antworten;
+      $('#fg-titel').textContent = a.praxis ? 'Fristenplan · ' + a.praxis : 'Ihr Fristenplan';
+      var liste = aktiveFristen();
+      var html = '';
+      Object.keys(BEREICHE).forEach(function (bk) {
+        var items = liste.filter(function (f) { return f.b === bk; });
+        if (!items.length) return;
+        var B = BEREICHE[bk];
+        html += '<div class="fg-gruppe"><h3><span class="zd-icon zd-icon--' + B.farbe + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + B.icon + '"/></svg></span>' + B.titel + ' <span class="zd-badge">' + items.length + '</span></h3><ol class="fg-liste">';
+        items.forEach(function (f) { html += fristHtml(f, a); });
+        html += '</ol></div>';
+      });
+      $('#fg-gruppen').innerHTML = html;
+
+      $('#fg-anlass').innerHTML = ANLASS.map(function (x) { return '<div class="zd-karte"><h4>' + x.t + '</h4><p class="zd-klein">' + x.d + '</p></div>'; }).join('');
+
+      var ein = [];
+      if (a.team >= 20) ein.push({ t: 'Datenschutzbeauftragte:n benennen', d: '§ 38 BDSG: Pflicht, wenn in der Regel mindestens 20 Personen ständig mit der automatisierten Verarbeitung personenbezogener Daten beschäftigt sind. Kontaktdaten der Aufsichtsbehörde mitteilen.' });
+      if (a.team > 20) ein.push({ t: 'Beauftragte:n für Medizinproduktesicherheit bestimmen', d: '§ 6 MPBetreibV: Pflicht für Gesundheitseinrichtungen mit regelmäßig mehr als 20 Beschäftigten. Funktionsadresse auf der Website veröffentlichen.' });
+      $('#fg-einmalig-box').hidden = !ein.length;
+      $('#fg-einmalig').innerHTML = ein.map(function (x) { return '<div class="zd-karte"><h4>' + x.t + '</h4><p class="zd-klein">' + x.d + '</p></div>'; }).join('');
+
+      $$('#fg-gruppen input[type="date"]').forEach(function (i) {
+        i.addEventListener('change', function () { if (i.value) erledigt[i.dataset.id] = i.value; else delete erledigt[i.dataset.id]; speichern(); aktualisieren(); });
+      });
+      $$('#fg-gruppen select[data-id]').forEach(function (s) {
+        s.addEventListener('change', function () { intervallWahl[s.dataset.id] = Number(s.value); speichern(); rendern(); });
+      });
+      aktualisieren();
+    }
+
+    function fristHtml(f, a) {
+      var m = intervall(f, a);
+      var art = ART[f.art];
+      var titel = wert(f.titel, a);
+      var hinweis = f.hinweis ? wert(f.hinweis, a) : '';
+      var themen = f.themen ? '<ul class="zd-checkliste fg-themen">' + f.themen(a).map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' : '';
+      var wahl = '';
+      if (f.optionen) {
+        wahl = '<label for="iv-' + f.id + '">Intervall</label><select class="zd-select" id="iv-' + f.id + '" data-id="' + f.id + '">' +
+          f.optionen.map(function (o) { return '<option value="' + o + '"' + (o === m ? ' selected' : '') + '>' + intervallText(o) + '</option>'; }).join('') + '</select>';
+      }
+      return '<li class="fg-frist" data-frist="' + f.id + '"><div>' +
+        '<h4>' + esc(titel) + '</h4>' +
+        '<div class="fg-frist__meta"><span class="zd-badge zd-badge--violett">' + intervallText(m) + '</span><span class="zd-badge zd-badge--' + art[1] + '">' + art[0] + '</span>' + (f.wer ? '<span class="zd-badge">' + esc(f.wer) + '</span>' : '') + '</div>' +
+        '<p class="fg-frist__basis"><strong>Grundlage:</strong> ' + esc(wert(f.basis, a)) + '</p>' + themen +
+        (hinweis ? '<p class="fg-frist__hinweis">' + esc(hinweis) + '</p>' : '') +
+        '</div><div class="fg-frist__termin">' + wahl +
+        '<label for="d-' + f.id + '">' + (f.ab ? esc(f.ab) : 'Zuletzt erledigt am') + '</label>' +
+        '<input class="zd-input" type="date" id="d-' + f.id + '" data-id="' + f.id + '" max="' + isoHeute() + '" value="' + (erledigt[f.id] || '') + '">' +
+        '<div class="fg-faellig" aria-live="polite" id="fa-' + f.id + '"></div></div></li>';
+    }
+
+    function aktualisieren() {
+      var a = antworten, liste = aktiveFristen();
+      var zaehl = { gesamt: liste.length, offen: 0, ueber: 0, bald: 0 };
+      liste.forEach(function (f) {
+        var box = $('#fa-' + f.id); if (!box) return;
+        var d = erledigt[f.id];
+        if (!d) { zaehl.offen++; box.innerHTML = '<span class="zd-leise">Datum eintragen, um die nächste Fälligkeit zu berechnen.</span>'; return; }
+        var fa = plusMonate(d, intervall(f, a)); var st = status(fa);
+        if (st.ueber) zaehl.ueber++; else if (st.cls === 'gelb') zaehl.bald++;
+        box.innerHTML = 'Nächste Fälligkeit<strong>' + datumText(fa) + '</strong><span class="zd-badge zd-badge--' + st.cls + ' zd-badge--punkt">' + st.txt + '</span>';
+      });
+      var k = [
+        [zaehl.gesamt, 'wiederkehrende Fristen für Ihre Praxis'],
+        [zaehl.ueber, 'überfällig'],
+        [zaehl.bald, 'in den nächsten 60 Tagen fällig'],
+        [zaehl.offen, 'noch ohne Datum']
+      ];
+      $('#fg-kennzahlen').innerHTML = k.map(function (x) { return '<div class="zd-karte zd-kennzahl"><span class="zd-kennzahl__wert">' + x[0] + '</span><span class="zd-kennzahl__label">' + x[1] + '</span></div>'; }).join('');
+      zeitstrahl(liste);
+    }
+
+    function zeitstrahl(liste) {
+      var h = heute(), monate = [];
+      for (var i = 0; i < 12; i++) monate.push({ d: new Date(h.getFullYear(), h.getMonth() + i, 1), items: [] });
+      var ueber = [];
+      liste.forEach(function (f) {
+        var d = erledigt[f.id]; if (!d) return;
+        var m = intervall(f, antworten); if (m === 1) return;
+        var fa = plusMonate(d, m); var titel = wert(f.titel, antworten);
+        if (fa < h) { ueber.push(titel); return; }
+        while (fa < new Date(h.getFullYear(), h.getMonth() + 12, 1)) {
+          var idx = (fa.getFullYear() - h.getFullYear()) * 12 + fa.getMonth() - h.getMonth();
+          if (idx >= 0 && idx < 12) monate[idx].items.push(titel);
+          fa = new Date(fa.getFullYear(), fa.getMonth() + m, fa.getDate());
+        }
+      });
+      ueber.forEach(function (t) { monate[0].items.unshift({ t: t, ueber: true }); });
+      var gefuellt = Object.keys(erledigt).length > 0;
+      $('#fg-zeitstrahl-box').hidden = !gefuellt;
+      $('#fg-zeitstrahl').innerHTML = monate.map(function (mo) {
+        var name = mo.d.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+        var inhalt = mo.items.length ? '<ul>' + mo.items.map(function (x) { return typeof x === 'string' ? '<li>' + esc(x) + '</li>' : '<li class="fg-ueber">' + esc(x.t) + ' (überfällig)</li>'; }).join('') + '</ul>' : '<span class="fg-monat__leer">Nichts fällig</span>';
+        return '<div class="fg-monat"><h4>' + name + '</h4>' + inhalt + '</div>';
+      }).join('');
+    }
+
+    /* Kalender-Export: wiederkehrende Termine mit Erinnerung 14 Tage vorher */
+    function icsExport() {
+      var liste = aktiveFristen().filter(function (f) { return erledigt[f.id]; });
+      if (!liste.length) { alertBox('Tragen Sie zuerst bei mindestens einer Frist ein, wann sie zuletzt erledigt wurde.'); return; }
+      var fmt = function (d) { return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0'); };
+      var z = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//zenday//Fristen-Generator//DE', 'CALSCALE:GREGORIAN'];
+      var stempel = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      liste.forEach(function (f) {
+        var m = intervall(f, antworten), fa = plusMonate(erledigt[f.id], m), ende = new Date(fa.getFullYear(), fa.getMonth(), fa.getDate() + 1);
+        var basis = wert(f.basis, antworten).replace(/[,;]/g, function (c) { return '\\' + c; });
+        z.push('BEGIN:VEVENT', 'UID:' + f.id + '-' + fmt(fa) + '@zen-day.ai', 'DTSTAMP:' + stempel,
+          'DTSTART;VALUE=DATE:' + fmt(fa), 'DTEND;VALUE=DATE:' + fmt(ende),
+          'RRULE:FREQ=MONTHLY;INTERVAL=' + m,
+          'SUMMARY:' + wert(f.titel, antworten).replace(/[,;]/g, function (c) { return '\\' + c; }),
+          'DESCRIPTION:' + basis,
+          'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Frist in 14 Tagen', 'TRIGGER:-P14D', 'END:VALARM', 'END:VEVENT');
+      });
+      z.push('END:VCALENDAR');
+      speichereDatei('zenday-fristenplan.ics', z.join('\r\n'), 'text/calendar;charset=utf-8');
+    }
+    /* Download: in der Claude-Vorschau über die downloads-Capability, sonst direkt */
+    var dl = null;
+    if (window.claude && window.claude.use) {
+      $$('.fg-nur-web').forEach(function (b) { b.hidden = true; });
+      window.claude.use('downloads').then(function (d) { dl = d; }).catch(function () {});
+    }
+    function speichereDatei(name, text, mime) {
+      if (dl) {
+        return dl.save({ filename: name, data: text }).catch(function (e) { if (e && e.code !== 'declined') alertBox('Der Download ist in dieser Ansicht nicht möglich.'); });
+      }
+      var blob = new Blob([text], { type: mime });
+      var url = URL.createObjectURL(blob), l = document.createElement('a');
+      l.href = url; l.download = name; document.body.appendChild(l); l.click();
+      setTimeout(function () { URL.revokeObjectURL(url); l.remove(); }, 500);
+    }
+    function csvExport() {
+      var q = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
+      var z = [['Bereich', 'Frist', 'Intervall', 'Art', 'Zuständig', 'Zuletzt erledigt', 'Nächste Fälligkeit', 'Grundlage'].map(q).join(';')];
+      aktiveFristen().forEach(function (f) {
+        var m = intervall(f, antworten), d = erledigt[f.id];
+        z.push([BEREICHE[f.b].titel, wert(f.titel, antworten), intervallText(m), ART[f.art][0], f.wer || '',
+          d ? datumText(new Date(d)) : '', d ? datumText(plusMonate(d, m)) : '', wert(f.basis, antworten)].map(q).join(';'));
+      });
+      speichereDatei('zenday-fristenplan.csv', '\ufeff' + z.join('\r\n'), 'text/csv;charset=utf-8');
+    }
+    function alertBox(t) {
+      var h = document.createElement('div'); h.className = 'zd-hinweis zd-hinweis--warnung zd-mt-4 fg-noprint'; h.setAttribute('role', 'status'); h.textContent = t;
+      var ziel = $('[data-aktion="csv"]').parentNode; ziel.after(h); setTimeout(function () { h.remove(); }, 5000);
+    }
+
+    laden();
+  })();
+  </script>

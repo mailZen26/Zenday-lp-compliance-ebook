@@ -58,6 +58,11 @@
     .lp-absender__foto { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
     .lp-absender__initialen { width: 64px; height: 64px; border-radius: 50%; background: var(--zd-verlauf-button); display: grid; place-items: center; font-weight: 700; color: var(--zd-anthrazit); font-size: var(--zd-fs-l); }
     #form-error { margin-top: var(--zd-s-2); }
+    /* Erklärvideo (50 s) unter dem Hero */
+    .lp-erklaer { max-width: 960px; margin-inline: auto; border-radius: var(--zd-radius); overflow: hidden; border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten-l); background: var(--zd-linie); aspect-ratio: 16 / 9; }
+    .lp-erklaer video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .lp-erklaer-kopf { text-align: center; margin-inline: auto; }
+    .lp-erklaer-cta { margin-top: var(--zd-s-6); display: flex; justify-content: center; }
     #form-error[hidden] { display: none; }
     /* Handy und Tablet: Formular direkt nach Headline und Einleitung, Cover und Fakten danach */
     @media (max-width: 959px) {
@@ -135,6 +140,24 @@
             <p class="zd-feld__hilfe">Kostenlos. Ihre Daten verarbeiten wir nach unserer <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
           </form>
         </div>
+      </div>
+    </section>
+
+    <!-- 1b ERKLÄRVIDEO (50 s) -->
+    <section class="zd-sektion" aria-labelledby="video-titel">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf lp-erklaer-kopf">
+          <span class="zd-eyebrow">In 50 Sekunden erklärt</span>
+          <h2 id="video-titel">Das steckt im Leitfaden</h2>
+        </div>
+        <div class="lp-erklaer">
+          <video id="lp-erklaervideo" muted playsinline loop controls preload="none"
+                 poster="/ebooks/begehung/assets/video-poster.jpg" width="1920" height="1080"
+                 aria-label="Erklärvideo zum Leitfaden „Begehung der Zahnarztpraxis – Optimal vorbereitet“">
+            <source src="/ebooks/begehung/assets/erklaervideo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="lp-erklaer-cta"><a class="zd-btn zd-btn--primaer" href="#formular">Leitfaden kostenlos erhalten</a></div>
       </div>
     </section>
 
@@ -331,6 +354,34 @@
           btn.disabled = false;
           btn.textContent = 'Leitfaden kostenlos erhalten';
         });
+    });
+  })();
+
+  // Erklärvideo: startet stumm, sobald es sichtbar ist; meldet Start, 50 % und 100 % an den Meta Pixel (falls geladen)
+  (function () {
+    var v = document.getElementById('lp-erklaervideo');
+    if (!v) return;
+    var ruhig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gemeldet = {};
+    var melden = function (schritt) {
+      if (gemeldet[schritt]) return;
+      gemeldet[schritt] = true;
+      if (typeof window.fbq === 'function') window.fbq('trackCustom', 'Video' + schritt, { content_name: 'begehung' });
+    };
+    if ('IntersectionObserver' in window && !ruhig) {
+      new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) {
+          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+          else v.pause();
+        });
+      }, { threshold: 0.5 }).observe(v);
+    }
+    v.addEventListener('play', function () { melden('Start'); });
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration) return;
+      var anteil = v.currentTime / v.duration;
+      if (anteil >= 0.5) melden('50');
+      if (anteil >= 0.97) melden('100');
     });
   })();
   </script>

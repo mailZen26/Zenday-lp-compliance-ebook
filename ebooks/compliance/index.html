@@ -32,6 +32,8 @@
     .lp-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
     .lp-video-kopf { text-align: center; margin-inline: auto; }
     .lp-video-cta { margin-top: var(--zd-s-6); display: flex; justify-content: center; }
+    /* Handy: Hochformat-Video (9:16), Auswahl der Datei im Skript unten – gleiche Breakpoint-Regel */
+    @media (max-width: 639px) { .lp-video { max-width: 380px; aspect-ratio: 9 / 16; } }
     @media (max-width: 1023px) and (min-width: 720px) { .lp-plan { --zd-schritte-spalten: 2; } }
     @media (max-width: 639px) {
       .lp-cover { max-width: 220px; }
@@ -141,7 +143,8 @@
           <video id="lp-video" muted playsinline loop controls preload="none"
                  poster="/ebooks/compliance/assets/video-poster.jpg" width="1920" height="1080"
                  aria-label="Erklärvideo zum E-Book „Compliance Update – Gesetzesänderungen 2024–2026“">
-            <source src="/ebooks/compliance/assets/erklaervideo.mp4" type="video/mp4">
+            <source src="/ebooks/compliance/assets/erklaervideo.mp4" type="video/mp4"
+                    data-hoch="/ebooks/compliance/assets/erklaervideo-9x16.mp4" data-hoch-poster="/ebooks/compliance/assets/video-poster-9x16.jpg">
           </video>
         </div>
         <div class="lp-video-cta"><a class="zd-btn zd-btn--primaer" href="#formular">E-Book kostenlos erhalten</a></div>
@@ -427,6 +430,14 @@
   (function () {
     var v = document.getElementById('lp-video');
     if (!v) return;
+    // Schmale Bildschirme (Handy) laden das Hochformat-Video; nur die Bildschirmbreite zählt, es wird nichts gespeichert
+    var quelle = v.querySelector('source');
+    if (window.matchMedia && window.matchMedia('(max-width: 639px)').matches && quelle && quelle.dataset.hoch) {
+      quelle.src = quelle.dataset.hoch;
+      v.poster = quelle.dataset.hochPoster;
+      v.setAttribute('width', '1080'); v.setAttribute('height', '1920');
+      v.load();
+    }
     var ruhig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var gemeldet = {};
     var melden = function (schritt) {

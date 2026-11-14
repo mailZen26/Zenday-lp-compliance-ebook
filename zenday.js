@@ -47,7 +47,7 @@
      im Footer jederzeit änderbar.
    ------------------------------------------------------------------ */
 (function () {
-  var META_PIXEL_ID = '';            // ← hier die Pixel-ID aus dem Meta Events Manager eintragen
+  var META_PIXEL_ID = '447084240075338';   // Pixel-ID aus dem Meta Events Manager
   if (!META_PIXEL_ID) return;
 
   var SCHLUESSEL = 'zd-einwilligung';

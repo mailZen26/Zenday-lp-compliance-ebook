@@ -28,6 +28,10 @@
     .lp-vorschau figcaption { margin-top: var(--zd-s-3); font-size: var(--zd-fs-s); color: var(--zd-text-leise); text-align: center; }
     .lp-grundlage { margin-top: var(--zd-s-3); }
     .lp-hinweis-klein { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+    .lp-video { max-width: 960px; margin-inline: auto; border-radius: var(--zd-radius); overflow: hidden; border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten-l); background: var(--zd-linie); aspect-ratio: 16 / 9; }
+    .lp-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .lp-video-kopf { text-align: center; margin-inline: auto; }
+    .lp-video-cta { margin-top: var(--zd-s-6); display: flex; justify-content: center; }
     @media (max-width: 639px) {
       .lp-cover { max-width: 220px; }
       .lp-vorschauen { grid-template-columns: repeat(3, 1fr); gap: var(--zd-s-3); }
@@ -123,6 +127,24 @@
             </form>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 1b · Erklärvideo (60 s) -->
+    <section class="zd-sektion" aria-labelledby="video-titel">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf lp-video-kopf">
+          <span class="zd-eyebrow">In 60 Sekunden erklärt</span>
+          <h2 id="video-titel">Das steckt im Leitfaden</h2>
+        </div>
+        <div class="lp-video">
+          <video id="lp-video" muted playsinline loop controls preload="none"
+                 poster="/ebooks/assistenz/assets/video-poster.jpg" width="1920" height="1080"
+                 aria-label="Erklärvideo zum Leitfaden „Assistenz in der Zahnarztpraxis“">
+            <source src="/ebooks/assistenz/assets/erklaervideo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="lp-video-cta"><a class="zd-btn zd-btn--primaer" href="#formular">Leitfaden kostenlos erhalten</a></div>
       </div>
     </section>
 
@@ -375,6 +397,34 @@
           btn.disabled = false;
           btn.textContent = 'Leitfaden kostenlos erhalten';
         });
+    });
+  })();
+
+  // Erklärvideo: startet stumm, sobald es sichtbar ist; meldet Start, 50 % und 100 % an den Meta Pixel (falls geladen)
+  (function () {
+    var v = document.getElementById('lp-video');
+    if (!v) return;
+    var ruhig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gemeldet = {};
+    var melden = function (schritt) {
+      if (gemeldet[schritt]) return;
+      gemeldet[schritt] = true;
+      if (typeof window.fbq === 'function') window.fbq('trackCustom', 'Video' + schritt, { content_name: 'assistenz' });
+    };
+    if ('IntersectionObserver' in window && !ruhig) {
+      new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) {
+          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+          else v.pause();
+        });
+      }, { threshold: 0.5 }).observe(v);
+    }
+    v.addEventListener('play', function () { melden('Start'); });
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration) return;
+      var anteil = v.currentTime / v.duration;
+      if (anteil >= 0.5) melden('50');
+      if (anteil >= 0.97) melden('100');
     });
   })();
   </script>

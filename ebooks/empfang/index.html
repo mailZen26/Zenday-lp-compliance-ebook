@@ -44,6 +44,11 @@
     .lp-absender p { margin: 0; }
     @media (max-width: 479px) { .lp-absender { flex-direction: column; align-items: flex-start; } }
     .zd-kennzahl__label, figcaption { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: anywhere; }
+    /* Erklärvideo (40 s) unter dem Hero */
+    .lp-erklaer { max-width: 960px; margin-inline: auto; border-radius: var(--zd-radius); overflow: hidden; border: 1px solid var(--zd-linie); box-shadow: var(--zd-schatten-l); background: var(--zd-linie); aspect-ratio: 16 / 9; }
+    .lp-erklaer video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .lp-erklaer-kopf { text-align: center; margin-inline: auto; }
+    .lp-erklaer-cta { margin-top: var(--zd-s-6); display: flex; justify-content: center; }
   </style>
 </head>
 <body class="zd-mit-cta-leiste">
@@ -122,6 +127,24 @@
             </form>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 1b · Erklärvideo (40 s) -->
+    <section class="zd-sektion" aria-labelledby="video-titel">
+      <div class="zd-container">
+        <div class="zd-sektion-kopf lp-erklaer-kopf">
+          <span class="zd-eyebrow">In 40 Sekunden erklärt</span>
+          <h2 id="video-titel">Das steckt im Leitfaden</h2>
+        </div>
+        <div class="lp-erklaer">
+          <video id="lp-erklaervideo" muted playsinline loop controls preload="none"
+                 poster="/ebooks/empfang/assets/video-poster.jpg" width="1920" height="1080"
+                 aria-label="Erklärvideo zum Leitfaden „Empfang in der Zahnarztpraxis – Checklisten für ideale Tagesabläufe“">
+            <source src="/ebooks/empfang/assets/erklaervideo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="lp-erklaer-cta"><a class="zd-btn zd-btn--primaer" href="#formular">Checklisten kostenlos erhalten</a></div>
       </div>
     </section>
 
@@ -298,6 +321,34 @@
       btn.disabled = false;
     }
   });
+
+  // Erklärvideo: startet stumm, sobald es sichtbar ist; meldet Start, 50 % und 100 % an den Meta Pixel (falls geladen)
+  (function () {
+    var v = document.getElementById('lp-erklaervideo');
+    if (!v) return;
+    var ruhig = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var gemeldet = {};
+    var melden = function (schritt) {
+      if (gemeldet[schritt]) return;
+      gemeldet[schritt] = true;
+      if (typeof window.fbq === 'function') window.fbq('trackCustom', 'Video' + schritt, { content_name: 'empfang' });
+    };
+    if ('IntersectionObserver' in window && !ruhig) {
+      new IntersectionObserver(function (eintraege) {
+        eintraege.forEach(function (e) {
+          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+          else v.pause();
+        });
+      }, { threshold: 0.5 }).observe(v);
+    }
+    v.addEventListener('play', function () { melden('Start'); });
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration) return;
+      var anteil = v.currentTime / v.duration;
+      if (anteil >= 0.5) melden('50');
+      if (anteil >= 0.97) melden('100');
+    });
+  })();
   </script>
 </body>
 </html>

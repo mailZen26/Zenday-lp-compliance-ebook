@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ausfall-Risiko-Check für Zahnarztpraxen | zenday</title>
+<meta name="description" content="Was passiert, wenn Ihre Assistentin morgen ausfällt? 15 Fragen, ca. 4 Minuten: Sie sehen, welche Abläufe Ihrer Zahnarztpraxis nur im Kopf einer Person stehen.">
+<meta property="og:title" content="Was passiert, wenn Ihre Assistentin morgen ausfällt?">
+<meta property="og:description" content="Kostenloser Ausfall-Risiko-Check für Zahnarztpraxen: In 4 Minuten sehen, welche Abläufe an einer Person hängen.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.zen-day.ai/learning-lab/mini-apps/ausfall-risiko-check/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/zenday.css?v=0.3.1">
+<style>
+  /* Ausfall-Risiko-Check: Landing und Check auf derselben Seite (wie Begehungs-Check) */
+  :root { color-scheme: light; }
+  .zd-header { top: env(safe-area-inset-top, 0px); }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--zd-grund); }
+
+  /* ---------- Landing ---------- */
+  .lp-hero h1 { max-width: 15ch; }
+  .lp-beispiel__kopf { display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-3); flex-wrap: wrap; }
+  .lp-beispiel__kopf strong { font-size: var(--zd-fs-m); }
+  .lp-zeilen { list-style: none; padding: 0; display: grid; gap: var(--zd-s-2); }
+  .lp-zeilen li { margin: 0; display: grid; grid-template-columns: auto 1fr auto; gap: var(--zd-s-3); align-items: center; padding: var(--zd-s-3) 0; border-top: 1px solid var(--zd-linie); font-size: var(--zd-fs-s); }
+  .lp-zeilen li:first-child { border-top: 0; }
+  .lp-zeilen b { color: var(--zd-anthrazit); }
+  .lp-zeilen .zd-leise { white-space: nowrap; }
+  .lp-punkt { width: 12px; height: 12px; border-radius: 50%; }
+  .lp-punkt[data-status="rot"] { background: var(--zd-koralle); }
+  .lp-punkt[data-status="gelb"] { background: var(--zd-gelb); }
+  .lp-punkt[data-status="gruen"] { background: var(--zd-tuerkis); }
+  .lp-personen { display: grid; grid-template-columns: 1fr 1fr; gap: var(--zd-s-3); }
+  .lp-personen > div { background: var(--zd-grund); border-radius: var(--zd-radius-s); padding: var(--zd-s-3) var(--zd-s-4); }
+  .lp-personen .zd-kennzahl__wert { font-size: 1.75rem; }
+
+  .lp-reframe { font-size: var(--zd-fs-h3); line-height: 1.35; color: var(--zd-anthrazit); font-weight: 600; max-width: 30ch; text-wrap: balance; }
+  .lp-fragen { list-style: none; padding: 0; display: grid; gap: var(--zd-s-3); }
+  .lp-fragen li { margin: 0; background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius) var(--zd-radius) var(--zd-radius) 6px; padding: var(--zd-s-4) var(--zd-s-5); color: var(--zd-anthrazit); font-weight: 500; }
+  .lp-fragen span { display: block; font-size: var(--zd-fs-xs); color: var(--zd-text-leise); font-weight: 400; margin-top: var(--zd-s-1); }
+
+  /* Rechner */
+  .lp-rechner { display: grid; gap: var(--zd-s-5); }
+  .lp-rechner__felder { display: grid; gap: var(--zd-s-4); grid-template-columns: 1fr 1fr; }
+  @media (min-width: 720px) { .lp-rechner__felder { grid-template-columns: repeat(4, 1fr); } }
+  .lp-rechner .zd-input { font-variant-numeric: tabular-nums; }
+  .lp-rechner__ergebnis { display: grid; grid-template-columns: 1fr 1fr; gap: var(--zd-s-3); }
+  .lp-rechner__ergebnis > div { background: var(--zd-grund); border-radius: var(--zd-radius-s); padding: var(--zd-s-4); }
+  .lp-rechner .zd-kennzahl__wert { font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem); font-variant-numeric: tabular-nums; }
+
+  /* Alter Weg → neuer Weg */
+  .lp-wege { display: grid; gap: var(--zd-s-4); }
+  .lp-weg { display: grid; gap: var(--zd-s-3); background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); padding: var(--zd-s-5); }
+  @media (min-width: 720px) { .lp-weg { grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--zd-s-5); } }
+  .lp-weg p { font-size: var(--zd-fs-s); }
+  .lp-weg__label { display: block; font-size: var(--zd-fs-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--zd-s-1); }
+  .lp-weg__alt .lp-weg__label { color: var(--zd-text-leise); }
+  .lp-weg__neu .lp-weg__label { color: var(--zd-violett); }
+  .lp-weg__pfeil { color: var(--zd-violett); font-size: 1.5rem; line-height: 1; }
+  @media (max-width: 719px) { .lp-weg__pfeil { transform: rotate(90deg); justify-self: start; } }
+
+  .lp-absender { display: grid; gap: var(--zd-s-5); align-items: center; }
+  @media (min-width: 720px) { .lp-absender { grid-template-columns: 120px 1fr; } }
+  .lp-absender img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+
+  /* Bereiche */
+  .ar-bereiche { list-style: none; padding: 0; display: grid; gap: 0; background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); overflow: hidden; }
+  .ar-bereiche li { margin: 0; display: grid; grid-template-columns: 48px 1fr auto; gap: var(--zd-s-4); align-items: center; padding: var(--zd-s-4) var(--zd-s-5); }
+  .ar-bereiche li + li { border-top: 1px solid var(--zd-linie); }
+  .ar-bereiche strong { display: block; }
+  .ar-bereiche .zd-klein { color: var(--zd-text-leise); }
+  .ar-anzahl { font-size: var(--zd-fs-s); font-weight: 600; color: var(--zd-text-leise); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---------- App ---------- */
+  .ar-app { padding-block: var(--zd-s-7) var(--zd-s-8); }
+  .ar-fortschritt { height: 6px; border-radius: var(--zd-radius-pill); background: var(--zd-linie); overflow: hidden; }
+  .ar-fortschritt span { display: block; height: 100%; width: 0; background: var(--zd-verlauf); border-radius: inherit; transition: width var(--zd-dauer) var(--zd-kurve); }
+  .ar-meta { display: flex; justify-content: space-between; align-items: center; gap: var(--zd-s-3); flex-wrap: wrap; font-size: var(--zd-fs-s); color: var(--zd-text-leise); font-variant-numeric: tabular-nums; }
+  .ar-vorsatz { font-size: var(--zd-fs-s); font-weight: 600; color: var(--zd-violett); }
+  .ar-frage { font-size: var(--zd-fs-h3); outline: none; }
+  .ar-antworten { display: grid; gap: var(--zd-s-3); }
+  @media (min-width: 640px) { .ar-antworten { grid-template-columns: 1fr 1fr; } }
+  .ar-antwort {
+    display: flex; align-items: center; gap: var(--zd-s-3);
+    min-height: 60px; padding: var(--zd-s-3) var(--zd-s-5);
+    background: var(--zd-weiss); border: 1.5px solid var(--zd-linie-stark); border-radius: var(--zd-radius-s);
+    text-align: left; font-weight: 600; color: var(--zd-anthrazit);
+    transition: border-color var(--zd-dauer), background var(--zd-dauer);
+  }
+  .ar-antwort:hover { border-color: var(--zd-anthrazit); }
+  .ar-antwort[aria-pressed="true"] { border-color: var(--zd-blau); background: var(--zd-blau-hell); }
+  .ar-antwort kbd { flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--zd-grund); font: inherit; font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+  .ar-antwort[aria-pressed="true"] kbd { background: var(--zd-blau); color: var(--zd-weiss); }
+  @media (hover: none) { .ar-antwort kbd { display: none; } }
+  .ar-warum { background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: 0 var(--zd-s-5); }
+  .ar-warum summary { min-height: 52px; display: flex; align-items: center; cursor: pointer; font-weight: 600; font-size: var(--zd-fs-s); color: var(--zd-anthrazit); }
+  .ar-warum > div { padding-bottom: var(--zd-s-5); font-size: var(--zd-fs-s); }
+
+  .ar-ampel-liste { list-style: none; padding: 0; display: grid; gap: var(--zd-s-3); }
+  .ar-ampel-liste li { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: var(--zd-s-4); align-items: center; background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius); padding: var(--zd-s-4) var(--zd-s-5); }
+  .ar-lampe { display: grid; gap: 4px; padding: 6px; border-radius: var(--zd-radius-pill); background: var(--zd-anthrazit); }
+  .ar-lampe i { display: block; width: 14px; height: 14px; border-radius: 50%; background: rgba(255, 255, 255, 0.14); }
+  .ar-lampe[data-status="rot"] i:nth-child(1) { background: var(--zd-koralle); box-shadow: 0 0 10px var(--zd-koralle); }
+  .ar-lampe[data-status="gelb"] i:nth-child(2) { background: var(--zd-gelb); box-shadow: 0 0 10px var(--zd-gelb); }
+  .ar-lampe[data-status="gruen"] i:nth-child(3) { background: var(--zd-tuerkis); box-shadow: 0 0 10px var(--zd-tuerkis); }
+  .ar-ampel-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: var(--zd-s-2) var(--zd-s-3); flex-wrap: wrap; }
+  .ar-ampel-kopf strong { font-size: var(--zd-fs-m); }
+  .ar-ampel-liste .zd-klein { color: var(--zd-text-leise); }
+  .ar-kennzahlen { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--zd-s-3); }
+  .ar-kennzahlen > div { background: var(--zd-weiss); border: 1px solid var(--zd-linie); border-radius: var(--zd-radius-s); padding: var(--zd-s-4); }
+  @media (max-width: 479px) { .ar-kennzahlen { grid-template-columns: 1fr; } .ar-kennzahlen > div { display: flex; flex-direction: row; align-items: baseline; gap: var(--zd-s-3); } }
+  #ergebnis-titel:focus, .ar-frage:focus { outline: none; }
+  .ar-kennzahlen .zd-kennzahl__wert { font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem); font-variant-numeric: tabular-nums; }
+  .ar-plan { display: grid; gap: var(--zd-s-5); }
+  .ar-punkt { border-left: 3px solid var(--zd-linie-stark); padding-left: var(--zd-s-4); display: grid; gap: var(--zd-s-1); }
+  .ar-punkt[data-schwere="hoch"] { border-left-color: var(--zd-koralle); }
+  .ar-punkt[data-schwere="mittel"] { border-left-color: var(--zd-gelb); }
+  .ar-punkt p { font-size: var(--zd-fs-s); }
+  .ar-punkt b.ar-zenday { color: var(--zd-violett); }
+  .ar-punkt .ar-ki { color: var(--zd-text-leise); }
+  .ar-aktionen { display: flex; flex-wrap: wrap; gap: var(--zd-s-2) var(--zd-s-5); }
+  .ar-hinweis-klein { font-size: var(--zd-fs-xs); color: var(--zd-text-leise); }
+  .zd-hinweis[hidden], .zd-cta-leiste[hidden], [hidden] { display: none !important; }
+
+  @media print {
+    #ansicht-start, #report-box, .ar-aktionen, .ar-naechster, .zd-cta-leiste { display: none !important; }
+    .ar-app { padding: 0; }
+    .zd-karte { border: 1px solid var(--zd-linie); }
+  }
+</style>
+</head>
+<body class="zd-mit-cta-leiste">
+
+<a class="zd-skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="zd-header">
+  <div class="zd-container zd-header__innen">
+    <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+    <div class="zd-header__aktionen">
+      <button type="button" class="zd-btn zd-btn--dunkel zd-btn--klein js-start">Check starten</button>
+    </div>
+  </div>
+</header>
+
+<main id="inhalt">
+
+<!-- ======================= LANDING ======================= -->
+<div id="ansicht-start">
+
+  <!-- 1 HERO: Message-Match zur Assistenz-Kampagne -->
+  <section class="zd-hero zd-hero--ellipse lp-hero">
+    <div class="zd-container">
+      <div class="zd-split zd-split--text-breit">
+        <div class="zd-stack">
+          <span class="zd-badge zd-badge--violett zd-badge--punkt">Kostenloser Ausfall-Risiko-Check für Zahnarztpraxen</span>
+          <h1>Was passiert, wenn Ihre Assistentin morgen <span class="zd-text-verlauf">ausfällt</span>?</h1>
+          <p class="zd-lead">15 Fragen, ca. 4 Minuten. Sie sehen sofort, welche Abläufe in Ihrer Praxis <b>nur im Kopf einer Person</b> stehen – und was liegen bleibt, wenn Assistenz oder Praxismanagerin fehlen.</p>
+          <div class="zd-reihe zd-reihe--stapeln">
+            <button type="button" class="zd-btn zd-btn--primaer zd-btn--gross js-start">Check jetzt starten</button>
+            <button type="button" id="btn-fortsetzen" class="zd-btn zd-btn--sekundaer zd-btn--gross" hidden>Fortsetzen</button>
+          </div>
+          <div class="zd-vertrauen">
+            <span>Ca. 4 Minuten</span>
+            <span>Ergebnis ohne Anmeldung</span>
+            <span>Für Inhaber:innen und Praxismanager:innen</span>
+          </div>
+        </div>
+
+        <div class="zd-karte zd-karte--gross zd-stack" aria-label="Beispielergebnis">
+          <div class="lp-beispiel__kopf">
+            <strong>So sieht Ihr Ergebnis aus</strong>
+            <span class="zd-badge">Beispiel</span>
+          </div>
+          <div class="lp-personen">
+            <div class="zd-kennzahl"><span class="zd-kennzahl__wert">6</span><span class="zd-kennzahl__label">Abläufe stocken, wenn die Assistentin fehlt</span></div>
+            <div class="zd-kennzahl"><span class="zd-kennzahl__wert">4</span><span class="zd-kennzahl__label">wenn die Praxismanagerin fehlt</span></div>
+          </div>
+          <ul class="lp-zeilen">
+            <li><span class="lp-punkt" data-status="rot"></span><b>Behandlungsvorbereitung</b><span class="zd-leise">Hohes Risiko</span></li>
+            <li><span class="lp-punkt" data-status="gelb"></span><b>Aufbereitung</b><span class="zd-leise">Teilweise vertreten</span></li>
+            <li><span class="lp-punkt" data-status="rot"></span><b>Geräte &amp; Material</b><span class="zd-leise">Hohes Risiko</span></li>
+            <li><span class="lp-punkt" data-status="gelb"></span><b>Fristen &amp; Unterweisungen</b><span class="zd-leise">Teilweise vertreten</span></li>
+            <li><span class="lp-punkt" data-status="gruen"></span><b>Übergaben &amp; Zugänge</b><span class="zd-leise">Gut vertreten</span></li>
+          </ul>
+          <p class="zd-klein zd-leise">Dazu Ihr Vertretungsplan: jeder Ablauf, der an einer Person hängt, mit dem nächsten Schritt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 REFRAME -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container">
+      <div class="zd-split">
+        <div class="zd-stack">
+          <span class="zd-eyebrow">Was bei einem Ausfall wirklich passiert</span>
+          <p class="lp-reframe">Ihre Abläufe funktionieren. Sie stehen nur nicht auf Papier, sondern <span class="zd-text-verlauf">in einem Kopf</span>.</p>
+          <p>Solange alle da sind, merkt das niemand. Fällt Ihre erfahrenste Assistentin zwei Wochen aus, beginnt die Suche – und die Fragen landen bei Ihnen. <b>Das Problem ist nicht fehlendes QM – sondern Wissen, das nur eine Person hat.</b></p>
+        </div>
+        <ul class="lp-fragen" aria-label="Typische Fragen am ersten Ausfalltag">
+          <li>„Wie wird das Zimmer für die OP morgen gerichtet?“<span>Behandlungsvorbereitung</span></li>
+          <li>„Der Steri zeigt einen Fehler – was machen wir jetzt?“<span>Aufbereitung</span></li>
+          <li>„Wann kommt der Techniker, und wer hat ihn bestellt?“<span>Geräte &amp; Prüftermine</span></li>
+          <li>„Welche Unterweisung ist diesen Monat fällig?“<span>Fristen</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 NEW WAY: was der Check zeigt -->
+  <section class="zd-sektion">
+    <div class="zd-container">
+      <div class="zd-sektion-kopf">
+        <span class="zd-eyebrow">Was der Check Ihnen zeigt</span>
+        <h2>Vom Kopfwissen zum Ablauf, den jede im Team kann</h2>
+        <p>Für jeden Ablauf beantworten Sie eine Frage: <b>Wer könnte das morgen übernehmen?</b> Daraus entsteht Ihr Ausfall-Risiko pro Bereich.</p>
+      </div>
+      <div class="zd-split">
+        <div class="lp-wege">
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Wer vertritt, fragt die Kollegin – oder Sie.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Sie sehen</b>, welche Abläufe an einer Person hängen.</p></div>
+          </div>
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Vertretung wird improvisiert, wenn jemand krank ist.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Klare Reihenfolge</b>: was Sie zuerst festhalten sollten.</p></div>
+          </div>
+          <div class="lp-weg">
+            <div class="lp-weg__alt"><span class="lp-weg__label">Bisher</span><p>Fristen stehen im Kalender der Praxismanagerin.</p></div>
+            <span class="lp-weg__pfeil" aria-hidden="true">→</span>
+            <div class="lp-weg__neu"><span class="lp-weg__label">Mit dem Check</span><p><b>Ihr Vertretungsplan</b>: jeder Ablauf mit nächstem Schritt.</p></div>
+          </div>
+        </div>
+        <div class="zd-stack">
+          <h3 class="zd-h4">5 Bereiche, 15 Abläufe</h3>
+          <ul class="ar-bereiche" id="bereich-liste"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 RATIONAL: Rechner -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container zd-container--schmal">
+      <div class="zd-sektion-kopf">
+        <span class="zd-eyebrow">Rechnen Sie selbst</span>
+        <h2>Was kosten Sie die Rückfragen, wenn jemand fehlt?</h2>
+        <p>Jede Rückfrage unterbricht eine Behandlung oder landet bei Ihnen. Tragen Sie Ihre eigenen Werte ein.</p>
+      </div>
+      <div class="zd-karte zd-karte--gross lp-rechner">
+        <div class="lp-rechner__felder">
+          <div class="zd-feld">
+            <label for="r-fragen">Rückfragen pro Tag</label>
+            <input class="zd-input" id="r-fragen" type="number" min="0" step="1" value="8" inputmode="numeric">
+          </div>
+          <div class="zd-feld">
+            <label for="r-minuten">Minuten je Rückfrage</label>
+            <input class="zd-input" id="r-minuten" type="number" min="0" step="1" value="10" inputmode="numeric">
+          </div>
+          <div class="zd-feld">
+            <label for="r-tage">Fehltage im Jahr</label>
+            <input class="zd-input" id="r-tage" type="number" min="0" step="1" value="30" inputmode="numeric">
+          </div>
+          <div class="zd-feld">
+            <label for="r-satz">Stundensatz in €</label>
+            <input class="zd-input" id="r-satz" type="number" min="0" step="5" value="45" inputmode="numeric">
+          </div>
+        </div>
+        <div class="lp-rechner__ergebnis" aria-live="polite">
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="r-h">40 h</span><span class="zd-kennzahl__label">Suchen und Nachfragen pro Jahr</span></div>
+          <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="r-eur">1.800 €</span><span class="zd-kennzahl__label">Personalkosten – ohne verschobene Behandlungen</span></div>
+        </div>
+        <p class="zd-klein zd-leise">Voreingestellt sind Beispielwerte für eine Schlüsselperson (Urlaub und Krankheit). Bitte durch Ihre eigenen Zahlen ersetzen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 EMOTIONAL -->
+  <section class="zd-sektion">
+    <div class="zd-container zd-container--schmal zd-stack zd-stack--weit">
+      <div class="zd-sektion-kopf zd-mb-6">
+        <span class="zd-eyebrow">Kennen Sie das?</span>
+        <h2>Wenn sie fehlt, fragen alle Sie.</h2>
+      </div>
+      <ul class="zd-checkliste">
+        <li>Ihre Assistentin ist krank – und Sie richten zwischen zwei Patienten selbst das Tray.</li>
+        <li>Die Praxismanagerin ist im Urlaub, und niemand weiß, welche Prüfung diese Woche ansteht.</li>
+        <li>Neue Kolleginnen fragen Dinge, die irgendwo stehen – nur nicht dort, wo sie suchen.</li>
+        <li>Eine Kündigung ist für Sie nicht nur ein Personalthema, sondern ein <b>Wissensverlust</b>.</li>
+      </ul>
+      <figure class="zd-zitat">
+        <blockquote>„Unser Team muss immer erinnert werden – an Aufgaben, Schulungen, Termine. Sonst vergessen die das.“</blockquote>
+        <figcaption>Das hören wir von Praxisinhabern immer wieder.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 6 UND DANACH: heute zenday, bald KI Teamassistenz -->
+  <section class="zd-sektion zd-sektion--weiss">
+    <div class="zd-container">
+      <div class="zd-sektion-kopf">
+        <span class="zd-eyebrow">Und danach?</span>
+        <h2>Erst festhalten, dann fragen lassen</h2>
+        <p>Der Check zeigt Ihnen die Lücken. Geschlossen werden sie in 2 Schritten.</p>
+      </div>
+      <ol class="zd-schritte" style="--zd-schritte-spalten: 2;">
+        <li class="zd-schritt">
+          <h3>Heute mit zenday: Abläufe festhalten und nachhalten</h3>
+          <p>Arbeitsanweisungen mit Bildern, Geräte mit Wartungsintervallen, Aufgaben mit Verantwortlichen <b>und Vertretung</b>. Offene und überfällige Aufgaben werden sichtbar, erinnert und eskaliert.</p>
+        </li>
+        <li class="zd-schritt">
+          <h3>Bald: die zenday KI Teamassistenz</h3>
+          <p>Ihr Team fragt die KI – nicht mehr Sie. Die Antwort kommt aus <b>den Dokumenten Ihrer Praxis</b>, mit Quelle zum Nachlesen. <span class="zd-badge zd-badge--violett">In Entwicklung · Warteliste offen</span></p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7 BEWEIS, ABSENDER, FAQ -->
+  <section class="zd-sektion">
+    <div class="zd-container">
+      <div class="zd-sektion-kopf zd-sektion-kopf--mitte">
+        <span class="zd-eyebrow">Von zenday</span>
+        <h2>Speziell für Zahnarztpraxen entwickelt</h2>
+      </div>
+      <div class="zd-grid zd-grid--3">
+        <div class="zd-kennzahl zd-mitte"><span class="zd-kennzahl__wert">200+</span><span class="zd-kennzahl__label">Praxisstandorte arbeiten mit zenday</span></div>
+        <div class="zd-kennzahl zd-mitte"><span class="zd-kennzahl__wert">2.000+</span><span class="zd-kennzahl__label">Nutzerinnen und Nutzer in Praxisteams</span></div>
+        <div class="zd-kennzahl zd-mitte"><span class="zd-kennzahl__wert">25+</span><span class="zd-kennzahl__label">Begehungen mit Praxen begleitet</span></div>
+      </div>
+
+      <div class="zd-container--schmal zd-mt-8" style="margin-inline: auto; padding: 0;">
+        <div class="zd-karte lp-absender">
+          <img src="/assets/tilmann-foerster.jpg" alt="Tilmann Förster, Gründer von zenday" width="120" height="120" loading="lazy">
+          <div class="zd-stack zd-stack--eng">
+            <p>„In unseren Gesprächen mit Praxen hören wir immer wieder dasselbe: Das Wissen ist da, aber im entscheidenden Moment findet es niemand. Der Check zeigt, wo das bei Ihnen der Fall ist.“</p>
+            <p class="zd-klein"><b>Tilmann Förster</b> · Gründer von zenday</p>
+          </div>
+        </div>
+
+        <h3 class="zd-mt-8 zd-mb-6">Fragen und Antworten</h3>
+        <div class="zd-faq">
+          <details><summary>Was kostet der Check?</summary><p>Nichts. Ergebnis und Vertretungsplan sind kostenlos.</p></details>
+          <details><summary>Muss ich mich anmelden?</summary><p>Nein. Ihr Ergebnis sehen Sie direkt nach der letzten Frage. Nur für den ausführlichen Vertretungsplan fragen wir nach Ihren Kontaktdaten.</p></details>
+          <details><summary>Wie lange dauert das?</summary><p>Rund 4 Minuten. Sie können jederzeit pausieren, Ihre Antworten bleiben in Ihrem Browser gespeichert.</p></details>
+          <details><summary>Lohnt sich das auch für kleine Praxen?</summary><p>Gerade dort. In kleinen Teams mit Teilzeitkräften hängt ein Ablauf oft an genau einer Person. Fehlt sie, gibt es keine zweite, die einspringt.</p></details>
+          <details><summary>Was ist die zenday KI Teamassistenz?</summary><p>Eine Erweiterung von zenday, die gerade entsteht. Ihr Team stellt Fragen im Chat, die Antwort kommt aus den Dokumenten Ihrer Praxis, mit Quelle. Am Ende des Checks können Sie sich unverbindlich auf die Warteliste setzen lassen.</p></details>
+          <details><summary>Was passiert mit meinen Daten?</summary><p>Ihre Antworten bleiben in Ihrem Browser, bis Sie den Vertretungsplan anfordern. Dann nutzen wir Ihre Angaben, um uns bei Ihnen zu melden. Details in der <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABSCHLUSS-CTA -->
+  <section class="zd-sektion zd-sektion--dunkel">
+    <div class="zd-container zd-container--schmal zd-mitte zd-stack">
+      <h2>Was bleibt liegen, wenn jemand fehlt?</h2>
+      <p>15 Fragen, 4 Minuten. Danach wissen Sie, welchen Ablauf Sie zuerst festhalten.</p>
+      <div class="zd-reihe zd-reihe--mitte zd-reihe--stapeln"><button type="button" class="zd-btn zd-btn--primaer zd-btn--gross js-start">Check jetzt starten</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- ======================= APP ======================= -->
+<div class="ar-app" id="check" hidden>
+  <div class="zd-container zd-container--schmal">
+
+    <section id="ansicht-frage" class="zd-stack zd-stack--weit" hidden aria-live="polite">
+      <div class="zd-stack zd-stack--eng">
+        <div class="ar-meta">
+          <span class="zd-badge zd-badge--blau" id="frage-bereich">…</span>
+          <span id="frage-zaehler">Frage 1 von 15</span>
+        </div>
+        <div class="ar-fortschritt" role="progressbar" aria-label="Fortschritt" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="fortschritt"><span id="fortschritt-balken"></span></div>
+      </div>
+      <div class="zd-stack zd-stack--eng">
+        <p class="ar-vorsatz">Wer könnte das morgen übernehmen?</p>
+        <h2 class="ar-frage" id="frage-text" tabindex="-1">…</h2>
+      </div>
+      <div class="ar-antworten" id="antworten" role="group" aria-labelledby="frage-text"></div>
+      <details class="ar-warum" id="frage-warum">
+        <summary>Warum ist das wichtig?</summary>
+        <div><p id="frage-hilfe"></p></div>
+      </details>
+      <div class="ar-aktionen">
+        <button type="button" class="zd-btn zd-btn--link" id="btn-zurueck">← Zurück</button>
+      </div>
+    </section>
+
+    <section id="ansicht-ergebnis" class="zd-stack zd-stack--weit" hidden>
+      <div class="zd-stack">
+        <span class="zd-eyebrow">Ihr Ausfall-Risiko</span>
+        <h2 id="ergebnis-titel" tabindex="-1">…</h2>
+        <p class="zd-lead" id="ergebnis-text"></p>
+      </div>
+      <div class="ar-kennzahlen">
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-kopf">0</span><span class="zd-kennzahl__label">Abläufe nur im Kopf einer Person</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-assistenz">0</span><span class="zd-kennzahl__label">stocken, wenn die Assistenz fehlt</span></div>
+        <div class="zd-kennzahl"><span class="zd-kennzahl__wert" id="kz-pm">0</span><span class="zd-kennzahl__label">stocken, wenn die Praxismanagerin fehlt</span></div>
+      </div>
+      <ul class="ar-ampel-liste" id="ampel-liste"></ul>
+
+      <div class="zd-formular-box" id="report-box">
+        <h3>Ihren Vertretungsplan erhalten</h3>
+        <p>Für jeden Ablauf, der an einer Person hängt: <b>was Sie festhalten sollten</b>, in welcher Reihenfolge und wie zenday dabei hilft. Er erscheint direkt hier, zum Ausdrucken für die nächste Teambesprechung.</p>
+        <form class="zd-formular" id="lead-form" novalidate>
+          <div class="zd-grid zd-grid--2">
+            <div class="zd-feld"><label for="f-vorname">Vorname<span class="zd-pflicht">*</span></label><input class="zd-input" id="f-vorname" name="vorname" autocomplete="given-name" required></div>
+            <div class="zd-feld">
+              <label for="f-rolle">Ihre Rolle<span class="zd-pflicht">*</span></label>
+              <select class="zd-select" id="f-rolle" name="rolle" required>
+                <option value="">Bitte wählen</option>
+                <option value="Praxisinhaber/in">Praxisinhaber:in</option>
+                <option value="Praxismanager/in">Praxismanager:in</option>
+                <option value="QM-Beauftragte/r">QM-Beauftragte:r</option>
+                <option value="Empfang/Assistenz">Empfang/Assistenz</option>
+                <option value="Andere">Andere</option>
+              </select>
+            </div>
+          </div>
+          <div class="zd-grid zd-grid--2">
+            <div class="zd-feld">
+              <label for="f-email">E-Mail<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            </div>
+            <div class="zd-feld">
+              <label for="f-telefon">Telefon<span class="zd-pflicht">*</span></label>
+              <input class="zd-input" id="f-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+()\/ -]{6,}" required>
+              <span class="zd-feld__hilfe">Für eine kurze Rückfrage zu Ihrem Ergebnis.</span>
+            </div>
+          </div>
+          <div aria-hidden="true">
+            <label class="zd-sr-only" for="f-website">Website</label>
+            <input class="zd-sr-only" id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" name="ebook" value="ausfall-risiko-check">
+          <input type="hidden" name="persona" value="inhaber-praxismanagement">
+          <input type="hidden" name="quelle" value="instagram-organisch">
+          <input type="hidden" name="utm_source">
+          <input type="hidden" name="utm_medium">
+          <input type="hidden" name="utm_campaign">
+          <input type="hidden" name="utm_content">
+          <label class="zd-check">
+            <input type="checkbox" name="warteliste_ki" value="ja">
+            <span>Ja, setzen Sie mich unverbindlich auf die Warteliste der <b>zenday KI Teamassistenz</b>.</span>
+          </label>
+          <label class="zd-check">
+            <input type="checkbox" name="consent" value="ja">
+            <span>Ja, ich möchte weitere Praxis-Tipps von zenday per E-Mail erhalten. Abmeldung jederzeit möglich.</span>
+          </label>
+          <button type="submit" class="zd-btn zd-btn--primaer zd-btn--voll" id="btn-senden">Vertretungsplan anzeigen</button>
+          <p class="zd-feld__fehler" id="form-error" role="alert" hidden>Das hat leider nicht geklappt. Bitte versuchen Sie es erneut oder schreiben Sie an support@zen-day.de.</p>
+          <p class="ar-hinweis-klein">Wir melden uns telefonisch, um Ihr Ergebnis kurz mit Ihnen durchzugehen. Mehr in der <a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+        </form>
+      </div>
+
+      <div class="zd-stack zd-stack--weit" id="danke" hidden>
+        <p class="zd-hinweis zd-hinweis--erfolg" id="danke-hinweis" role="status"></p>
+        <div class="zd-karte zd-stack">
+          <div class="zd-reihe zd-reihe--zwischen">
+            <h3 class="zd-h4">Ihr Vertretungsplan</h3>
+            <button type="button" class="zd-btn zd-btn--sekundaer zd-btn--klein" id="btn-drucken">Drucken oder als PDF speichern</button>
+          </div>
+          <div class="ar-plan" id="plan-liste"></div>
+        </div>
+
+        <!-- Nächster Schritt: gestaffelt nach Ergebnis (siehe naechsterSchritt) -->
+        <div class="zd-karte zd-karte--akzent zd-stack ar-naechster" id="schritt-demo" hidden>
+          <h3>Vom Kopf ins System: Ihre Abläufe in zenday</h3>
+          <p>In 15 Minuten zeigen wir Ihnen an Ihrem Ergebnis, wie Arbeitsanweisungen, Geräte und Aufgaben mit Vertretung in zenday zusammenlaufen. Seit den Smart Fields sind neue Praxen nach 3 Wochen begehungsbereit.</p>
+          <div><a class="zd-btn zd-btn--primaer js-demo" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">15-Minuten-Demo buchen</a></div>
+          <p class="zd-klein zd-leise" id="demo-ki-hinweis"></p>
+        </div>
+        <div class="zd-karte zd-karte--akzent zd-stack ar-naechster" id="schritt-ki" hidden>
+          <h3>Gut vertreten. Jetzt die Rückfragen abgeben.</h3>
+          <p>Ihre Abläufe stehen schon weitgehend fest. Mit der <b>zenday KI Teamassistenz</b> fragt Ihr Team künftig die KI statt Sie – die Antwort kommt aus Ihren eigenen Dokumenten, mit Quelle.</p>
+          <p id="ki-status" class="zd-klein"></p>
+          <div class="zd-reihe"><a class="zd-btn zd-btn--sekundaer js-demo" href="https://calendly.com/digitalesqm/demo-praesentation" target="_blank" rel="noopener">zenday in 15 Minuten ansehen</a></div>
+        </div>
+      </div>
+
+      <div class="ar-aktionen">
+        <button type="button" class="zd-btn zd-btn--link" id="btn-aendern">Antworten ändern</button>
+        <button type="button" class="zd-btn zd-btn--link" id="btn-neu">Check neu starten</button>
+      </div>
+      <p class="ar-hinweis-klein">Selbsteinschätzung als Orientierung, keine Rechtsberatung.</p>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer class="zd-footer">
+  <div class="zd-container">
+    <a class="zd-wortmarke" href="https://www.zen-day.ai/"><b>zen</b><span>day</span></a>
+    <p class="zd-mt-4">Digitales QM speziell für Zahnarztpraxen. Ventria GmbH, Malkastenstraße 8, 40211 Düsseldorf.</p>
+    <div class="zd-footer__unten">
+      <span>© 2026 Ventria GmbH</span>
+      <ul class="zd-footer__links">
+        <li><a href="https://www.zen-day.ai/impressum" target="_blank" rel="noopener">Impressum</a></li>
+        <li><a href="https://www.zen-day.ai/datenschutz" target="_blank" rel="noopener">Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<div class="zd-cta-leiste" id="cta-leiste"><button type="button" class="zd-btn zd-btn--primaer js-start">Check jetzt starten</button></div>
+
+<script src="/zenday.js?v=0.3.1" defer></script>
+<script>
+(function () {
+  /* ===================== KONFIGURATION ===================== */
+  // Zapier-Workflow „zenday-landingpage-leads“ (Catch Hook → Sheet „FB Leads“ → Slack #leads), wie auf den E-Book-Seiten
+  var FORM_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/5504389/C5lwaBt49fBLCqbw/';
+  var SLUG = 'ausfall-risiko-check';
+
+  /* ===================== INHALT ===================== */
+  var ICONS = {
+    vb: '<path d="M4 18h16M6 18v-5a6 6 0 0 1 12 0v5"/><path d="M12 7V4"/>',
+    auf: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+    ger: '<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5h8v2M12 10v6M9 13h6"/>',
+    fri: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M8 15l2.5 2.5L16 13"/>',
+    org: '<path d="M7 7h11l-3-3M17 17H6l3 3"/>'
+  };
+
+  var BEREICHE = [
+    { id: 'vb', name: 'Behandlungsvorbereitung', themen: 'Tagesstart, Zimmer, Trays, seltene Behandlungen', farbe: 'violett' },
+    { id: 'auf', name: 'Aufbereitung', themen: 'Instrumente, Thermodesinfektor, Sterilisator', farbe: 'tuerkis' },
+    { id: 'ger', name: 'Geräte & Material', themen: 'Wartung, Bestellung, Prüftermine', farbe: 'gelb' },
+    { id: 'fri', name: 'Fristen & Unterweisungen', themen: 'Unterweisungen, Fachkunde, Einarbeitung', farbe: '' },
+    { id: 'org', name: 'Übergaben & Zugänge', themen: 'Offene Aufgaben, Passwörter, Übergabe', farbe: 'koralle' }
+  ];
+
+  // rolle: an wem der Ablauf typischerweise hängt (assistenz | pm | beide)
+  var FRAGEN = [
+    { id: 'vb1', b: 'vb', rolle: 'assistenz',
+      frage: 'Der Tagesstart: Behandlungseinheiten in Betrieb nehmen, wasserführende Systeme spülen, Zimmer vorbereiten.',
+      hilfe: 'Läuft der Morgen nicht, verschiebt sich der ganze Tag. Wer vertritt, braucht eine Reihenfolge, die er ohne Nachfragen abarbeiten kann.',
+      festhalten: 'Tagesstart als Checkliste pro Zimmer festhalten, mit Spülzeiten und Zuständigkeit.',
+      zenday: 'Wiederkehrende Tagesaufgabe in der Heute-Ansicht, mit Verantwortlicher und Vertretung.',
+      ki: 'Was gehört morgens zum Tagesstart in Zimmer 2?' },
+    { id: 'vb2', b: 'vb', rolle: 'assistenz',
+      frage: 'Zimmer und Tray für Ihre häufigsten Behandlungen richten.',
+      hilfe: 'Fehlt ein Instrument, fällt das oft erst am Stuhl auf – mit Patient im Zimmer.',
+      festhalten: 'Tray-Listen für die 5 häufigsten Behandlungen, am besten mit Foto.',
+      zenday: 'Arbeitsanweisungen mit Bildern, für das ganze Team an einem Ort.',
+      ki: 'Wie wird das Tray für eine Wurzelbehandlung gerichtet?' },
+    { id: 'vb3', b: 'vb', rolle: 'assistenz',
+      frage: 'Behandlungen, die nur selten vorkommen, vorbereiten und assistieren (z. B. chirurgische Eingriffe).',
+      hilfe: 'Seltene Abläufe sind am riskantesten: Selbst wer sie kann, braucht eine Erinnerung – und wer vertritt, hat sie nie gesehen.',
+      festhalten: 'Seltene Behandlungen zuerst aufschreiben: Material, Ablauf, Besonderheiten.',
+      zenday: 'Arbeitsanweisung mit Bildern, Kenntnisnahme per digitaler Unterschrift.',
+      ki: 'Was muss für den Eingriff morgen vorbereitet werden?' },
+
+    { id: 'auf1', b: 'auf', rolle: 'assistenz',
+      frage: 'Instrumente nach Risikoeinstufung aufbereiten und die Charge freigeben.',
+      hilfe: 'Die Aufbereitung muss mit geeigneten, validierten Verfahren erfolgen (§ 8 MPBetreibV). Die KRINKO-/BfArM-Empfehlung sieht dafür schriftlich festgelegte Abläufe vor – auch für die Vertretung.',
+      festhalten: 'Arbeitsanweisungen zur Aufbereitung je Risikoklasse und Regeln zur Chargenfreigabe festhalten.',
+      zenday: 'Arbeitsanweisungen zur Aufbereitung für jede Risikoklasse, an Ihre Abläufe anpassbar.',
+      ki: 'Wie wird ein semikritisch-B-Instrument aufbereitet?' },
+    { id: 'auf2', b: 'auf', rolle: 'assistenz',
+      frage: 'Thermodesinfektor und Sterilisator bedienen – auch wenn eine Störung angezeigt wird.',
+      hilfe: 'Steht die Aufbereitung, gehen der Praxis nach wenigen Stunden die Instrumente aus.',
+      festhalten: 'Bedienung und häufige Fehlermeldungen je Gerät mit Bildern festhalten, Notfallkontakt des Technikers dazu.',
+      zenday: 'Gerätemanager: jedes Gerät mit Anleitung, Wartungs- und Prüfintervallen.',
+      ki: 'Der Steri zeigt Fehler 12 – was ist zu tun?' },
+    { id: 'auf3', b: 'auf', rolle: 'assistenz',
+      frage: 'Die Routinekontrollen am Sterilisator laut Hersteller durchführen und dokumentieren.',
+      hilfe: 'Routinekontrollen gehören zum validierten Verfahren. Fehlen sie während einer Vertretung, fehlt der Nachweis.',
+      festhalten: 'Routinekontrollen mit Intervall, Ablauf und Ablageort der Dokumentation festhalten.',
+      zenday: 'Routinekontrolle als wiederkehrende Aufgabe mit Prüfliste und Erinnerung.',
+      ki: 'Welche Routinekontrollen macht unser Steri, und wo tragen wir sie ein?' },
+
+    { id: 'ger1', b: 'ger', rolle: 'assistenz',
+      frage: 'Wartung und Reinigung der Geräte, z. B. Absauganlage, Amalgamabscheider, Sterilisator.',
+      hilfe: 'Viele Wartungsschritte kommen nur monatlich oder seltener vor. Genau die vergisst man in einer Vertretung zuerst.',
+      festhalten: 'Wartungsplan je Gerät mit Intervall und Schritt-für-Schritt-Anleitung festhalten.',
+      zenday: 'Smart Fill für Geräte: Unser Team legt Ihre Geräte mit Anleitungen und Wartungsaufgaben für Sie an.',
+      ki: 'Wie wird die Absauganlage monatlich gereinigt?' },
+    { id: 'ger2', b: 'ger', rolle: 'assistenz',
+      frage: 'Material bestellen: was, bei welchem Lieferanten, ab welchem Bestand.',
+      hilfe: 'Fehlt Material, wird improvisiert oder verschoben. Bestellwissen steckt oft in einem Kopf und einem Login.',
+      festhalten: 'Bestellliste mit Lieferant, Mindestbestand und Bestellrhythmus festhalten.',
+      zenday: 'Bestellung als wiederkehrende Aufgabe mit Verantwortlicher und Vertretung.',
+      ki: '' },
+    { id: 'ger3', b: 'ger', rolle: 'pm',
+      frage: 'Externe Prüftermine koordinieren: Validierung, sicherheitstechnische Kontrollen, Elektroprüfung.',
+      hilfe: 'Diese Fristen laufen über Jahre. Stehen sie nur im Kalender einer Person, merkt es nach einem Wechsel niemand.',
+      festhalten: 'Alle Prüffristen je Gerät mit nächstem Termin und Dienstleister festhalten.',
+      zenday: 'Prüffristen am Geräteeintrag, zenday erinnert rechtzeitig die zuständige Person.',
+      ki: '' },
+
+    { id: 'fri1', b: 'fri', rolle: 'pm',
+      frage: 'Wissen, welche Unterweisungen dieses Jahr fällig sind und wer noch nicht unterschrieben hat.',
+      hilfe: 'Arbeitsschutz- und Strahlenschutzunterweisungen sind mindestens jährlich Pflicht (§ 12 ArbSchG, § 63 StrlSchV) und müssen nachweisbar sein.',
+      festhalten: 'Jahresübersicht der Unterweisungen mit Fälligkeit und Teilnehmenden festhalten.',
+      zenday: 'Unterweisungen mit Fälligkeit verteilen, Nachweis per digitaler Unterschrift.',
+      ki: '' },
+    { id: 'fri2', b: 'fri', rolle: 'pm',
+      frage: 'Aktualisierungsfristen für Fachkunde und Kenntnisse im Strahlenschutz pro Person im Blick behalten.',
+      hilfe: 'Fachkunde und Kenntnisse müssen mindestens alle 5 Jahre aktualisiert werden (§§ 48, 49 StrlSchV). Die Frist ist lang – und wird deshalb leicht übersehen.',
+      festhalten: 'Liste aller Personen mit Ablaufdatum der Fachkunde bzw. Kenntnisse festhalten.',
+      zenday: 'Fristen pro Person hinterlegt, zenday erinnert vor Ablauf.',
+      ki: '' },
+    { id: 'fri3', b: 'fri', rolle: 'pm',
+      frage: 'Neue Kolleginnen einarbeiten: was in den ersten Wochen gezeigt und unterwiesen wird.',
+      hilfe: 'Ohne Plan hängt die Einarbeitung an der erfahrensten Kraft – und genau die fehlt dann im Alltag.',
+      festhalten: 'Einarbeitungsplan für die ersten 4 Wochen mit Zuständigkeiten festhalten.',
+      zenday: 'Schulungen und Unterweisungen für neue Mitarbeitende an einem Ort, mit Nachweis.',
+      ki: 'Wo finde ich, wie die Patientenaufnahme abläuft?' },
+
+    { id: 'org1', b: 'org', rolle: 'pm',
+      frage: 'Sehen, welche Aufgaben diese Woche offen oder überfällig sind – und wer sie erledigt.',
+      hilfe: 'Wer den Überblick hat, ist meist die Praxismanagerin. Ist sie weg, ist es auch der Überblick.',
+      festhalten: 'Offene Aufgaben an einem Ort sammeln, jeweils mit Verantwortlicher und Frist.',
+      zenday: 'Aufgabenmodul: offene und überfällige Aufgaben werden sichtbar, erinnert und eskaliert.',
+      ki: '' },
+    { id: 'org2', b: 'org', rolle: 'pm',
+      frage: 'Zugänge und Ansprechpartner: Praxissoftware, Lieferantenportale, Techniker, IT-Betreuung.',
+      hilfe: 'Ein fehlendes Passwort kann einen ganzen Vormittag kosten. Zugänge gehören geregelt hinterlegt, nicht auf einen Zettel.',
+      festhalten: 'Liste der Zugänge und Ansprechpartner anlegen; Passwörter sicher hinterlegen, z. B. in einem Passwort-Manager.',
+      zenday: 'Ansprechpartner und Dienstleister zentral im Praxishandbuch.',
+      ki: '' },
+    { id: 'org3', b: 'org', rolle: 'beide',
+      frage: 'Eine Übergabe für Urlaub oder Krankheit: was gerade läuft und was diese Woche fällig ist.',
+      hilfe: 'Eine Übergabe, die erst am letzten Arbeitstag entsteht, fehlt bei Krankheit ganz.',
+      festhalten: 'Feste Übergabe-Vorlage einführen und Vertretungen für jede Rolle benennen.',
+      zenday: 'Aufgaben mit festgelegter Vertretung – die Vertretung sieht automatisch, was fällig ist.',
+      ki: '' }
+  ];
+
+  var ANTWORTEN = [
+    { id: 'doku', label: 'Mehrere können es, es steht schriftlich', punkte: 2 },
+    { id: 'muendlich', label: 'Eine Vertretung kann es, nicht aufgeschrieben', punkte: 1 },
+    { id: 'kopf', label: 'Nur eine Person weiß es', punkte: 0 },
+    { id: 'unsicher', label: 'Weiß ich nicht', punkte: 0 }
+  ];
+
+  var STATUS_TEXT = { gruen: 'Gut vertreten', gelb: 'Teilweise vertreten', rot: 'Hohes Risiko' };
+
+  /* ===================== ZUSTAND ===================== */
+  var SPEICHER = 'zd-ausfall-risiko-check-v1';
+  var zustand = { antworten: {}, index: 0 };
+  var gesendet = false;
+  var kiGewaehlt = false;
+
+  function laden() { try { var s = JSON.parse(localStorage.getItem(SPEICHER) || 'null'); if (s && s.antworten) zustand = s; } catch (e) {} }
+  function speichern() { try { localStorage.setItem(SPEICHER, JSON.stringify(zustand)); } catch (e) {} }
+  function bereich(id) { for (var i = 0; i < BEREICHE.length; i++) if (BEREICHE[i].id === id) return BEREICHE[i]; }
+  function $(id) { return document.getElementById(id); }
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ===================== ANSICHTEN ===================== */
+  function zeige(name) {
+    $('ansicht-start').hidden = name !== 'start';
+    $('ansicht-frage').hidden = name !== 'frage';
+    $('ansicht-ergebnis').hidden = name !== 'ergebnis';
+    var landing = name === 'start';
+    $('check').hidden = landing;
+    $('cta-leiste').hidden = !landing;
+    document.body.classList.toggle('zd-mit-cta-leiste', landing);
+    document.querySelectorAll('.zd-header .js-start').forEach(function (b) { b.hidden = !landing; });
+    window.scrollTo(0, 0);
+  }
+
+  function startListe() {
+    $('bereich-liste').innerHTML = BEREICHE.map(function (b) {
+      var n = FRAGEN.filter(function (f) { return f.b === b.id; }).length;
+      return '<li><span class="zd-icon' + (b.farbe ? ' zd-icon--' + b.farbe : '') + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + ICONS[b.id] + '</svg></span>' +
+        '<div><strong>' + esc(b.name) + '</strong><span class="zd-klein">' + esc(b.themen) + '</span></div>' +
+        '<span class="ar-anzahl">' + n + ' Abläufe</span></li>';
+    }).join('');
+    var beantwortet = Object.keys(zustand.antworten).length;
+    $('btn-fortsetzen').hidden = !(beantwortet > 0 && beantwortet < FRAGEN.length);
+  }
+
+  function frageZeigen(i) {
+    zustand.index = Math.max(0, Math.min(FRAGEN.length - 1, i));
+    var f = FRAGEN[zustand.index];
+    $('frage-bereich').textContent = bereich(f.b).name;
+    $('frage-zaehler').textContent = 'Frage ' + (zustand.index + 1) + ' von ' + FRAGEN.length;
+    $('fortschritt').setAttribute('aria-valuenow', String(zustand.index));
+    $('fortschritt-balken').style.width = (zustand.index / FRAGEN.length * 100) + '%';
+    $('frage-text').textContent = f.frage;
+    $('frage-hilfe').textContent = f.hilfe;
+    $('frage-warum').open = false;
+    var gewaehlt = zustand.antworten[f.id];
+    $('antworten').innerHTML = ANTWORTEN.map(function (a, n) {
+      return '<button type="button" class="ar-antwort" data-antwort="' + a.id + '" aria-pressed="' + (gewaehlt === a.id) + '"><kbd>' + (n + 1) + '</kbd>' + a.label + '</button>';
+    }).join('');
+    $('btn-zurueck').textContent = zustand.index === 0 ? '← Zur Übersicht' : '← Zurück';
+    zeige('frage');
+    $('frage-text').focus({ preventScroll: true });
+    speichern();
+  }
+
+  function beantworten(id) {
+    var f = FRAGEN[zustand.index];
+    zustand.antworten[f.id] = id;
+    speichern();
+    Array.prototype.forEach.call($('antworten').children, function (btn) { btn.setAttribute('aria-pressed', String(btn.getAttribute('data-antwort') === id)); });
+    setTimeout(function () {
+      var offen = naechsteOffene(zustand.index + 1);
+      if (offen === -1) ergebnisZeigen(); else frageZeigen(offen);
+    }, 180);
+  }
+
+  function naechsteOffene(ab) {
+    for (var i = ab; i < FRAGEN.length; i++) if (!zustand.antworten[FRAGEN[i].id]) return i;
+    for (var j = 0; j < ab && j < FRAGEN.length; j++) if (!zustand.antworten[FRAGEN[j].id]) return j;
+    return -1;
+  }
+
+  /* ===================== AUSWERTUNG ===================== */
+  function punkteVon(a) { return ANTWORTEN.filter(function (x) { return x.id === a; })[0].punkte; }
+
+  function auswerten() {
+    var kopf = 0, assistenz = 0, pm = 0, punkte = [];
+    var bereiche = BEREICHE.map(function (b) {
+      var fr = FRAGEN.filter(function (f) { return f.b === b.id; });
+      var summe = 0, nurKopf = 0, offen = 0;
+      fr.forEach(function (f) {
+        var a = zustand.antworten[f.id] || 'unsicher';
+        summe += punkteVon(a);
+        if (a === 'doku') return;
+        offen++;
+        var schwere = a === 'muendlich' ? 'mittel' : 'hoch';
+        if (schwere === 'hoch') {
+          nurKopf++; kopf++;
+          if (f.rolle === 'assistenz' || f.rolle === 'beide') assistenz++;
+          if (f.rolle === 'pm' || f.rolle === 'beide') pm++;
+        }
+        punkte.push({ frage: f, antwort: a, schwere: schwere, bereich: b });
+      });
+      var quote = summe / (fr.length * 2);
+      var status = (nurKopf >= 2 || quote < 0.5) ? 'rot' : (offen === 0 ? 'gruen' : 'gelb');
+      return { bereich: b, status: status, nurKopf: nurKopf, offen: offen, anzahl: fr.length, quote: quote };
+    });
+    punkte.sort(function (x, y) { return (x.schwere === 'hoch' ? 0 : 1) - (y.schwere === 'hoch' ? 0 : 1); });
+    var rot = bereiche.filter(function (x) { return x.status === 'rot'; }).length;
+    return { bereiche: bereiche, punkte: punkte, kopf: kopf, assistenz: assistenz, pm: pm, rot: rot };
+  }
+
+  function ergebnisZeigen() {
+    var e = auswerten();
+    $('kz-kopf').textContent = e.kopf;
+    $('kz-assistenz').textContent = e.assistenz;
+    $('kz-pm').textContent = e.pm;
+
+    var titel, text;
+    if (e.punkte.length === 0) {
+      titel = 'Ihre Abläufe sind gut vertreten.';
+      text = 'Alle 15 Abläufe können mehrere Personen, und sie stehen schriftlich fest.';
+    } else if (e.kopf > 0) {
+      titel = e.kopf + (e.kopf === 1 ? ' Ablauf hängt' : ' Abläufe hängen') + ' an einer einzigen Person.';
+      text = 'Fällt Ihre Assistenz aus, stocken ' + e.assistenz + (e.assistenz === 1 ? ' Ablauf' : ' Abläufe') + '. Fehlt Ihre Praxismanagerin, sind es ' + e.pm + '. Der Vertretungsplan zeigt, womit Sie anfangen.';
+    } else {
+      titel = 'Vertretung klappt – aber vieles nur mündlich.';
+      text = e.punkte.length + ' Abläufe kann eine Vertretung übernehmen, aufgeschrieben sind sie nicht. Bei einem Personalwechsel geht genau dieses Wissen verloren.';
+    }
+    $('ergebnis-titel').textContent = titel;
+    $('ergebnis-text').textContent = text;
+
+    $('ampel-liste').innerHTML = e.bereiche.map(function (x) {
+      var info = x.nurKopf ? x.nurKopf + ' nur im Kopf' : (x.offen ? x.offen + ' nur mündlich' : 'alles schriftlich');
+      return '<li><span class="ar-lampe" data-status="' + x.status + '" role="img" aria-label="Ampel ' + STATUS_TEXT[x.status] + '"><i></i><i></i><i></i></span>' +
+        '<div><div class="ar-ampel-kopf"><strong>' + esc(x.bereich.name) + '</strong><span class="zd-badge zd-badge--' + ({ rot: 'koralle', gelb: 'gelb', gruen: 'tuerkis' })[x.status] + '">' + STATUS_TEXT[x.status] + '</span></div>' +
+        '<span class="zd-klein">' + x.anzahl + ' Abläufe · ' + info + '</span></div></li>';
+    }).join('');
+
+    $('report-box').hidden = gesendet;
+    $('danke').hidden = !gesendet;
+    if (gesendet) { planListe(e); naechsterSchritt(e); }
+    zeige('ergebnis');
+    $('ergebnis-titel').focus({ preventScroll: true });
+  }
+
+  var ROLLE_TEXT = { assistenz: 'hängt meist an der Assistenz', pm: 'hängt meist an der Praxismanagerin', beide: 'betrifft Assistenz und Praxismanagerin' };
+
+  function planListe(e) {
+    if (!e.punkte.length) { $('plan-liste').innerHTML = '<p>Keine offenen Punkte. Halten Sie den Stand, indem Sie Abläufe bei jeder Änderung aktualisieren.</p>'; return; }
+    $('plan-liste').innerHTML = e.punkte.map(function (p, i) {
+      return '<div class="ar-punkt" data-schwere="' + p.schwere + '">' +
+        '<p><strong>' + (i + 1) + '. ' + esc(p.frage.festhalten) + '</strong></p>' +
+        '<p class="zd-leise">' + esc(p.bereich.name) + ' · ' + ROLLE_TEXT[p.frage.rolle] + ' · ' + (p.schwere === 'hoch' ? 'Priorität hoch: nur im Kopf' : 'nur mündlich') + '</p>' +
+        '<p><b class="ar-zenday">In zenday:</b> ' + esc(p.frage.zenday) + '</p>' +
+        (p.frage.ki ? '<p class="ar-ki">Mit der KI Teamassistenz (in Entwicklung) fragt Ihr Team: „' + esc(p.frage.ki) + '“</p>' : '') +
+        '</div>';
+    }).join('');
+  }
+
+  // Gestaffelt: viel Kopfwissen → Demo (zenday heute). Gut vertreten → Warteliste KI Teamassistenz.
+  function naechsterSchritt(e) {
+    var demo = e.kopf >= 2 || e.rot > 0;
+    $('schritt-demo').hidden = !demo;
+    $('schritt-ki').hidden = demo;
+    var kiText = kiGewaehlt
+      ? 'Sie stehen auf der Warteliste der zenday KI Teamassistenz. Wir melden uns vor dem Start.'
+      : 'Interesse an der KI Teamassistenz? Sagen Sie es uns in der Demo – wir setzen Sie auf die Warteliste.';
+    $('demo-ki-hinweis').textContent = kiText;
+    $('ki-status').textContent = kiText;
+  }
+
+  function reportText(e) {
+    var t = 'Ausfall-Risiko-Check: ' + e.kopf + ' nur im Kopf · Assistenz ' + e.assistenz + ' · PM ' + e.pm + '\n';
+    e.bereiche.forEach(function (x) { t += x.bereich.name + ': ' + STATUS_TEXT[x.status] + '\n'; });
+    e.punkte.forEach(function (p) { t += (p.schwere === 'hoch' ? '[Kopf] ' : '[mündlich] ') + p.frage.festhalten + '\n'; });
+    return t;
+  }
+
+  /* ===================== FORMULAR ===================== */
+  var form = $('lead-form');
+  var params = new URLSearchParams(location.search);
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) {
+    var el = form.querySelector('[name="' + k + '"]');
+    if (el) el.value = params.get(k) || '';
+  });
+  if (params.get('utm_medium') === 'paid') form.querySelector('[name="quelle"]').value = 'meta-paid';
+  else if (params.get('utm_source')) form.querySelector('[name="quelle"]').value = params.get('utm_source');
+
+  form.addEventListener('input', function (ev) {
+    if (ev.target.getAttribute('aria-invalid') === 'true' && ev.target.checkValidity()) ev.target.setAttribute('aria-invalid', 'false');
+  });
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var err = $('form-error');
+    err.hidden = true;
+    form.querySelectorAll('[required]').forEach(function (f) { f.setAttribute('aria-invalid', f.checkValidity() ? 'false' : 'true'); });
+    if (!form.reportValidity()) return;
+
+    var data = new URLSearchParams(new FormData(form));
+    kiGewaehlt = form.querySelector('[name=warteliste_ki]').checked;
+    var fertig = function () {
+      gesendet = true;
+      $('danke-hinweis').textContent = 'Danke, ' + (data.get('vorname') || '') + '. Hier ist Ihr Vertretungsplan. Wir melden uns in den nächsten Tagen kurz telefonisch.';
+      ergebnisZeigen();
+      $('danke').scrollIntoView({ block: 'start' });
+    };
+    if (data.get('website')) { fertig(); return; } // Honeypot: still verwerfen
+    data.delete('website');
+
+    var e = auswerten();
+    var ampel = {}; e.bereiche.forEach(function (x) { ampel[x.bereich.id] = x.status; });
+    data.set('consent', form.querySelector('[name=consent]').checked ? 'ja' : 'nein');
+    data.set('warteliste_ki', kiGewaehlt ? 'ja' : 'nein');
+    data.set('zeitstempel', new Date().toISOString());
+    data.set('seite', location.href.split('?')[0]);
+    data.set('kopf_anzahl', String(e.kopf));
+    data.set('betroffen_assistenz', String(e.assistenz));
+    data.set('betroffen_pm', String(e.pm));
+    data.set('bereiche_rot', String(e.rot));
+    data.set('ampel', 'Vorbereitung ' + ampel.vb + ' · Aufbereitung ' + ampel.auf + ' · Geräte ' + ampel.ger + ' · Fristen ' + ampel.fri + ' · Übergaben ' + ampel.org);
+    data.set('naechster_schritt', (e.kopf >= 2 || e.rot > 0) ? 'demo' : 'warteliste');
+    data.set('report_text', reportText(e));
+
+    var btn = $('btn-senden');
+    btn.disabled = true; btn.textContent = 'Wird gesendet …';
+    fetch(FORM_ENDPOINT, { method: 'POST', body: data })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Status ' + r.status);
+        if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: SLUG });
+        fertig();
+      })
+      .catch(function () {
+        err.hidden = false;
+        btn.disabled = false; btn.textContent = 'Vertretungsplan anzeigen';
+      });
+  });
+
+  /* ===================== EREIGNISSE ===================== */
+  document.querySelectorAll('.js-start').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (Object.keys(zustand.antworten).length >= FRAGEN.length) zustand = { antworten: {}, index: 0 };
+      var offen = naechsteOffene(0);
+      frageZeigen(offen === -1 ? 0 : offen);
+    });
+  });
+  document.querySelectorAll('.js-demo').forEach(function (a) {
+    a.addEventListener('click', function () { if (typeof window.fbq === 'function') window.fbq('track', 'Schedule', { content_name: SLUG }); });
+  });
+
+  function rechnen() {
+    var zahl = function (id) { var v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; };
+    var h = Math.round(zahl('r-fragen') * zahl('r-minuten') * zahl('r-tage') / 60);
+    $('r-h').textContent = h.toLocaleString('de-DE') + ' h';
+    $('r-eur').textContent = Math.round(h * zahl('r-satz')).toLocaleString('de-DE') + ' €';
+  }
+  ['r-fragen', 'r-minuten', 'r-tage', 'r-satz'].forEach(function (id) { $(id).addEventListener('input', rechnen); });
+
+  $('btn-fortsetzen').addEventListener('click', function () { frageZeigen(naechsteOffene(0)); });
+  $('antworten').addEventListener('click', function (ev) {
+    var b = ev.target.closest('.ar-antwort'); if (b) beantworten(b.getAttribute('data-antwort'));
+  });
+  $('btn-zurueck').addEventListener('click', function () {
+    if (zustand.index === 0) { startListe(); zeige('start'); } else frageZeigen(zustand.index - 1);
+  });
+  $('btn-aendern').addEventListener('click', function () { frageZeigen(0); });
+  $('btn-neu').addEventListener('click', function () {
+    zustand = { antworten: {}, index: 0 }; gesendet = false; speichern();
+    form.reset(); $('btn-senden').disabled = false; $('btn-senden').textContent = 'Vertretungsplan anzeigen';
+    startListe(); zeige('start');
+  });
+  $('btn-drucken').addEventListener('click', function () { window.print(); });
+  document.addEventListener('keydown', function (ev) {
+    if ($('ansicht-frage').hidden || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+    if (/^(INPUT|SELECT|TEXTAREA)$/.test(ev.target.tagName)) return;
+    var n = parseInt(ev.key, 10);
+    if (n >= 1 && n <= ANTWORTEN.length) beantworten(ANTWORTEN[n - 1].id);
+  });
+
+  /* ===================== START ===================== */
+  laden();
+  startListe();
+  rechnen();
+  zeige('start');
+  // #beispiel: Beispielantworten, springt zum Ergebnis (zum Testen). #beispiel-danke zeigt zusätzlich den Plan.
+  if (/^#beispiel/.test(location.hash)) {
+    var muster = ['muendlich', 'doku', 'kopf', 'muendlich', 'kopf', 'doku', 'kopf', 'muendlich', 'kopf', 'muendlich', 'unsicher', 'doku', 'kopf', 'muendlich', 'doku'];
+    zustand = { antworten: {}, index: 0 };
+    FRAGEN.forEach(function (f, i) { zustand.antworten[f.id] = muster[i]; });
+    if (location.hash === '#beispiel-danke') { gesendet = true; $('danke-hinweis').textContent = 'Beispielansicht nach dem Absenden.'; }
+    ergebnisZeigen();
+  }
+})();
+</script>
+</body>
+</html>
